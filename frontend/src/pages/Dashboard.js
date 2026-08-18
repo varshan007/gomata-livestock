@@ -478,6 +478,13 @@ const Dashboard = () => {
                             <p>Stay on top of your farm's health, monitor alerts, and track status.</p>
                         </div>
                     </div>
+                    {loading && <div className="loading-bar"></div>}
+
+                    <div style={{ background: 'red', color: 'white', padding: '10px', textAlign: 'center', zIndex: 9999, fontWeight: 'bold' }}>
+                        DEBUG INFO: API URL = {process.env.REACT_APP_API_URL || 'Not Set'} | Animals = {livestock ? livestock.length : 'null'} | Status = {livestock ? 'Loaded' : 'Waiting'}
+                    </div>
+
+                    <header className="dashboard-header-premium">
                     <div className="topbar-right">
                         <div className="search-premium">
                             <Search size={18} className="text-muted" />
