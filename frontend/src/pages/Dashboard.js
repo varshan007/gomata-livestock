@@ -161,7 +161,17 @@ const Dashboard = () => {
             ]);
 
             if (livestockRes.status === 'fulfilled' && Array.isArray(livestockRes.value.data)) {
-                setLivestock(livestockRes.value.data);
+                const flatLivestock = livestockRes.value.data.map(item => {
+                    if (item.livestock) {
+                        return {
+                            ...item.livestock,
+                            latestSensorData: item.latestSensorData,
+                            unresolvedAlerts: item.unresolvedAlerts
+                        };
+                    }
+                    return item;
+                });
+                setLivestock(flatLivestock);
             } else {
                 setLivestock([]);
             }
