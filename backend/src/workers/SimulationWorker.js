@@ -1,6 +1,6 @@
 const Livestock = require('../../models/Livestock');
 const SensorData = require('../../models/SensorData');
-const logger = require('../../../utils/logger');
+const logger = require('../../utils/logger');
 
 class SimulationWorker {
     constructor(bus) {
