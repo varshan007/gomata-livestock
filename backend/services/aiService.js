@@ -106,9 +106,11 @@ async function chatWithVetAssistant(farmContext, userQuery, history = [], langua
     **Current Farm Context**:
     - Farm Name: ${farmContext.farmName}
     - Livestock Count: ${farmContext.count}
+    - Active Farms: ${farmContext.farms ? farmContext.farms.join(', ') : 'None'}
+    - Active Zones: ${farmContext.zones ? farmContext.zones.join(', ') : 'None'}
     - Alerts: ${farmContext.animals.filter(a => a.status !== 'Normal').length} Active
     - Real-time Data:
-      ${farmContext.animals.map(a => `- ${a.name} (${a.type}): ${a.status}, Temp ${a.temp}°C, Loc: My Farm`).join('\n      ')}
+      ${farmContext.animals.map(a => `- ${a.name} (${a.type}): ${a.status}, Temp ${a.temp}°C, Loc: ${a.location}`).join('\n      ')}
 
     **User Query**: "${userQuery}"
 

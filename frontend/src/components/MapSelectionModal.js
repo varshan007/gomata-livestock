@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Polygon, Circle, useMapEvents, useMap 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Save, Trash2, X, MapPin, Navigation } from 'lucide-react';
-
+import * as turf from '@turf/turf';
 // Custom themed marker icon
 const customMarkerIcon = new L.DivIcon({
     className: 'custom-theme-marker',
@@ -214,6 +214,38 @@ const MapSelectionModal = ({ isOpen, onClose, onSave, locationType, initialGeofe
                 radius: Number(radius)
             };
         }
+
+        // Sub-zone Turf.js validation
+        if (parentGeofence) {
+            try {
+                let parentGeom;
+                if (parentGeofence.type === 'Polygon') {
+                    parentGeom = turf.polygon(parentGeofence.coordinates);
+                } else if (parentGeofence.type === 'Point') {
+                    parentGeom = turf.circle([parentGeofence.coordinates[0], parentGeofence.coordinates[1]], parentGeofence.radius, { units: 'meters', steps: 64 });
+                }
+
+                let subZoneGeom;
+                if (geofenceData.type === 'Polygon') {
+                    subZoneGeom = turf.polygon(geofenceData.coordinates);
+                } else if (geofenceData.type === 'Point') {
+                    subZoneGeom = turf.circle([geofenceData.coordinates[0], geofenceData.coordinates[1]], geofenceData.radius, { units: 'meters', steps: 64 });
+                }
+
+                if (parentGeom && subZoneGeom) {
+                    const isInside = turf.booleanContains(parentGeom, subZoneGeom);
+                    if (!isInside) {
+                        alert("Validation Failed: The sub-zone must be completely inside the selected farm boundary. Please adjust your points or radius.");
+                        return; // Prevent saving
+                    }
+                }
+            } catch (err) {
+                console.error("Turf Validation Error:", err);
+                alert("Failed to validate boundaries mathematically. Please ensure your shapes are valid and do not intersect themselves.");
+                return;
+            }
+        }
+
         onSave(geofenceData);
     };
 
@@ -223,7 +255,7 @@ const MapSelectionModal = ({ isOpen, onClose, onSave, locationType, initialGeofe
     };
 
     return (
-        <div className="modal-overlay" style={{ zIndex: 9999 }} onClick={onClose}>
+        <div className="modal-overlay" style={{ zIndex: 9999 }}>
             <div className="modal-content modal-wizard map-modal" onClick={e => e.stopPropagation()} style={{ width: '90%', maxWidth: '1000px', padding: '0', display: 'flex', flexDirection: 'column', height: '80vh', overflow: 'hidden' }}>
                 <div style={{ padding: '20px 30px', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>

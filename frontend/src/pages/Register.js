@@ -22,7 +22,8 @@ const MultiStepRegister = () => {
         },
         settings: {
             notifications: { email: true, sms: false }
-        }
+        },
+        dob: ''
     });
 
     const [error, setError] = useState('');
@@ -62,6 +63,7 @@ const MultiStepRegister = () => {
         if (step === 1) {
             if (!formData.name.trim()) return setError("Please enter your full name");
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return setError("Please enter a valid email address");
+            if (!formData.dob) return setError("Please enter your Date of Birth");
             if (formData.password.length < 6) return setError("Password must be at least 6 characters");
             if (formData.password !== formData.confirmPassword) return setError("Passwords do not match");
         }
@@ -123,6 +125,11 @@ const MultiStepRegister = () => {
                             <div className="form-group">
                                 <label>Email Address</label>
                                 <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                            </div>
+                            <div className="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" name="dob" value={formData.dob} onChange={handleChange} required style={{ fontFamily: 'inherit' }} />
+                                <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>You can type manually or use the calendar icon to select day, month, and year.</small>
                             </div>
                             <div className="form-group">
                                 <label>Password</label>

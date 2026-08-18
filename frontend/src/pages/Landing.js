@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ShieldCheck, BarChart2, ChevronRight, Smartphone, Map, Zap, ArrowRight, Play, Check, Calendar, AlertTriangle, X, Key } from 'lucide-react';
+import { Activity, ShieldCheck, BarChart2, ChevronRight, Smartphone, Map, Zap, ArrowRight, Play, Check, Calendar, AlertTriangle, X, Key, MapPin } from 'lucide-react';
 import LivestockNetworkBackground from '../components/LivestockNetworkBackground';
 import AuthContext from '../context/AuthContext';
 import DashboardPreview from '../assets/dashboard-preview.png';
@@ -10,6 +10,7 @@ import PlatformSection from '../components/PlatformSection';
 import GoMataDivider from '../components/GoMataDivider';
 import LiveHealthAnimation from '../components/LiveHealthAnimation';
 import MovementTrackingAnimation from '../components/MovementTrackingAnimation';
+import { geocodeAddress } from '../services/geocoding';
 import './LandingV3.css'; // Keep V3 for modal logic styling
 import './LandingV4.css'; // V4 for the new page layout
 import './LandingHeroDribbble.css'; // Specific overrides for Dribbble Hero
@@ -61,9 +62,9 @@ const Landing = () => {
     });
 
     // UI temporary state for forms
-    const [farmCount, setFarmCount] = useState(1);
-    const [zoneCount, setZoneCount] = useState(1);
-    const [livestockCount, setLivestockCount] = useState(1);
+    const [farmCount, setFarmCount] = useState('');
+    const [zoneCount, setZoneCount] = useState('');
+    const [livestockCount, setLivestockCount] = useState('');
 
     // Map Modal State
     const [mapModalOpen, setMapModalOpen] = useState(false);
@@ -85,6 +86,7 @@ const Landing = () => {
     const [toastMessage, setToastMessage] = useState(null);
     const showToast = (msg) => {
         setToastMessage(msg);
+        alert(msg); // Fallback to ensure visibility
         setTimeout(() => setToastMessage(null), 5000); // 5 sec lifespan
     };
 
@@ -121,54 +123,44 @@ const Landing = () => {
         }
     ];
 
-    const handlePincodeChange = async (e) => {
+    const [isGeocoding, setIsGeocoding] = useState(false);
+
+    const handlePincodeChange = (e) => {
         const pin = e.target.value.replace(/\D/g, '');
         setRegData(prev => ({ ...prev, pincode: pin }));
+    };
 
-        if (pin.length >= 5) {
-            try {
-                // First try a robust postal service if it's 6 digits (India)
-                if (pin.length === 6) {
-                    const zipRes = await fetch(`https://api.zippopotam.us/IN/${pin}`);
-                    if (zipRes.ok) {
-                        const zipData = await zipRes.json();
-                        const place = zipData.places[0];
-                        setRegData(prev => ({
-                            ...prev,
-                            city: place["place name"] || place.state,
-                            state: place.state,
-                            country: "India",
-                            lat: parseFloat(place.latitude).toFixed(4),
-                            lng: parseFloat(place.longitude).toFixed(4)
-                        }));
-                        return; // Successfully got it, skip OpenStreetMap
-                    }
-                }
+    const handleGeocode = async () => {
+        const fullAddress = `${regData.address1 || ''} ${regData.address2 || ''} ${regData.address3 || ''} ${regData.city || ''} ${regData.state || ''} ${regData.pincode || ''} ${regData.country || ''}`.trim();
+        const fallbackAddress = `${regData.city || ''} ${regData.state || ''} ${regData.country || ''}`.trim();
 
-                // Fallback to OpenStreetMap
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&postalcode=${pin}&addressdetails=1&limit=1`, {
-                    headers: { 'User-Agent': 'GomataFarmApp/1.0' }
-                });
-                const data = await response.json();
+        if (!fullAddress) {
+            return showToast("Please enter an address first.");
+        }
+        
+        setIsGeocoding(true);
+        const result = await geocodeAddress(fullAddress, fallbackAddress);
+        setIsGeocoding(false);
 
-                if (data && data.length > 0) {
-                    const place = data[0];
-                    const addr = place.address || {};
-                    const resolvedCity = addr.city || addr.town || addr.municipality || addr.village || addr.county || addr.state_district || '';
-                    setRegData(prev => ({
-                        ...prev,
-                        city: resolvedCity,
-                        state: addr.state || addr.region || '',
-                        country: addr.country || '',
-                        lat: parseFloat(place.lat).toFixed(4),
-                        lng: parseFloat(place.lon).toFixed(4)
-                    }));
-                } else {
-                    setRegData(prev => ({ ...prev, city: '', state: '', country: '', lat: '', lng: '' }));
-                }
-            } catch (error) {
-                console.error("Geocoding failed", error);
-            }
+        if (result.error) {
+            showToast(result.error);
+        }
+
+        // Even if there's an error, geocodeAddress now returns fallback coordinates, so we always open the map!
+        setRegData(prev => ({
+            ...prev,
+            lat: result.lat,
+            lng: result.lng
+        }));
+        
+        // Open Map Modal to confirm
+        setActiveMapItem({ type: 'farm_location', index: 0, tempId: 'base_farm' });
+        setMapModalOpen(true);
+        
+        if (result.approximate) {
+            showToast("Exact address not found. Showing approximate area. Please adjust the pin to your exact farm location.");
+        } else {
+            showToast("Coordinates detected! Please verify the location on the map.");
         }
     };
 
@@ -197,6 +189,8 @@ const Landing = () => {
                 showToast(data.message || "Failed to send OTP");
                 // Revert UI if failed
                 setVerification(prev => ({ ...prev, [type === 'mobile' ? 'otpSentMobile' : 'otpSentEmail']: false }));
+            } else if (data && data.data && data.data.otp) {
+                showToast(`TEST MODE: Your OTP is ${data.data.otp}`);
             }
         } catch (error) {
             console.error("OTP Error", error);
@@ -244,17 +238,7 @@ const Landing = () => {
     };
 
     const handleStep2Submit = () => {
-        // FLOW: Close Modal -> Show Success Anim (5s) -> Open Step 3
-        setIsRegisterOpen(false); // 1. Close Modal
-        setTimeout(() => {
-            setShowSuccessAnim(true); // 2. Show Animation Trigger
-        }, 100);
-
-        setTimeout(() => {
-            setShowSuccessAnim(false);
-            setStep(3);
-            setIsRegisterOpen(true); // 3. Re-open Modal at Step 3
-        }, 5000); // 5 seconds duration
+        setStep(3);
     };
 
     const handleFinalRegister = async () => {
@@ -283,29 +267,9 @@ const Landing = () => {
                 livestock: regData.livestock
             });
 
-            // FLOW: Close Modal -> Show Verification Anim -> Redirect
+            // Redirect immediately since the verification animation is not implemented in JSX
             setIsRegisterOpen(false);
-            setIsVerifying(true);
-            setVerificationLogs([]);
-
-            // Multi-Agent Verification Sequence
-            setVerificationLogs(["Onboarding Agent stores base data..."]);
-            setTimeout(() => setVerificationLogs(p => [...p, `Hardware Agent already receiving telemetry...`]), 1500);
-            setTimeout(() => setVerificationLogs(p => [...p, `Data Management Agent verifies device match ✓ (${resData.devices_verified || regData.livestock.length} devices)`]), 3000);
-            setTimeout(() => setVerificationLogs(p => [...p, `Generating sequence IDs...`]), 4500);
-            setTimeout(() => setVerificationLogs(p => [...p, `Farm ID generated: ${resData.generated_ids?.farms[0] || 'FM-001'}`]), 6000);
-            setTimeout(() => setVerificationLogs(p => [...p, `Zone ID generated: ${resData.generated_ids?.zones[0] || 'ZN-001'}`]), 7000);
-            setTimeout(() => setVerificationLogs(p => [...p, `Livestock IDs mapped: ${resData.generated_ids?.livestock[0] || 'LS-001'}...`]), 8000);
-            setTimeout(() => setVerificationLogs(p => [...p, `Initialization Agent prepares dashboard data ✓`]), 9000);
-
-            setTimeout(() => {
-                setIsVerifying(false);
-                setShowFinalSuccess(true);
-            }, 10500);
-
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 14500); // 4 seconds final animation before redirect
+            navigate('/dashboard');
         } catch (err) {
             console.error("Registration Error:", err.response?.data || err);
             const errMsg = err.response?.data?.message || err.response?.data?.error || 'Registration failed. Check console for details.';
@@ -617,7 +581,7 @@ const Landing = () => {
                     <div className={`modal-content ${isRegisterOpen ? 'modal-wizard' : ''}`} onClick={(e) => e.stopPropagation()}>
                         {!isRegisterOpen && <button className="modal-close" onClick={closeModals}>&times;</button>}
 
-                        {isLoginOpen && (
+                        {isLoginOpen && !isRegisterOpen && (
                             <div className="auth-form-container" style={{ padding: '2rem' }}>
                                 <h2>{isFirstTime ? 'Setup Your Password' : 'Welcome Back'}</h2>
                                 {!isFirstTime && <p className="auth-subtitle">Login to your dashboard</p>}
@@ -715,7 +679,7 @@ const Landing = () => {
                             </div>
                         )}
 
-                        {isRegisterOpen && (
+                        {isRegisterOpen && !isLoginOpen && (
                             <div className="wizard-split-container">
                                 {/* LEFT PANEL - Branding & Testimonial */}
                                 <div className={`wizard-left-panel slide-theme-${activeSlide}`}>
@@ -778,7 +742,16 @@ const Landing = () => {
                                                         <h2 className="dribbble-title">Let's get started</h2>
                                                     </div>
 
-                                                    <form onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
+                                                    <div className="card-glass theme-blue" style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '8px', padding: '15px' }}>
+                                                        <h4 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                            <MapPin size={16} /> Farm Address Required
+                                                        </h4>
+                                                        <p style={{ margin: 0, fontSize: '0.85rem', opacity: 0.8 }}>
+                                                            Please provide your complete farm address so we can accurately detect your farm location. If your farm and home are at the same location, you can provide your home address.
+                                                        </p>
+                                                    </div>
+
+                                                    <form onSubmit={(e) => { e.preventDefault(); }}>
                                                         <div className="form-row-2">
                                                             <div className="form-group">
                                                                 <label>Full Name</label>
@@ -786,20 +759,16 @@ const Landing = () => {
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>Date of Birth</label>
-                                                                <div className="premium-date-wrapper">
-                                                                    <div className={`premium-date-display ${!regData.dob ? 'placeholder' : ''}`}>
-                                                                        {regData.dob || "Select your birth date"}
-                                                                    </div>
-                                                                    <input type="date" name="dob" value={regData.dob} onChange={handleRegChange} required className="premium-date-input-hidden" />
-                                                                    <Calendar className="date-icon" size={18} />
-                                                                </div>
+                                                                <input type="date" name="dob" value={regData.dob} onChange={handleRegChange} required style={{ fontFamily: 'inherit', width: '100%' }} />
+                                                                <small style={{ color: '#94a3b8', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>Type manually or select via icon.</small>
                                                             </div>
                                                         </div>
 
                                                         <div className="form-group">
-                                                            <label>Address Line 1</label>
-                                                            <input type="text" name="address1" value={regData.address1} onChange={handleRegChange} required placeholder="Street / House No." />
+                                                            <label>Farm Address Line 1</label>
+                                                            <input type="text" name="address1" value={regData.address1} onChange={handleRegChange} required placeholder="Building, Street, Area" />
                                                         </div>
+
                                                         <div className="form-row-2">
                                                             <div className="form-group">
                                                                 <label>Address Line 2 (Optional)</label>
@@ -818,28 +787,42 @@ const Landing = () => {
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>City</label>
-                                                                <input type="text" name="city" value={regData.city} readOnly className="read-only-input" />
+                                                                <input type="text" name="city" value={regData.city} onChange={handleRegChange} required />
                                                             </div>
                                                             <div className="form-group">
                                                                 <label>State</label>
-                                                                <input type="text" name="state" value={regData.state} readOnly className="read-only-input" />
+                                                                <input type="text" name="state" value={regData.state} onChange={handleRegChange} required />
                                                             </div>
                                                         </div>
 
                                                         <div className="form-row-2">
                                                             <div className="form-group">
                                                                 <label>Country</label>
-                                                                <input type="text" name="country" value={regData.country} readOnly className="read-only-input" />
+                                                                <input type="text" name="country" value={regData.country} onChange={handleRegChange} required />
                                                             </div>
-                                                            <div className="form-group">
-                                                                <label>Coordinates (Auto-detected)</label>
-                                                                <div className="coords-display">
-                                                                    <span>{regData.lat || '--'}</span>, <span>{regData.lng || '--'}</span>
-                                                                </div>
+                                                            <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end' }}>
+                                                                <button type="button" className={`btn-wizard-next ${regData.lat ? 'success' : ''}`} style={{ width: '100%', ...(regData.lat ? { backgroundColor: 'var(--semantic-success)' } : {}) }} onClick={handleGeocode} disabled={isGeocoding}>
+                                                                    <MapPin size={16} /> {isGeocoding ? 'Detecting...' : (regData.lat ? 'Location Confirmed ✓' : 'Detect Coordinates')}
+                                                                </button>
                                                             </div>
                                                         </div>
 
-                                                        <button type="submit" className="btn-primary-glow full-width">Next Step <ChevronRight size={16} /></button>
+                                                        <div className="form-group">
+                                                            <label>Coordinates (User Confirmed)</label>
+                                                            <div className="coords-display">
+                                                                <span>{regData.lat || '--'}</span>, <span>{regData.lng || '--'}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="button" className="btn-primary-glow full-width" onClick={() => {
+                                                            if (!regData.name || !regData.dob || !regData.address1 || !regData.pincode || !regData.city || !regData.state || !regData.country) {
+                                                                return showToast("Please fill in all required fields.");
+                                                            }
+                                                            if (!regData.lat || !regData.lng) {
+                                                                return showToast("Please detect and confirm your farm coordinates first.");
+                                                            }
+                                                            setStep(2);
+                                                        }}>Next Step <ChevronRight size={16} /></button>
                                                     </form>
                                                     <p className="auth-switch">
                                                         Already have an account? <span onClick={openLogin}>Login</span>
@@ -944,7 +927,7 @@ const Landing = () => {
                                                         <h2 className="dribbble-title">Farm Details</h2>
                                                     </div>
 
-                                                    <form onSubmit={(e) => { e.preventDefault(); setStep(4); }}>
+                                                    <form onSubmit={(e) => e.preventDefault()}>
                                                         <p className="auth-subtitle" style={{ marginBottom: '1.5rem' }}>Define your physical spaces.</p>
 
                                                         <div className="array-manager-group">
@@ -952,19 +935,27 @@ const Landing = () => {
                                                                 <label>How many Farms do you operate here?</label>
                                                                 <input type="number" min="1" value={farmCount}
                                                                     onChange={(e) => {
-                                                                        const c = parseInt(e.target.value) || 1;
+                                                                        const val = e.target.value;
+                                                                        if (val === '') {
+                                                                            setFarmCount('');
+                                                                            setRegData(p => ({ ...p, farms: [] }));
+                                                                            return;
+                                                                        }
+                                                                        const c = parseInt(val, 10);
+                                                                        if (isNaN(c) || c < 1) return;
                                                                         setFarmCount(c);
                                                                         const existing = regData.farms;
+                                                                        let newFarms = [...existing];
                                                                         if (c > existing.length) {
                                                                             const add = Array.from({ length: c - existing.length }).map((_, i) => ({
                                                                                 tempId: `farm_${existing.length + i}_${Date.now()}`,
-                                                                                name: '', locationType: 'Polygon', geofence: null
+                                                                                name: (c === 1 && existing.length === 0 && i === 0) ? 'Farm 1' : '', locationType: 'Polygon', geofence: null
                                                                             }));
-                                                                            setRegData(p => ({ ...p, farms: [...existing, ...add] }));
+                                                                            newFarms = [...existing, ...add];
+                                                                        } else if (c < existing.length) {
+                                                                            newFarms = existing.slice(0, c);
                                                                         }
-                                                                        if (c < existing.length) {
-                                                                            setRegData(p => ({ ...p, farms: existing.slice(0, c) }));
-                                                                        }
+                                                                        setRegData(p => ({ ...p, farms: newFarms }));
                                                                     }}
                                                                     className="small-number-input" />
                                                             </div>
@@ -999,20 +990,28 @@ const Landing = () => {
                                                                 <label>How many Sub-Zones exist within these farms?</label>
                                                                 <input type="number" min="0" value={zoneCount}
                                                                     onChange={(e) => {
-                                                                        const c = parseInt(e.target.value) || 0;
+                                                                        const val = e.target.value;
+                                                                        if (val === '') {
+                                                                            setZoneCount('');
+                                                                            setRegData(p => ({ ...p, zones: [] }));
+                                                                            return;
+                                                                        }
+                                                                        const c = parseInt(val, 10);
+                                                                        if (isNaN(c) || c < 0) return;
                                                                         setZoneCount(c);
                                                                         const existing = regData.zones;
+                                                                        let newZones = [...existing];
                                                                         if (c > existing.length) {
                                                                             const add = Array.from({ length: c - existing.length }).map((_, i) => ({
                                                                                 tempId: `zone_${existing.length + i}_${Date.now()}`,
                                                                                 farmTempId: regData.farms[0]?.tempId || '',
                                                                                 name: '', locationType: 'Polygon', geofence: null
                                                                             }));
-                                                                            setRegData(p => ({ ...p, zones: [...existing, ...add] }));
+                                                                            newZones = [...existing, ...add];
+                                                                        } else if (c < existing.length) {
+                                                                            newZones = existing.slice(0, c);
                                                                         }
-                                                                        if (c < existing.length) {
-                                                                            setRegData(p => ({ ...p, zones: existing.slice(0, c) }));
-                                                                        }
+                                                                        setRegData(p => ({ ...p, zones: newZones }));
                                                                     }}
                                                                     className="small-number-input" />
                                                             </div>
@@ -1068,7 +1067,7 @@ const Landing = () => {
                                                         <h2 className="dribbble-title">Livestock Profiles</h2>
                                                     </div>
 
-                                                    <form>
+                                                    <form onSubmit={(e) => e.preventDefault()}>
                                                         <p className="auth-subtitle" style={{ marginBottom: '1.5rem' }}>Deploy the Gomata sensor network to your animals.</p>
 
                                                         <div className="array-manager-group">
@@ -1076,20 +1075,28 @@ const Landing = () => {
                                                                 <label>How many animals are you onboarding today?</label>
                                                                 <input type="number" min="1" value={livestockCount}
                                                                     onChange={(e) => {
-                                                                        const c = parseInt(e.target.value) || 1;
+                                                                        const val = e.target.value;
+                                                                        if (val === '') {
+                                                                            setLivestockCount('');
+                                                                            setRegData(p => ({ ...p, livestock: [] }));
+                                                                            return;
+                                                                        }
+                                                                        const c = parseInt(val, 10);
+                                                                        if (isNaN(c) || c < 1) return;
                                                                         setLivestockCount(c);
                                                                         const existing = regData.livestock;
+                                                                        let newLs = [...existing];
                                                                         if (c > existing.length) {
                                                                             const add = Array.from({ length: c - existing.length }).map((_, i) => ({
                                                                                 tagNumber: '', name: '', breed: '', type: 'Dairy Cattle', age: '', weight: '', deviceId: '',
                                                                                 farmTempId: regData.farms[0]?.tempId || '', zoneTempId: regData.zones[0]?.tempId || '',
                                                                                 vaccinationNotes: '', breedingNotes: '', additionalNotes: ''
                                                                             }));
-                                                                            setRegData(p => ({ ...p, livestock: [...existing, ...add] }));
+                                                                            newLs = [...existing, ...add];
+                                                                        } else if (c < existing.length) {
+                                                                            newLs = existing.slice(0, c);
                                                                         }
-                                                                        if (c < existing.length) {
-                                                                            setRegData(p => ({ ...p, livestock: existing.slice(0, c) }));
-                                                                        }
+                                                                        setRegData(p => ({ ...p, livestock: newLs }));
                                                                     }}
                                                                     className="small-number-input" />
                                                             </div>
@@ -1125,8 +1132,8 @@ const Landing = () => {
                                                                         <div className="form-group"><label>Breed</label><input type="text" value={l.breed} onChange={(e) => handleArrayChange('livestock', index, 'breed', e.target.value)} /></div>
                                                                     </div>
                                                                     <div className="form-row-2">
-                                                                        <div className="form-group"><label>Age (Months/Years)</label><input type="text" value={l.age || ''} onChange={(e) => handleArrayChange('livestock', index, 'age', e.target.value)} placeholder="e.g. 24 Months" /></div>
-                                                                        <div className="form-group"><label>Weight (kg/lbs)</label><input type="text" value={l.weight || ''} onChange={(e) => handleArrayChange('livestock', index, 'weight', e.target.value)} placeholder="e.g. 600 kg" /></div>
+                                                                        <div className="form-group"><label>Age (Months)</label><input type="number" min="0" value={l.age || ''} onChange={(e) => handleArrayChange('livestock', index, 'age', e.target.value)} placeholder="e.g. 24" required /></div>
+                                                                        <div className="form-group"><label>Weight (kg)</label><input type="number" min="0" step="0.1" value={l.weight || ''} onChange={(e) => handleArrayChange('livestock', index, 'weight', e.target.value)} placeholder="e.g. 600" required /></div>
                                                                     </div>
                                                                     <div className="form-row-2">
                                                                         <div className="form-group"><label>Vaccination Notes</label><input type="text" value={l.vaccinationNotes || ''} onChange={(e) => handleArrayChange('livestock', index, 'vaccinationNotes', e.target.value)} placeholder="Recent vaccinations, dates, etc." /></div>
@@ -1218,7 +1225,7 @@ const Landing = () => {
             )}
 
             {/* Render the Map Selection Modal if it's open and an item is active */}
-            {activeMapItem && activeMapItem.type && activeMapItem.index !== null && (
+            {activeMapItem && activeMapItem.type && activeMapItem.type !== 'farm_location' && activeMapItem.index !== null && (
                 <MapSelectionModal
                     isOpen={mapModalOpen}
                     onClose={() => setMapModalOpen(false)}
@@ -1229,6 +1236,32 @@ const Landing = () => {
                     allZoneGeofences={activeMapItem.type === 'zones' ? regData.zones.filter((z, idx) => z.farmTempId === regData.zones[activeMapItem.index].farmTempId && idx < activeMapItem.index && z.geofence).map(z => z.geofence) : []}
                     itemName={regData[activeMapItem.type][activeMapItem.index]?.name || `${activeMapItem.type === 'farms' ? 'Farm' : 'Zone'} ${activeMapItem.index + 1}`}
                 />
+            )}
+            
+            {/* Render Map Selection Modal specifically for base Farm Location */}
+            {activeMapItem && activeMapItem.type === 'farm_location' && (
+                <MapSelectionModal
+                    isOpen={mapModalOpen}
+                    onClose={() => setMapModalOpen(false)}
+                    onSave={(geofenceData) => {
+                        if (geofenceData && geofenceData.coordinates) {
+                            setRegData(prev => ({ 
+                                ...prev, 
+                                lat: geofenceData.coordinates[1].toFixed(4), 
+                                lng: geofenceData.coordinates[0].toFixed(4) 
+                            }));
+                        }
+                        setMapModalOpen(false);
+                    }}
+                    locationType="Point"
+                    initialGeofence={regData.lat && regData.lng ? { type: 'Point', coordinates: [parseFloat(regData.lng), parseFloat(regData.lat)], radius: 50 } : null}
+                    itemName="Farm Base Coordinates"
+                />
+            )}
+            {toastMessage && (
+                <div className="toast slide-up" style={{ zIndex: 999999 }}>
+                    {toastMessage}
+                </div>
             )}
         </div >
     );

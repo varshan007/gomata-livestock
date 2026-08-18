@@ -1530,14 +1530,21 @@
     background-size: 1.2em;
 }
 
+.wizard-container input:hover,
+.wizard-container select:hover,
+.wizard-select:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E1;
+}
+
 .wizard-container input:focus,
 .wizard-container select:focus,
 .wizard-select:focus {
-    background: #FFFFFF;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+    background: #FFFFFF !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15) !important;
     transform: translateY(-1px);
-    outline: none;
+    outline: none !important;
 }
 
 .wizard-container label {

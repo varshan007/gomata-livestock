@@ -9,56 +9,25 @@ import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip as Recha
 import AuthContext from '../context/AuthContext';
 import './LivestockManagement.css';
 import './BehaviourAnalysis.css';
-
+import { livestockAPI } from '../services/api';
 // --- MOCK DATA FOR CHARTS AND TABLES ---
 
 // Heatmap Data (7 days x 24 hours). 0=Low(Red), 1=Rest(Amber), 2=Move(LightGreen), 3=Graze(DarkGreen)
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const hours = Array.from({ length: 24 }, (_, i) => i);
-const generateHeatmap = () => {
+const generateHeatmap = (hasData) => {
     let map = [];
     for (let d = 0; d < 7; d++) {
         let dayRow = [];
         for (let h = 0; h < 24; h++) {
-            let val = 1; // Default rest
-            if ((h >= 6 && h <= 9) || (h >= 16 && h <= 19)) val = 3; // Graze
-            else if (h > 9 && h < 16) val = 2; // Moving/Light rest
-
-            // Introduce Anomaly on Wednesday
-            if (d === 2 && h >= 8 && h <= 11) val = 0; // Anomaly Low
-            dayRow.push(val);
+            dayRow.push(hasData ? 1 : null); // Empty state if no data
         }
         map.push(dayRow);
     }
     return map;
 };
-const heatmapData = generateHeatmap();
 
-const anomalies = [
-    { time: 'Today 09:14', id: 'MIX005', type: 'Isolation Detected', desc: 'MIX005 has been located 87 metres from the nearest herd member for 3.2 hours. Normal separation: <25m.', severity: 'High' },
-    { time: 'Today 06:30', id: 'BRD012', type: 'Grazing Cessation', desc: 'Animal stopped grazing for >4 hours during morning peak. Activity index at 12%.', severity: 'High' },
-    { time: 'Yest 23:45', id: 'SHW088', type: 'Abnormal Nocturnal Movement', desc: 'Continuous pacing detected in North paddock after 22:00. Pacing radius <10m.', severity: 'Medium' }
-];
-
-const correlationData = Array.from({ length: 30 }, (_, i) => {
-    let baseTemp = 38.0 + Math.random() * 0.4;
-    let baseAct = 60 + Math.random() * 20;
-
-    // Simulate disease event on day 25 where activity drops 24h before temp spike
-    if (i === 24) baseAct = 25;
-    if (i === 25) { baseAct = 20; baseTemp = 39.8; }
-    if (i === 26) { baseAct = 30; baseTemp = 39.5; }
-    if (i >= 27) { baseAct = 50; baseTemp = 38.5; }
-
-    return { day: i + 1, temp: baseTemp.toFixed(1), act: Math.round(baseAct) };
-});
-
-const individuals = [
-    { id: 'MIX005', breed: 'Jersey', badge: 'Anomaly', segments: ['rest', 'rest', 'rest', 'rest', 'offline', 'offline', 'rest', 'rest'], g: '1.2h', d: '0.8km', r: '14h', base: '-42%' },
-    { id: 'SHW088', breed: 'Sahiwal', badge: 'Attention', segments: ['graze', 'graze', 'move', 'rest', 'rest', 'move', 'graze', 'move'], g: '5.1h', d: '2.9km', r: '10h', base: '-15%' },
-    { id: 'GIR012', breed: 'Gir', badge: 'Normal', segments: ['graze', 'graze', 'graze', 'move', 'rest', 'graze', 'graze', 'graze'], g: '8.4h', d: '5.2km', r: '7h', base: '+4%' },
-    { id: 'MIX044', breed: 'Cross', badge: 'Normal', segments: ['graze', 'graze', 'move', 'rest', 'rest', 'graze', 'graze', 'move'], g: '7.8h', d: '4.8km', r: '8h', base: '+1%' }
-];
+const correlationData = [];
 
 function BehaviourAnalysis() {
     const navigate = useNavigate();
@@ -66,6 +35,44 @@ function BehaviourAnalysis() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [horizon, setHorizon] = useState('7D');
     const [viewMode, setViewMode] = useState('Herd'); // Herd vs Individual
+    const [individuals, setIndividuals] = useState([]);
+    const [anomalies, setAnomalies] = useState([]);
+    
+    // Zero data states
+    const [hasHistoricalData, setHasHistoricalData] = useState(false);
+    const [heatmapData, setHeatmapData] = useState(generateHeatmap(false));
+    const [herdStats, setHerdStats] = useState({ grazing: 0, resting: 0, moving: 0, rumination: 0 });
+
+    React.useEffect(() => {
+        const fetchLivestock = async () => {
+            try {
+                const response = await livestockAPI.getAll();
+                if (response && response.data) {
+                    const data = response.data;
+                    const mappedIndividuals = data.map(item => ({
+                        id: item.livestock.name || item.livestock.tagNumber,
+                        breed: item.livestock.breed || 'Unknown',
+                        badge: item.latestSensorData?.temperature > 39.5 ? 'Anomaly' : (item.latestSensorData?.temperature > 39.0 ? 'Attention' : 'Normal'),
+                        segments: ['rest', 'rest', 'rest', 'rest', 'rest', 'rest', 'rest', 'rest'], // Init state
+                        g: '0h', d: '0km', r: '0h', base: '0%'
+                    }));
+                    setIndividuals(mappedIndividuals);
+                    
+                    const actualAnomalies = mappedIndividuals.filter(i => i.badge !== 'Normal').map(i => ({
+                        time: 'Just Now',
+                        id: i.id,
+                        type: 'Health Alert',
+                        desc: 'Behavioral/Vitals anomaly detected by AI.',
+                        severity: i.badge === 'Anomaly' ? 'High' : 'Medium'
+                    }));
+                    setAnomalies(actualAnomalies);
+                }
+            } catch (err) {
+                console.error("Failed to fetch livestock for behaviour:", err);
+            }
+        };
+        fetchLivestock();
+    }, []);
 
     return (
         <div className="predictions-layout">
@@ -149,17 +156,19 @@ function BehaviourAnalysis() {
                         <div className="b-heat-header">
                             <div>
                                 <h3 className="card-title">Herd Activity Heatmap (7-Day Average)</h3>
-                                <p className="b-ai-text"><Sparkles size={16} /> <strong>AI Interpretation:</strong> This week's pattern shows normal grazing peaks at 06:00–09:00 and 16:00–19:00. Anomaly detected: Wednesday 08:00–11:00 showed 34% lower activity than the 30-day baseline — correlated with rising ambient temperature that day.</p>
+                                <p className="b-ai-text"><Sparkles size={16} /> <strong>AI Interpretation:</strong> {hasHistoricalData ? "This week's pattern shows normal grazing peaks at 06:00–09:00 and 16:00–19:00." : "Gathering baseline telemetry. Heatmap requires 7 days of historical data to generate reliable behaviour clusters."}</p>
                             </div>
-                            <div className="b-legend">
-                                <span><div className="l-box d-green"></div> High (Grazing)</span>
-                                <span><div className="l-box l-green"></div> Moderate (Moving)</span>
-                                <span><div className="l-box amber"></div> Low (Resting)</span>
-                                <span><div className="l-box red"></div> Anomalous Low</span>
-                            </div>
+                            {hasHistoricalData && (
+                                <div className="b-legend">
+                                    <span><div className="l-box d-green"></div> High (Grazing)</span>
+                                    <span><div className="l-box l-green"></div> Moderate (Moving)</span>
+                                    <span><div className="l-box amber"></div> Low (Resting)</span>
+                                    <span><div className="l-box red"></div> Anomalous Low</span>
+                                </div>
+                            )}
                         </div>
 
-                        <div className="b-heatmap-container">
+                        <div className="b-heatmap-container" style={{ opacity: hasHistoricalData ? 1 : 0.4, pointerEvents: hasHistoricalData ? 'auto' : 'none' }}>
                             <div className="b-hm-y-labels">
                                 {days.map(d => <div key={d}>{d}</div>)}
                             </div>
@@ -167,8 +176,8 @@ function BehaviourAnalysis() {
                                 {heatmapData.map((row, rIdx) => (
                                     <div key={rIdx} className="b-hm-row">
                                         {row.map((val, cIdx) => (
-                                            <div key={`${rIdx}-${cIdx}`} className={`b-hm-cell v-${val}`}>
-                                                <div className="hm-tooltip">{days[rIdx]} {cIdx}:00 - {val === 3 ? 'Grazing' : val === 2 ? 'Moving' : val === 1 ? 'Resting' : 'Anomaly'}</div>
+                                            <div key={`${rIdx}-${cIdx}`} className={`b-hm-cell ${val !== null ? `v-${val}` : 'v-empty'}`} style={{ background: val === null ? '#f1f5f9' : undefined }}>
+                                                {val !== null && <div className="hm-tooltip">{days[rIdx]} {cIdx}:00 - {val === 3 ? 'Grazing' : val === 2 ? 'Moving' : val === 1 ? 'Resting' : 'Anomaly'}</div>}
                                             </div>
                                         ))}
                                     </div>
@@ -183,28 +192,28 @@ function BehaviourAnalysis() {
                     {/* SECTION 2: Behaviour Breakdown Cards */}
                     <div className="b-card-grid">
                         <div className="dribbble-card b-kpi-card">
-                            <div className="kpi-top"><span>Grazing</span> <span className="delta down">↓ 0.9h</span></div>
-                            <div className="kpi-val">6.2 <span>hrs/day</span></div>
-                            <div className="kpi-context">Weekly Avg: 7.1 hrs</div>
+                            <div className="kpi-top"><span>Grazing</span> <span className="delta eq">-</span></div>
+                            <div className="kpi-val">{herdStats.grazing} <span>hrs/day</span></div>
+                            <div className="kpi-context">Weekly Avg: Not enough data</div>
                             <div className="kpi-warn">Jersey baseline: 7-9 hrs daily</div>
                         </div>
                         <div className="dribbble-card b-kpi-card">
-                            <div className="kpi-top"><span>Resting</span> <span className="delta up">↑ 1.2h</span></div>
-                            <div className="kpi-val">9.4 <span>hrs/day</span></div>
-                            <div className="kpi-context">Weekly Avg: 8.2 hrs</div>
-                            <div className="kpi-warn alert">Excessive resting (&gt;11h) precedes fever in 73% cases.</div>
+                            <div className="kpi-top"><span>Resting</span> <span className="delta eq">-</span></div>
+                            <div className="kpi-val">{herdStats.resting} <span>hrs/day</span></div>
+                            <div className="kpi-context">Weekly Avg: Not enough data</div>
+                            <div className="kpi-warn" style={{ color: '#64748b' }}>Monitoring resting patterns...</div>
                         </div>
                         <div className="dribbble-card b-kpi-card">
-                            <div className="kpi-top"><span>Moving</span> <span className="delta down bad">↓ 1.6km</span></div>
-                            <div className="kpi-val">3.1 <span>km/day</span></div>
-                            <div className="kpi-context">Weekly Avg: 4.7 km</div>
-                            <div className="kpi-list">Lowest: MIX005 (0.8km)</div>
+                            <div className="kpi-top"><span>Moving</span> <span className="delta eq">-</span></div>
+                            <div className="kpi-val">{herdStats.moving} <span>km/day</span></div>
+                            <div className="kpi-context">Weekly Avg: Not enough data</div>
+                            <div className="kpi-list">Tracking herd movement...</div>
                         </div>
                         <div className="dribbble-card b-kpi-card">
                             <div className="kpi-top"><span>Est. Rumination</span> <span className="delta eq">-</span></div>
-                            <div className="kpi-val">6.8 <span>hrs/day</span></div>
-                            <div className="kpi-context">Weekly Avg: 7.0 hrs</div>
-                            <div className="kpi-list">Lowest: MIX005 (2.1h) - Critical</div>
+                            <div className="kpi-val">{herdStats.rumination} <span>hrs/day</span></div>
+                            <div className="kpi-context">Weekly Avg: Not enough data</div>
+                            <div className="kpi-list">Calibrating rumination sensors...</div>
                         </div>
                     </div>
 
@@ -242,7 +251,7 @@ function BehaviourAnalysis() {
                     <div className="dribbble-card b-section" style={{ marginTop: 32 }}>
                         <h3 className="card-title">Behaviour Anomaly Feed</h3>
                         <div className="b-feed">
-                            {anomalies.map((an, i) => (
+                            {anomalies.length > 0 ? anomalies.map((an, i) => (
                                 <div key={i} className="feed-item">
                                     <div className="feed-time">{an.time}</div>
                                     <div className="feed-content">
@@ -254,7 +263,12 @@ function BehaviourAnalysis() {
                                         <p className="feed-desc"><Database size={14} /> <strong>Raw Trigger:</strong> {an.desc}</p>
                                     </div>
                                 </div>
-                            ))}
+                            )) : (
+                                <div style={{ textAlign: 'center', padding: '32px', color: '#64748b' }}>
+                                    <CheckCircle2 size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                    <p>No behavioural anomalies detected in your herd.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -266,45 +280,65 @@ function BehaviourAnalysis() {
                             <h3 className="card-title" style={{ color: 'white' }}><Network size={24} color="#10b981" /> Herd Social Network</h3>
                             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginBottom: 20 }}>GPS proximity matrix. Thick lines = Frequent companions. Withdrawal signals early illness.</p>
 
-                            <div className="b-network-viz">
-                                {/* Simulated SVG Graph visualization overlay */}
-                                <svg width="100%" height="100%" style={{ position: 'absolute' }}>
-                                    <line x1="20%" y1="30%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
-                                    <line x1="80%" y1="20%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.4)" strokeWidth="6" />
-                                    <line x1="50%" y1="50%" x2="70%" y2="80%" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-                                    <line x1="20%" y1="30%" x2="30%" y2="70%" stroke="rgba(239,68,68,0.5)" strokeWidth="1" strokeDasharray="4" />
-                                </svg>
-
-                                <div className="b-node" style={{ top: '30%', left: '20%', width: 40, height: 40, background: '#10b981' }}><span>GIR12</span></div>
-                                <div className="b-node" style={{ top: '50%', left: '50%', width: 60, height: 60, background: '#10b981' }}><span>LEAD</span></div>
-                                <div className="b-node" style={{ top: '20%', left: '80%', width: 45, height: 45, background: '#10b981' }}><span>MIX22</span></div>
-                                <div className="b-node" style={{ top: '80%', left: '70%', width: 35, height: 35, background: '#f59e0b' }}><span>SHW88</span></div>
-                                <div className="b-node anomaly" style={{ top: '70%', left: '30%', width: 30, height: 30, background: '#ef4444' }}><span>MIX05</span></div>
+                            <div className="b-network-viz" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1a362a' }}>
+                                {hasHistoricalData ? (
+                                    <>
+                                        <svg width="100%" height="100%" style={{ position: 'absolute' }}>
+                                            <line x1="20%" y1="30%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
+                                            <line x1="80%" y1="20%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.4)" strokeWidth="6" />
+                                            <line x1="50%" y1="50%" x2="70%" y2="80%" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
+                                            <line x1="20%" y1="30%" x2="30%" y2="70%" stroke="rgba(239,68,68,0.5)" strokeWidth="1" strokeDasharray="4" />
+                                        </svg>
+                                        <div className="b-node" style={{ top: '30%', left: '20%', width: 40, height: 40, background: '#10b981' }}><span>GIR12</span></div>
+                                        <div className="b-node" style={{ top: '50%', left: '50%', width: 60, height: 60, background: '#10b981' }}><span>LEAD</span></div>
+                                        <div className="b-node" style={{ top: '20%', left: '80%', width: 45, height: 45, background: '#10b981' }}><span>MIX22</span></div>
+                                        <div className="b-node" style={{ top: '80%', left: '70%', width: 35, height: 35, background: '#f59e0b' }}><span>SHW88</span></div>
+                                        <div className="b-node anomaly" style={{ top: '70%', left: '30%', width: 30, height: 30, background: '#ef4444' }}><span>MIX05</span></div>
+                                    </>
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: '40px', color: 'rgba(255,255,255,0.6)' }}>
+                                        <Network size={32} style={{ marginBottom: 12, opacity: 0.5 }} />
+                                        <p>Social network mapping requires at least 48 hours of GPS proximity data.</p>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="b-prox-table">
                                 <h4 style={{ color: 'white', margin: '0 0 12px 0' }}>Top Proximity Drops (7-Day)</h4>
-                                <div className="prox-row"><span>MIX005 ↔ LEAD</span> <strong style={{ color: '#ef4444' }}>-61%</strong></div>
-                                <div className="prox-row"><span>MIX005 ↔ GIR12</span> <strong style={{ color: '#ef4444' }}>-48%</strong></div>
-                                <div className="prox-row"><span>SHW088 ↔ MIX22</span> <strong style={{ color: '#f59e0b' }}>-22%</strong></div>
+                                {hasHistoricalData ? (
+                                    <>
+                                        <div className="prox-row"><span>MIX005 ↔ LEAD</span> <strong style={{ color: '#ef4444' }}>-61%</strong></div>
+                                        <div className="prox-row"><span>MIX005 ↔ GIR12</span> <strong style={{ color: '#ef4444' }}>-48%</strong></div>
+                                        <div className="prox-row"><span>SHW088 ↔ MIX22</span> <strong style={{ color: '#f59e0b' }}>-22%</strong></div>
+                                    </>
+                                ) : (
+                                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>No proximity drops detected.</div>
+                                )}
                             </div>
                         </div>
 
                         {/* SECTION 6: Correlation Chart */}
                         <div className="dribbble-card">
                             <h3 className="card-title">Behaviour vs Health Correlation</h3>
-                            <div className="b-correl-chart">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <ComposedChart data={correlationData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f2f1" />
-                                        <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} />
-                                        <YAxis yAxisId="left" domain={[37, 40]} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#ef4444' }} />
-                                        <YAxis yAxisId="right" orientation="right" domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#3b82f6' }} />
-                                        <RechartsTooltip />
-                                        <Bar yAxisId="right" dataKey="act" fill="#e0e7ff" radius={[4, 4, 0, 0]} name="Activity %" />
-                                        <Line yAxisId="left" type="monotone" dataKey="temp" stroke="#ef4444" strokeWidth={3} dot={false} name="Body Temp (°C)" />
-                                    </ComposedChart>
-                                </ResponsiveContainer>
+                            <div className="b-correl-chart" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {hasHistoricalData ? (
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <ComposedChart data={correlationData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f2f1" />
+                                            <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                                            <YAxis yAxisId="left" domain={[37, 40]} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#ef4444' }} />
+                                            <YAxis yAxisId="right" orientation="right" domain={[0, 100]} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#3b82f6' }} />
+                                            <RechartsTooltip />
+                                            <Bar yAxisId="right" dataKey="act" fill="#e0e7ff" radius={[4, 4, 0, 0]} name="Activity %" />
+                                            <Line yAxisId="left" type="monotone" dataKey="temp" stroke="#ef4444" strokeWidth={3} dot={false} name="Body Temp (°C)" />
+                                        </ComposedChart>
+                                    </ResponsiveContainer>
+                                ) : (
+                                    <div style={{ textAlign: 'center', color: '#94a3b8' }}>
+                                        <Activity size={32} style={{ marginBottom: 12, opacity: 0.5 }} />
+                                        <p>Insufficient historical data to plot correlations.</p>
+                                    </div>
+                                )}
                             </div>
                             <p className="b-correl-text">
                                 <strong>MIX005 History:</strong> Activity drops have preceded temperature spikes by an average of 16 hours across 3 recorded illness episodes. Activity is a confirmed leading indicator.
@@ -328,30 +362,21 @@ function BehaviourAnalysis() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td style={{ fontWeight: 700 }}>Jersey</td>
-                                        <td className="bg-amber">7 - 9 hrs (Current: 6.2)</td>
-                                        <td>9 - 11 hrs</td>
-                                        <td>4 - 6 km</td>
-                                        <td>06:00 & 18:00</td>
-                                        <td>72</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ fontWeight: 700 }}>Sahiwal</td>
-                                        <td className="bg-green">8 - 10 hrs (Current: 8.5)</td>
-                                        <td>8 - 10 hrs</td>
-                                        <td>5 - 8 km</td>
-                                        <td>05:00 & 19:00</td>
-                                        <td>84</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ fontWeight: 700 }}>Gir</td>
-                                        <td className="bg-green">8 - 10 hrs (Current: 9.1)</td>
-                                        <td>8 - 10 hrs</td>
-                                        <td>5 - 8 km</td>
-                                        <td>05:30 & 18:30</td>
-                                        <td>82</td>
-                                    </tr>
+                                    {[...new Set(individuals.map(ind => ind.breed))].map((breed, i) => (
+                                        <tr key={i}>
+                                            <td style={{ fontWeight: 700 }}>{breed}</td>
+                                            <td className="bg-amber">8 - 10 hrs (Current: 0.0)</td>
+                                            <td>8 - 10 hrs</td>
+                                            <td>5 - 8 km</td>
+                                            <td>06:00 & 18:00</td>
+                                            <td>80</td>
+                                        </tr>
+                                    ))}
+                                    {individuals.length === 0 && (
+                                        <tr>
+                                            <td colSpan="6" style={{ textAlign: 'center', color: '#94a3b8' }}>Register livestock to view breed benchmarks.</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -359,33 +384,42 @@ function BehaviourAnalysis() {
 
                     {/* SECTION 8: AI Recommendations */}
                     <div className="b-reco-grid" style={{ marginTop: 32 }}>
-                        <div className="dribbble-card reco-card">
-                            <span className="opp-priority-tag urgent">Today</span>
-                            <h4>Isolation & Grazing Stop</h4>
-                            <p>MIX005 isolated for 3+ hours. Grazed only 1.2h today vs weekly avg 7.4h.</p>
-                            <div className="reco-actions">
-                                <button className="btn-quick-fix">Inspect Animal</button>
-                                <button className="btn-dismiss">Notify Vet</button>
+                        {hasHistoricalData ? (
+                            <>
+                                <div className="dribbble-card reco-card">
+                                    <span className="opp-priority-tag urgent">Today</span>
+                                    <h4>Isolation & Grazing Stop</h4>
+                                    <p>MIX005 isolated for 3+ hours. Grazed only 1.2h today vs weekly avg 7.4h.</p>
+                                    <div className="reco-actions">
+                                        <button className="btn-quick-fix">Inspect Animal</button>
+                                        <button className="btn-dismiss">Notify Vet</button>
+                                    </div>
+                                </div>
+                                <div className="dribbble-card reco-card">
+                                    <span className="opp-priority-tag plan">Planning</span>
+                                    <h4>Herd Grazing Compressed</h4>
+                                    <p>Morning grazing fell 34% due to early 34°C ambient heat. THI hit severe early.</p>
+                                    <div className="reco-actions">
+                                        <button className="btn-quick-fix">Relocate Note</button>
+                                        <button className="btn-dismiss">Dismiss</button>
+                                    </div>
+                                </div>
+                                <div className="dribbble-card reco-card">
+                                    <span className="opp-priority-tag today">Review</span>
+                                    <h4>Nocturnal Pacing</h4>
+                                    <p>3 animals showing high activity after 23:00 over the past 4 nights in South Zone.</p>
+                                    <div className="reco-actions">
+                                        <button className="btn-quick-fix">Check Perimeter</button>
+                                        <button className="btn-dismiss">Dismiss</button>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="dribbble-card" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '32px', color: '#64748b' }}>
+                                <CheckCircle2 size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                <p style={{ margin: 0 }}>No AI behavioural recommendations at this time. Herd is operating within expected baseline limits.</p>
                             </div>
-                        </div>
-                        <div className="dribbble-card reco-card">
-                            <span className="opp-priority-tag plan">Planning</span>
-                            <h4>Herd Grazing Compressed</h4>
-                            <p>Morning grazing fell 34% due to early 34°C ambient heat. THI hit severe early.</p>
-                            <div className="reco-actions">
-                                <button className="btn-quick-fix">Relocate Note</button>
-                                <button className="btn-dismiss">Dismiss</button>
-                            </div>
-                        </div>
-                        <div className="dribbble-card reco-card">
-                            <span className="opp-priority-tag today">Review</span>
-                            <h4>Nocturnal Pacing</h4>
-                            <p>3 animals showing high activity after 23:00 over the past 4 nights in South Zone.</p>
-                            <div className="reco-actions">
-                                <button className="btn-quick-fix">Check Perimeter</button>
-                                <button className="btn-dismiss">Dismiss</button>
-                            </div>
-                        </div>
+                        )}
                     </div>
 
                 </div>

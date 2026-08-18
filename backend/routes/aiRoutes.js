@@ -5,8 +5,9 @@ const router = express.Router();
 const { chatWithVetAssistant } = require('../services/aiService');
 const { protect } = require('../middleware/authMiddleware');
 const User = require('../models/User');
-const Livestock = require('../models/Livestock');
-const SensorData = require('../models/SensorData');
+const LivestockMaster = require('../models/LivestockMaster');
+const Farm = require('../models/Farm');
+const Zone = require('../models/Zone');
 
 // @desc    Chat with AI Assistant (Voice Context)
 // @route   POST /api/ai/chat
@@ -22,28 +23,31 @@ router.post('/chat', protect, async (req, res) => {
             return errorResponse(res, 'USER_NOT_FOUND', 'User not found', 404);
         }
 
-        // Fetch all livestock (Assuming single tenant or filtering by farm ID if available in future)
-        const allLivestock = await Livestock.find({ userId: req.user.tenantId });
+        // Fetch all livestock using the correct model
+        const allLivestock = await LivestockMaster.find({ userId: req.user.tenantId });
 
-        // Fetch latest sensor data for each animal
-        const animalsContext = await Promise.all(allLivestock.map(async (animal) => {
-            const latestData = await SensorData.findOne({ livestockId: animal._id }).sort({ timestamp: -1 });
-            return {
-                name: animal.name,
-                type: animal.breed || 'Livestock', // Use breed as type
-                status: latestData ? (latestData.temperature > 40 ? 'Critical' : 'Healthy') : 'Unknown',
-                temp: latestData ? latestData.temperature : 'N/A',
-                location: latestData ? `Lat: ${latestData.latitude}, Long: ${latestData.longitude}` : 'Unknown', // Could reverse geocode if needed
-                battery: latestData ? latestData.batteryLevel : 'N/A'
-            };
+        // Map LivestockMaster to context
+        const animalsContext = allLivestock.map(animal => ({
+            name: animal.name || animal.livestock_id,
+            type: animal.breed || animal.species || 'Livestock',
+            status: animal.health_status || 'Unknown',
+            temp: animal.temperature || 'N/A',
+            location: animal.zone_name || 'Unknown',
+            battery: animal.battery || 'N/A'
         }));
 
+        // Fetch Farms and Zones
+        const allFarms = await Farm.find({ userId: req.user.tenantId });
+        const allZones = await Zone.find({ farmId: { $in: allFarms.map(f => f._id) } });
+
         const farmContext = {
-            farmName: user.farm.name,
-            livestockType: user.farm.livestockType,
+            farmName: user.farm?.name || 'Default Farm',
+            livestockType: user.farm?.livestockType || 'Livestock',
             count: allLivestock.length,
-            location: user.farm.location,
-            animals: animalsContext
+            location: user.farm?.location || 'Unknown',
+            animals: animalsContext,
+            farms: allFarms.map(f => f.name),
+            zones: allZones.map(z => z.name)
         };
 
         let aiResponseText = await chatWithVetAssistant(farmContext, query, history);

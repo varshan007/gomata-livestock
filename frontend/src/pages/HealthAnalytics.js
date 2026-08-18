@@ -9,9 +9,9 @@ import {
 import AuthContext from '../context/AuthContext';
 import './HealthAnalytics.css';
 import './Dashboard.css';
-
+import { livestockAPI } from '../services/api';
 // --- MOCK DATA ---
-const herdHealthDistribution = [
+const mockHerdHealthDistribution = [
     { name: 'Healthy', value: 84, color: '#10b981' },
     { name: 'Warning', value: 10, color: '#f59e0b' },
     { name: 'Critical', value: 6, color: '#ef4444' }
@@ -51,22 +51,81 @@ const zoneHealthData = [
     { zone: 'Pasture 1', healthy: 98, warning: 2, critical: 0 }
 ];
 
-const highRiskAnimals = [
-    { id: 'MIX005', temp: 39.5, risk: 'High', trend: 'Rising', location: 'Barn A', lastUpdate: '10 mins ago' },
-    { id: 'MIX012', temp: 39.2, risk: 'Medium', trend: 'Rising', location: 'Barn B', lastUpdate: '15 mins ago' },
-    { id: 'COW042', temp: 39.8, risk: 'High', trend: 'Stable', location: 'Barn C', lastUpdate: '5 mins ago' },
-    { id: 'GOAT01', temp: 39.0, risk: 'Medium', trend: 'Falling', location: 'Barn A', lastUpdate: '20 mins ago' }
-];
-
 function HealthAnalytics() {
     const navigate = useNavigate();
     const [dateRange, setDateRange] = useState('Last 7 days');
     const { user } = useContext(AuthContext);
+    
+    // Live Data State
+    const [realHerdData, setRealHerdData] = useState([]);
+    const [herdDist, setHerdDist] = useState(mockHerdHealthDistribution);
+    const [highRisk, setHighRisk] = useState([]);
+    const [stats, setStats] = useState({ healthy: 0, warning: 0, critical: 0, total: 0 });
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showFarmModal, setShowFarmModal] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const profileRef = useRef();
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const response = await livestockAPI.getAll();
+                if (response && response.data) {
+                    const data = response.data;
+                    setRealHerdData(data);
+                    
+                    let hCount = 0;
+                    let wCount = 0;
+                    let cCount = 0;
+                    const risks = [];
+
+                    data.forEach(item => {
+                        const l = item.livestock;
+                        const temp = item.latestSensorData?.temperature || 38.0;
+                        let stat = 'Healthy';
+                        let riskLvl = 'Low';
+
+                        if (temp > 39.5) {
+                            stat = 'Critical';
+                            cCount++;
+                            riskLvl = 'High';
+                        } else if (temp > 39.0 || temp < 38.0) {
+                            stat = 'Warning';
+                            wCount++;
+                            riskLvl = 'Medium';
+                        } else {
+                            hCount++;
+                        }
+
+                        if (stat !== 'Healthy') {
+                            risks.push({
+                                id: l.name || l.tagNumber,
+                                temp: temp.toFixed(1),
+                                risk: riskLvl,
+                                trend: 'Fluctuating',
+                                location: l.location || 'Unknown',
+                                lastUpdate: item.latestSensorData?.timestamp ? new Date(item.latestSensorData.timestamp).toLocaleTimeString() : 'Recently'
+                            });
+                        }
+                    });
+
+                    setStats({ healthy: hCount, warning: wCount, critical: cCount, total: data.length });
+                    
+                    setHerdDist([
+                        { name: 'Healthy', value: hCount, color: '#10b981' },
+                        { name: 'Warning', value: wCount, color: '#f59e0b' },
+                        { name: 'Critical', value: cCount, color: '#ef4444' }
+                    ]);
+                    
+                    setHighRisk(risks.slice(0, 5)); // Show top 5 risks
+                }
+            } catch (err) {
+                console.error("Failed to fetch livestock data for Health Analytics:", err);
+            }
+        };
+        fetchStats();
+    }, []);
 
     useEffect(() => {
         const listener = (event) => {
@@ -117,7 +176,7 @@ function HealthAnalytics() {
                         </div>
                         {user?.type !== 'staff' && (
                             <>
-                                <div className="nav-item-premium" onClick={() => setShowFarmModal(true)}>
+                                <div className="nav-item-premium" onClick={() => navigate('/farm')}>
                                     <Globe className="nav-icon" /> <span>Farms & Locations</span>
                                 </div>
                                 <div className="nav-item-premium" onClick={() => navigate('/breeds')}>
@@ -211,8 +270,8 @@ function HealthAnalytics() {
                             <div className="kpi-info">
                                 <span className="lbl">Herd Health Score</span>
                                 <div className="val-row">
-                                    <span className="val">92%</span>
-                                    <span className="trend stable">Stable</span>
+                                    <span className="val">{stats.total > 0 ? Math.round((stats.healthy / stats.total) * 100) : 0}%</span>
+                                    <span className="trend stable">Live</span>
                                 </div>
                             </div>
                         </div>
@@ -221,8 +280,8 @@ function HealthAnalytics() {
                             <div className="kpi-info">
                                 <span className="lbl">Healthy Animals</span>
                                 <div className="val-row">
-                                    <span className="val">128</span>
-                                    <span className="lbl-sub">84% of herd</span>
+                                    <span className="val">{stats.healthy}</span>
+                                    <span className="lbl-sub">{stats.total > 0 ? Math.round((stats.healthy / stats.total) * 100) : 0}% of herd</span>
                                 </div>
                             </div>
                         </div>
@@ -231,8 +290,8 @@ function HealthAnalytics() {
                             <div className="kpi-info">
                                 <span className="lbl">Warning Animals</span>
                                 <div className="val-row">
-                                    <span className="val">9</span>
-                                    <span className="trend down">↓ 2</span>
+                                    <span className="val">{stats.warning}</span>
+                                    {stats.warning > 0 && <span className="trend down">Needs Attention</span>}
                                 </div>
                             </div>
                         </div>
@@ -241,8 +300,8 @@ function HealthAnalytics() {
                             <div className="kpi-info">
                                 <span className="lbl">Critical Animals</span>
                                 <div className="val-row">
-                                    <span className="val">5</span>
-                                    <span className="trend up alert">↑ 1</span>
+                                    <span className="val">{stats.critical}</span>
+                                    {stats.critical > 0 && <span className="trend up alert">High Risk</span>}
                                 </div>
                             </div>
                         </div>
@@ -268,8 +327,8 @@ function HealthAnalytics() {
                                     <h3>Health Distribution</h3>
                                     <ResponsiveContainer width="100%" height={220}>
                                         <PieChart>
-                                            <Pie data={herdHealthDistribution} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
-                                                {herdHealthDistribution.map((entry, index) => (
+                                            <Pie data={herdDist} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                                                {herdDist.map((entry, index) => (
                                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                                 ))}
                                             </Pie>
@@ -277,9 +336,9 @@ function HealthAnalytics() {
                                         </PieChart>
                                     </ResponsiveContainer>
                                     <div className="legend-row">
-                                        <div className="leg-item"><div className="dot healthy"></div>84% Healthy</div>
-                                        <div className="leg-item"><div className="dot warning"></div>10% Warning</div>
-                                        <div className="leg-item"><div className="dot critical"></div>6% Critical</div>
+                                        <div className="leg-item"><div className="dot healthy"></div>{stats.total > 0 ? Math.round((stats.healthy / stats.total) * 100) : 0}% Healthy</div>
+                                        <div className="leg-item"><div className="dot warning"></div>{stats.total > 0 ? Math.round((stats.warning / stats.total) * 100) : 0}% Warning</div>
+                                        <div className="leg-item"><div className="dot critical"></div>{stats.total > 0 ? Math.round((stats.critical / stats.total) * 100) : 0}% Critical</div>
                                     </div>
                                 </div>
                                 <div className="health-card temp-trend-card">
@@ -346,7 +405,7 @@ function HealthAnalytics() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {highRiskAnimals.map((animal, i) => (
+                                            {highRisk.length > 0 ? highRisk.map((animal, i) => (
                                                 <tr key={i}>
                                                     <td className="fw-600">{animal.id}</td>
                                                     <td className="fw-600">{animal.temp}°C</td>
@@ -358,10 +417,16 @@ function HealthAnalytics() {
                                                     </td>
                                                     <td>{animal.location}</td>
                                                     <td>
-                                                        <button className="action-sm-btn">Locate <ChevronRight size={14} /></button>
+                                                        <button className="action-sm-btn" onClick={() => navigate(`/livestock/${animal.id}`)}>Locate <ChevronRight size={14} /></button>
                                                     </td>
                                                 </tr>
-                                            ))}
+                                            )) : (
+                                                <tr>
+                                                    <td colSpan="6" style={{ textAlign: 'center', padding: '24px', color: '#64748b' }}>
+                                                        No high-priority risks detected. Herd is healthy.
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -385,9 +450,9 @@ function HealthAnalytics() {
                                     <div className="insight-block warning-block">
                                         <h4>Early Warning Indicators</h4>
                                         <ul className="warning-list">
-                                            <li><AlertTriangle size={16} /> <strong>3 animals</strong> showing early fever signs.</li>
-                                            <li><Activity size={16} /> <strong>5 animals</strong> exhibiting unusually low activity.</li>
-                                            <li><Thermometer size={16} /> <strong>Barn B</strong> showing elevated ambient risk.</li>
+                                            <li><AlertTriangle size={16} /> <strong>{stats.warning} animals</strong> showing early signs of fluctuation.</li>
+                                            <li><Activity size={16} /> <strong>{stats.critical} animals</strong> exhibiting high-risk vitals.</li>
+                                            <li><Thermometer size={16} /> Elevated ambient risk detected in assigned zones.</li>
                                         </ul>
                                     </div>
 

@@ -206,7 +206,19 @@ function LivestockDetail() {
     // 3. Override static database metrics with Live Socket metrics if available
     const temp = realTimeStats ? realTimeStats.temperature : (livestock?.latestSensorData?.temperature || 38.0);
     const heartRate = realTimeStats ? realTimeStats.heartRate : (livestock?.latestSensorData?.heartRate || 80);
-    const displayLocation = parseLoc(realTimeStats ? realTimeStats.location : livestock?.lastLocation);
+    
+    let fallbackLocation = null;
+    if (livestock?.zoneGeofence?.type === 'Point' && livestock.zoneGeofence.coordinates) {
+        fallbackLocation = { lat: livestock.zoneGeofence.coordinates[1], lng: livestock.zoneGeofence.coordinates[0] };
+    } else if (livestock?.zoneGeofence?.type === 'Polygon' && livestock.zoneGeofence.coordinates) {
+        fallbackLocation = { lat: livestock.zoneGeofence.coordinates[0][0][1], lng: livestock.zoneGeofence.coordinates[0][0][0] };
+    } else if (livestock?.farmGeofence?.type === 'Point' && livestock.farmGeofence.coordinates) {
+        fallbackLocation = { lat: livestock.farmGeofence.coordinates[1], lng: livestock.farmGeofence.coordinates[0] };
+    } else if (livestock?.farmGeofence?.type === 'Polygon' && livestock.farmGeofence.coordinates) {
+        fallbackLocation = { lat: livestock.farmGeofence.coordinates[0][0][1], lng: livestock.farmGeofence.coordinates[0][0][0] };
+    }
+
+    const displayLocation = parseLoc(realTimeStats ? realTimeStats.location : livestock?.lastLocation) || fallbackLocation;
 
     const tempStatus = getTemperatureStatus(temp);
     const isCritical = tempStatus.status === 'Critical' || tempStatus.status === 'Warning';
@@ -248,9 +260,7 @@ function LivestockDetail() {
     ];
 
     // Parse Zone Geometry from API
-    const farmZone = livestock?.farmGeofence?.type === 'Polygon'
-        ? livestock.farmGeofence.coordinates[0].map(c => ({ lat: c[1], lng: c[0] }))
-        : [];
+    const farmZone = livestock?.farmGeofence || null;
 
     const localZone = livestock?.zoneGeofence?.type === 'Polygon'
         ? livestock.zoneGeofence.coordinates[0].map(c => [c[1], c[0]])
@@ -258,7 +268,7 @@ function LivestockDetail() {
     const localZoneCenter = livestock?.zoneGeofence?.type === 'Point'
         ? { lat: livestock.zoneGeofence.coordinates[1], lng: livestock.zoneGeofence.coordinates[0] }
         : null;
-    const localZoneRadius = livestock?.zoneGeofence?.radius || 100;
+    const localZoneRadius = Number(livestock?.zoneGeofence?.radius) || 100;
 
     const darkMapStyle = [
         { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
@@ -600,12 +610,19 @@ function LivestockDetail() {
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 />
                                 <Polyline positions={pathTrail} pathOptions={{ color: "#10B981", weight: 4, opacity: 0.8 }} />
-                                {farmZone.length > 0 && (
-                                    <Polygon positions={farmZone} pathOptions={{ fillColor: "transparent", color: "#3B82F6", weight: 3, dashArray: "6, 6" }}>
-                                        <LeafletTooltip permanent direction="center" className="zone-label-tooltip farm-label">
+                                {farmZone && farmZone.type === 'Polygon' && (
+                                    <Polygon positions={farmZone.coordinates[0].map(c => ({ lat: c[1], lng: c[0] }))} pathOptions={{ fillColor: "transparent", color: "#3B82F6", weight: 3, dashArray: "6, 6" }}>
+                                        <LeafletTooltip direction="center" className="zone-label-tooltip farm-label">
                                             {livestock?.farmName || "Farm Boundary"}
                                         </LeafletTooltip>
                                     </Polygon>
+                                )}
+                                {farmZone && farmZone.type === 'Point' && (
+                                    <Circle center={{ lat: farmZone.coordinates[1], lng: farmZone.coordinates[0] }} radius={Number(farmZone.radius) || 500} pathOptions={{ fillColor: "transparent", color: "#3B82F6", weight: 3, dashArray: "6, 6" }}>
+                                        <LeafletTooltip direction="center" className="zone-label-tooltip farm-label">
+                                            {livestock?.farmName || "Farm Boundary"}
+                                        </LeafletTooltip>
+                                    </Circle>
                                 )}
                                 {livestock?.allZoneGeofences?.length > 0 ? (
                                     livestock.allZoneGeofences.map((z, idx) => {
@@ -617,7 +634,7 @@ function LivestockDetail() {
                                             weight: 2
                                         };
                                         const tooltip = (
-                                            <LeafletTooltip permanent direction="center" className={`zone-label-tooltip ${isAssigned ? 'active-zone' : 'inactive-zone'}`}>
+                                            <LeafletTooltip direction="center" className={`zone-label-tooltip ${isAssigned ? 'active-zone' : 'inactive-zone'}`}>
                                                 {z.name}
                                             </LeafletTooltip>
                                         );
@@ -631,7 +648,7 @@ function LivestockDetail() {
                                             );
                                         } else if (z.geofence?.type === 'Point' && z.geofence.coordinates && z.geofence.coordinates.length === 2) {
                                             const center = { lat: z.geofence.coordinates[1], lng: z.geofence.coordinates[0] };
-                                            const radius = z.geofence.radius || 100;
+                                            const radius = Number(z.geofence.radius) || 100;
                                             return (
                                                 <Circle key={idx} center={center} radius={radius} pathOptions={pathOpts}>
                                                     {tooltip}
@@ -644,14 +661,14 @@ function LivestockDetail() {
                                     <>
                                         {localZone.length > 0 && (
                                             <Polygon positions={localZone} pathOptions={{ fillColor: "#10B981", fillOpacity: 0.2, color: "#10B981", weight: 2 }}>
-                                                <LeafletTooltip permanent direction="center" className="zone-label-tooltip active-zone">
+                                                <LeafletTooltip direction="center" className="zone-label-tooltip active-zone">
                                                     {livestock?.zoneName || "Assigned Zone"}
                                                 </LeafletTooltip>
                                             </Polygon>
                                         )}
                                         {localZoneCenter && (
                                             <Circle center={localZoneCenter} radius={localZoneRadius} pathOptions={{ fillColor: "#10B981", fillOpacity: 0.2, color: "#10B981", weight: 2 }}>
-                                                <LeafletTooltip permanent direction="center" className="zone-label-tooltip active-zone">
+                                                <LeafletTooltip direction="center" className="zone-label-tooltip active-zone">
                                                     {livestock?.zoneName || "Assigned Zone"}
                                                 </LeafletTooltip>
                                             </Circle>

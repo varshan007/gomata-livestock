@@ -4,6 +4,8 @@ import { Menu, Eye, Activity, Sparkles, ShieldAlert, Cpu, Globe, Database, Play,
 import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import './DiseaseRisk.css';
 
+import { livestockAPI } from '../services/api';
+
 const UserAvatar = ({ name }) => {
     const initials = name ? name.split(' ').map(n => n[0]).join('') : 'U';
     return (
@@ -19,8 +21,27 @@ export default function DiseaseRisk() {
     const [horizon, setHorizon] = useState('7D');
     const user = { name: 'Admin Manager' };
 
+    const [hasOutbreak, setHasOutbreak] = useState(false);
+    const [exposedCount, setExposedCount] = useState(0);
+
+    React.useEffect(() => {
+        const fetchLivestock = async () => {
+            try {
+                const response = await livestockAPI.getAll();
+                if (response && response.data) {
+                    const criticalCount = response.data.filter(i => i.latestSensorData?.temperature > 39.5).length;
+                    setHasOutbreak(criticalCount > 0);
+                    setExposedCount(criticalCount * 3); // Estimate 3 exposed per critical
+                }
+            } catch (err) {
+                console.error("Failed to fetch livestock for disease risk:", err);
+            }
+        };
+        fetchLivestock();
+    }, []);
+
     // Spread Projection Data
-    const spreadData = [
+    const spreadData = hasOutbreak ? [
         { day: 'Day 1', noAction: 2, partial: 2, full: 2 },
         { day: 'Day 2', noAction: 5, partial: 4, full: 3 },
         { day: 'Day 3', noAction: 11, partial: 8, full: 5 },
@@ -28,14 +49,22 @@ export default function DiseaseRisk() {
         { day: 'Day 5', noAction: 27, partial: 16, full: 4 },
         { day: 'Day 6', noAction: 38, partial: 21, full: 2 },
         { day: 'Day 7', noAction: 45, partial: 28, full: 0 },
+    ] : [
+        { day: 'Day 1', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 2', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 3', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 4', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 5', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 6', noAction: 0, partial: 0, full: 0 },
+        { day: 'Day 7', noAction: 0, partial: 0, full: 0 },
     ];
 
-    const contactTracing = [
+    const contactTracing = hasOutbreak ? [
         { exposed: 'MIX005', index: 'INF012', distance: '< 2m', duration: '4.5 hrs', prob: 'High', zone: 'Barn A Water Trough' },
         { exposed: 'MIX009', index: 'INF012', distance: '3-5m', duration: '2.1 hrs', prob: 'High', zone: 'Barn A Feed Line' },
         { exposed: 'MIX014', index: 'INF003', distance: '1-3m', duration: '5.0 hrs', prob: 'High', zone: 'Pasture Transition' },
         { exposed: 'JER102', index: 'INF008', distance: '8-10m', duration: '0.5 hrs', prob: 'Low', zone: 'Milking Parlor Q' }
-    ];
+    ] : [];
 
     const diseaseDiffDiag = [
         { disease: 'Foot and Mouth Disease (FMD)', prob: 34, notifiable: true },
@@ -44,11 +73,7 @@ export default function DiseaseRisk() {
         { disease: 'Other / Unknown Vector', prob: 7, notifiable: false }
     ];
 
-    const historicalEpisodes = [
-        { date: 'Oct 12, 2025', disease: 'Mild Foot Rot', location: 'Pasture C', animals: 4, resolution: 'Resolved in 8 days with copper sulfate bath.' },
-        { date: 'Jul 04, 2025', disease: 'Heat Stress Mass Event', location: 'Entire Herd', animals: 112, resolution: 'Resolved in 3 days. Added 4 new shade sails.' },
-        { date: 'Mar 22, 2025', disease: 'Bovine Viral Diarrhea', location: 'Calf Pens', animals: 12, resolution: 'Quarantined for 14 days. 1 loss.' }
-    ];
+    const historicalEpisodes = [];
 
     return (
         <div className="predictions-layout">
@@ -110,15 +135,15 @@ export default function DiseaseRisk() {
                     <div className="b-quick-stats" style={{ paddingTop: '20px', borderTop: '1px solid #f0f2f1' }}>
                         <div className="b-stat-chip">
                             <span>Active Outbreaks</span>
-                            <strong>1 (Barn A)</strong>
+                            <strong>{hasOutbreak ? '1 (Barn A)' : '0'}</strong>
                         </div>
                         <div className="b-stat-chip">
                             <span>Exposed Population</span>
-                            <strong>18 Animals</strong>
+                            <strong>{exposedCount} Animals</strong>
                         </div>
-                        <div className="b-stat-chip" style={{ background: '#fef2f2', borderColor: '#fecaca' }}>
-                            <span style={{ color: '#b91c1c' }}>Financial Risk Exposure</span>
-                            <strong style={{ color: '#991b1b' }}>₹84,000</strong>
+                        <div className="b-stat-chip" style={{ background: hasOutbreak ? '#fef2f2' : '#f0fdf4', borderColor: hasOutbreak ? '#fecaca' : '#bbf7d0' }}>
+                            <span style={{ color: hasOutbreak ? '#b91c1c' : '#166534' }}>Financial Risk Exposure</span>
+                            <strong style={{ color: hasOutbreak ? '#991b1b' : '#15803d' }}>{hasOutbreak ? '₹84,000' : '₹0'}</strong>
                         </div>
                     </div>
                 </header>
@@ -134,37 +159,45 @@ export default function DiseaseRisk() {
                             </div>
                             <p className="dr-card-desc">Mapping disease vectors based on shared resources and proximity.</p>
 
-                            <div className="dr-map-container">
-                                {/* SVG Node Map */}
-                                <svg width="100%" height="100%" viewBox="0 0 500 300" className="dr-svg-map">
-                                    {/* Links (Transmission Vectors) */}
-                                    <line x1="150" y1="100" x2="350" y2="100" stroke="#ef4444" strokeWidth="4" strokeDasharray="5,5" className="vector-line" />
-                                    <line x1="150" y1="100" x2="250" y2="220" stroke="#f59e0b" strokeWidth="3" className="vector-line" />
-                                    <line x1="350" y1="100" x2="250" y2="220" stroke="#e2e8f0" strokeWidth="2" />
+                            <div className="dr-map-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {hasOutbreak ? (
+                                    <>
+                                        <svg width="100%" height="100%" viewBox="0 0 500 300" className="dr-svg-map">
+                                            {/* Links (Transmission Vectors) */}
+                                            <line x1="150" y1="100" x2="350" y2="100" stroke="#ef4444" strokeWidth="4" strokeDasharray="5,5" className="vector-line" />
+                                            <line x1="150" y1="100" x2="250" y2="220" stroke="#f59e0b" strokeWidth="3" className="vector-line" />
+                                            <line x1="350" y1="100" x2="250" y2="220" stroke="#e2e8f0" strokeWidth="2" />
 
-                                    {/* Animated Arrow Heads */}
-                                    <path d="M 250 100 L 240 95 L 240 105 Z" fill="#ef4444" className="vector-arrow" />
-                                    <path d="M 200 160 L 195 150 L 205 150 Z" fill="#f59e0b" className="vector-arrow" transform="rotate(-50 200 160)" />
+                                            {/* Animated Arrow Heads */}
+                                            <path d="M 250 100 L 240 95 L 240 105 Z" fill="#ef4444" className="vector-arrow" />
+                                            <path d="M 200 160 L 195 150 L 205 150 Z" fill="#f59e0b" className="vector-arrow" transform="rotate(-50 200 160)" />
 
-                                    {/* Nodes */}
-                                    <circle cx="150" cy="100" r="35" fill="#fee2e2" stroke="#ef4444" strokeWidth="3" />
-                                    <text x="150" y="95" textAnchor="middle" fill="#991b1b" fontSize="12" fontWeight="700">Barn A</text>
-                                    <text x="150" y="115" textAnchor="middle" fill="#ef4444" fontSize="10" fontWeight="600">18 Infected</text>
-                                    <circle cx="150" cy="100" r="45" fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.5" className="pulse-ring" />
+                                            {/* Nodes */}
+                                            <circle cx="150" cy="100" r="35" fill="#fee2e2" stroke="#ef4444" strokeWidth="3" />
+                                            <text x="150" y="95" textAnchor="middle" fill="#991b1b" fontSize="12" fontWeight="700">Barn A</text>
+                                            <text x="150" y="115" textAnchor="middle" fill="#ef4444" fontSize="10" fontWeight="600">18 Infected</text>
+                                            <circle cx="150" cy="100" r="45" fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.5" className="pulse-ring" />
 
-                                    <circle cx="350" cy="100" r="30" fill="#f0fdf4" stroke="#10b981" strokeWidth="2" />
-                                    <text x="350" y="95" textAnchor="middle" fill="#166534" fontSize="12" fontWeight="700">Pasture B</text>
-                                    <text x="350" y="115" textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="600">40 Healthy</text>
+                                            <circle cx="350" cy="100" r="30" fill="#f0fdf4" stroke="#10b981" strokeWidth="2" />
+                                            <text x="350" y="95" textAnchor="middle" fill="#166534" fontSize="12" fontWeight="700">Pasture B</text>
+                                            <text x="350" y="115" textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="600">40 Healthy</text>
 
-                                    <circle cx="250" cy="220" r="28" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
-                                    <text x="250" y="215" textAnchor="middle" fill="#92400e" fontSize="12" fontWeight="700">Water 1</text>
-                                    <text x="250" y="235" textAnchor="middle" fill="#f59e0b" fontSize="10" fontWeight="600">Shared Source</text>
-                                </svg>
+                                            <circle cx="250" cy="220" r="28" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
+                                            <text x="250" y="215" textAnchor="middle" fill="#92400e" fontSize="12" fontWeight="700">Water 1</text>
+                                            <text x="250" y="235" textAnchor="middle" fill="#f59e0b" fontSize="10" fontWeight="600">Shared Source</text>
+                                        </svg>
 
-                                <div className="dr-map-legend">
-                                    <span style={{ color: '#ef4444' }}><MoveRight size={14} /> High Risk Vector</span>
-                                    <span style={{ color: '#f59e0b' }}><MoveRight size={14} /> Medium Risk Vector</span>
-                                </div>
+                                        <div className="dr-map-legend">
+                                            <span style={{ color: '#ef4444' }}><MoveRight size={14} /> High Risk Vector</span>
+                                            <span style={{ color: '#f59e0b' }}><MoveRight size={14} /> Medium Risk Vector</span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div style={{ textAlign: 'center', color: '#64748b', padding: '40px' }}>
+                                        <CheckCircle2 size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                        <p>No active outbreaks. Transmission vectors are clear.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -203,27 +236,36 @@ export default function DiseaseRisk() {
                             </div>
                             <p className="dr-card-desc">AI-generated containment protocol based on current vectors.</p>
 
-                            <div className="dr-quarantine-box">
-                                <ul className="dr-q-steps">
-                                    <li><CheckCircle2 size={16} color="#10b981" /> <strong>Isolate Immediately:</strong> MIX005, MIX009, and MIX014.</li>
-                                    <li><CheckCircle2 size={16} color="#10b981" /> <strong>Relocate To:</strong> Quarantine Zone C (currently empty).</li>
-                                    <li><CheckCircle2 size={16} color="#10b981" /> <strong>Protocol:</strong> Do not share water or feed with Barn A for minimum 7 days.</li>
-                                    <li><CheckCircle2 size={16} color="#10b981" /> <strong>Vet Trigger:</strong> Auto-notify Dr. Sarah Jenkins for BRD testing.</li>
-                                </ul>
+                            <div className="dr-quarantine-box" style={{ display: 'flex', flexDirection: 'column', alignItems: hasOutbreak ? 'stretch' : 'center', justifyContent: 'center' }}>
+                                {hasOutbreak ? (
+                                    <>
+                                        <ul className="dr-q-steps">
+                                            <li><CheckCircle2 size={16} color="#10b981" /> <strong>Isolate Immediately:</strong> MIX005, MIX009, and MIX014.</li>
+                                            <li><CheckCircle2 size={16} color="#10b981" /> <strong>Relocate To:</strong> Quarantine Zone C (currently empty).</li>
+                                            <li><CheckCircle2 size={16} color="#10b981" /> <strong>Protocol:</strong> Do not share water or feed with Barn A for minimum 7 days.</li>
+                                            <li><CheckCircle2 size={16} color="#10b981" /> <strong>Vet Trigger:</strong> Auto-notify Dr. Sarah Jenkins for BRD testing.</li>
+                                        </ul>
 
-                                <div className="dr-q-financials">
-                                    <div className="dr-cost-item">
-                                        <span>Estimated Cost of Isolation</span>
-                                        <strong className="good">₹2,400</strong>
-                                    </div>
-                                    <div className="dr-cost-icon"><ArrowRight size={20} color="#94a3b8" /></div>
-                                    <div className="dr-cost-item">
-                                        <span>Cost if Spread Reaches Herd</span>
-                                        <strong className="bad">₹84,000</strong>
-                                    </div>
-                                </div>
+                                        <div className="dr-q-financials">
+                                            <div className="dr-cost-item">
+                                                <span>Estimated Cost of Isolation</span>
+                                                <strong className="good">₹2,400</strong>
+                                            </div>
+                                            <div className="dr-cost-icon"><ArrowRight size={20} color="#94a3b8" /></div>
+                                            <div className="dr-cost-item">
+                                                <span>Cost if Spread Reaches Herd</span>
+                                                <strong className="bad">₹84,000</strong>
+                                            </div>
+                                        </div>
 
-                                <button className="dr-btn-primary">Execute Containment Protocol</button>
+                                        <button className="dr-btn-primary">Execute Containment Protocol</button>
+                                    </>
+                                ) : (
+                                    <div style={{ textAlign: 'center', color: '#64748b', padding: '20px' }}>
+                                        <ShieldAlert size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                        <p style={{ margin: 0 }}>No quarantine protocols required. Herd is healthy.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -235,7 +277,7 @@ export default function DiseaseRisk() {
                             <p className="dr-card-desc">Past events that train the herd-specific prediction model.</p>
 
                             <div className="dr-timeline">
-                                {historicalEpisodes.map((ep, i) => (
+                                {historicalEpisodes.length > 0 ? historicalEpisodes.map((ep, i) => (
                                     <div key={i} className="dr-timeline-item">
                                         <div className="dr-tl-node"></div>
                                         <div className="dr-tl-content">
@@ -246,7 +288,12 @@ export default function DiseaseRisk() {
                                             <p className="dr-tl-desc">{ep.resolution}</p>
                                         </div>
                                     </div>
-                                ))}
+                                )) : (
+                                    <div style={{ textAlign: 'center', color: '#64748b', padding: '40px' }}>
+                                        <Clock size={32} style={{ marginBottom: 12, opacity: 0.5 }} />
+                                        <p>No historical disease events recorded for this herd.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

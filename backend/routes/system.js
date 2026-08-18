@@ -68,8 +68,12 @@ router.post('/initialize', async (req, res) => {
 
         const unverified = hardwareIds.filter(id => !verifiedIds.includes(id));
         if (unverified.length > 0) {
-            logger.info(`[SYSTEM INIT] Unverified Devices block: ${unverified.join(', ')}`);
-            return errorResponse(res, 'DEVICES_NOT_VERIFIED', `Verification Failed. The following device serial numbers are invalid or unregistered in GoMata hardware control: ${unverified.join(', ')}`, 400);
+            if (process.env.NODE_ENV !== "production") {
+                logger.info(`[SYSTEM INIT] DEV MODE BYPASS: Ignored unverified devices: ${unverified.join(', ')}`);
+            } else {
+                logger.info(`[SYSTEM INIT] Unverified Devices block: ${unverified.join(', ')}`);
+                return errorResponse(res, 'DEVICES_NOT_VERIFIED', `Verification Failed. The following device serial numbers are invalid or unregistered in GoMata hardware control: ${unverified.join(', ')}`, 400);
+            }
         }
 
         // Mark these devices as assigned
@@ -143,7 +147,26 @@ router.post('/initialize', async (req, res) => {
         // 5. Livestock & LivestockMaster Mapping
         for (const l of (livestock || [])) {
             const farmContext = farmMap[l.farmTempId];
-            const zoneContext = zoneMap[l.zoneTempId] || { seqId: 'ZN-000', name: 'Unassigned', geo: null };
+            let zoneContext = zoneMap[l.zoneTempId];
+
+            if (!zoneContext && farmContext) {
+                const generatedZoneId = await IdGeneratorService.generateZoneId(farmContext.seqId, farmContext.name);
+                assignedIds.zones.push(generatedZoneId);
+                const newZone = new Zone({
+                    farmId: farmContext.objectId,
+                    name: 'Default Zone',
+                    locationType: 'Polygon Mapping',
+                    geofence: farmContext.geo
+                });
+                await newZone.save();
+                zoneContext = {
+                    objectId: newZone._id,
+                    seqId: generatedZoneId,
+                    name: newZone.name,
+                    geo: farmContext.geo
+                };
+                zoneMap[l.zoneTempId || 'default'] = zoneContext;
+            }
 
             const parsedAge = parseFloat(String(l.age).replace(/[^0-9.]/g, '')) || 0;
             const parsedWeight = parseFloat(String(l.weight).replace(/[^0-9.]/g, '')) || 0;

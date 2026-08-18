@@ -412,7 +412,7 @@ const Dashboard = () => {
 
                         {user?.type !== 'staff' && (
                             <>
-                                <div className="nav-item-premium" onClick={() => setShowFarmModal(true)}>
+                                <div className="nav-item-premium" onClick={() => navigate('/farm')}>
                                     <Globe className="nav-icon" /> <span>Farms & Locations</span>
                                 </div>
                                 <div className="nav-item-premium" onClick={() => navigate('/breeds')}>

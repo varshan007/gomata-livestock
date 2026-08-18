@@ -4,12 +4,14 @@ import {
     LayoutDashboard, List, Map as MapIcon, Activity, AlertTriangle, Cpu, Layers, Globe, Users, Settings, LogOut, Menu, Search, Bell, ShieldAlert, Sparkles, Thermometer, Battery, Zap, CheckCircle2, Navigation, MapPin, TrendingUp, TrendingDown, Minus, Info, X, ChevronRight
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { MapContainer, TileLayer, Circle, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle, Polygon, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import AuthContext from '../context/AuthContext';
 import './LivestockManagement.css'; // Standard Premium Sidebar
 import './Predictions.css'; // Refined High-Density Context Theme
+
+import { livestockAPI, farmsAPI } from '../services/api';
 
 // Fix Leaflet Default Icon Issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -19,43 +21,137 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-// Mock Data
-const healthForecastData = [
-    { day: 'Today', temp: 38.5 },
-    { day: 'Day 2', temp: 38.6 },
-    { day: 'Day 3', temp: 38.8 },
-    { day: 'Day 4', temp: 39.2 },
-    { day: 'Day 5', temp: 39.6 }, // High fever peak
-    { day: 'Day 6', temp: 39.3 },
-    { day: 'Day 7', temp: 39.0 }
-];
-
-const highRiskAnimals = [
-    { id: 'MIX005', current: '38.5°C', forecast: '39.6°C', risk: 'High', time: '48 hrs', confidence: 91 },
-    { id: 'MIX012', current: '38.3°C', forecast: '39.2°C', risk: 'Medium', time: '72 hrs', confidence: 82 },
-    { id: 'BRD044', current: '38.0°C', forecast: '38.9°C', risk: 'Low', time: '5 days', confidence: 65 },
-];
-
-const deviceFailures = [
-    { id: 'DEV023', animal: 'MIX005', battery: '28%', risk: 'High', time: '5 days', confidence: 98 },
-    { id: 'DEV011', animal: 'MIX008', battery: '34%', risk: 'Medium', time: '8 days', confidence: 85 },
-];
-
-const initialOpportunities = [
-    { id: 1, type: 'treat', priority: 'urgent', badge: 'Today', title: 'Pre-emptive Treatment', desc: 'Administer antipyretics to MIX005 based on 91% fever confidence.', icon: 'opt-treat' },
-    { id: 2, type: 'charge', priority: 'today', badge: 'This Week', title: 'Charge 4 Devices Now', desc: 'Prevent telemetry blackout by swapping batteries before Friday.', icon: 'opt-charge' },
-    { id: 3, type: 'move', priority: 'plan', badge: 'Requires Planning', title: 'Relocate 12 Heads', desc: 'Move 12 animals to North pasture to reduce projected heat stress.', icon: 'opt-move' },
-];
-
 function Predictions() {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [horizon, setHorizon] = useState('7D');
-    const [opportunities, setOpportunities] = useState(initialOpportunities);
+    
+    const [highRiskAnimals, setHighRiskAnimals] = useState([]);
+    const [deviceFailures, setDeviceFailures] = useState([]);
+    const [opportunities, setOpportunities] = useState([]);
+    const [healthForecastData, setHealthForecastData] = useState([
+        { day: 'Today', temp: 38.5 },
+        { day: 'Day 2', temp: 38.5 },
+        { day: 'Day 3', temp: 38.5 },
+        { day: 'Day 4', temp: 38.5 },
+        { day: 'Day 5', temp: 38.5 },
+        { day: 'Day 6', temp: 38.5 },
+        { day: 'Day 7', temp: 38.5 }
+    ]);
+
+    // Map state
+    const [farmZones, setFarmZones] = useState([]);
+    const [mapCenter, setMapCenter] = useState([28.634064, 77.218556]); // Default fallback
 
     // AI Inspector State
     const [inspectedAnimal, setInspectedAnimal] = useState(null);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch Livestock Data
+                const response = await livestockAPI.getAll();
+                const risks = [];
+                const devices = [];
+                const ops = [];
+                let currentLivestock = [];
+
+                if (response && response.data) {
+                    currentLivestock = response.data;
+                    currentLivestock.forEach(item => {
+                        const temp = item.latestSensorData?.temperature || 38.0;
+                        const battery = item.latestSensorData?.battery || 100;
+                        const id = item.livestock.name || item.livestock.tagNumber;
+
+                        if (temp > 39.5) {
+                            risks.push({ id, current: `${temp.toFixed(1)}°C`, forecast: `${(temp + 0.8).toFixed(1)}°C`, risk: 'High', time: '24 hrs', confidence: 94 });
+                            ops.push({ id: `op_${id}`, type: 'treat', priority: 'urgent', badge: 'Today', title: 'Pre-emptive Treatment', desc: `Administer antipyretics to ${id} based on 94% fever confidence.`, icon: 'opt-treat' });
+                        } else if (temp > 39.0) {
+                            risks.push({ id, current: `${temp.toFixed(1)}°C`, forecast: `${(temp + 0.5).toFixed(1)}°C`, risk: 'Medium', time: '72 hrs', confidence: 82 });
+                        }
+
+                        if (battery < 20) {
+                            devices.push({ id: `DEV-${id}`, animal: id, battery: `${battery}%`, risk: 'High', time: '2 days', confidence: 99 });
+                            ops.push({ id: `op_bat_${id}`, type: 'charge', priority: 'today', badge: 'This Week', title: `Charge Device ${id}`, desc: `Prevent telemetry blackout by charging device for ${id}.`, icon: 'opt-charge' });
+                        }
+                    });
+
+                    setHighRiskAnimals(risks);
+                    setDeviceFailures(devices);
+                    setOpportunities(ops);
+
+                    if (risks.length > 0) {
+                        setHealthForecastData([
+                            { day: 'Today', temp: 38.5 },
+                            { day: 'Day 2', temp: 38.6 },
+                            { day: 'Day 3', temp: 38.8 },
+                            { day: 'Day 4', temp: 39.2 },
+                            { day: 'Day 5', temp: 39.6 }, 
+                            { day: 'Day 6', temp: 39.3 },
+                            { day: 'Day 7', temp: 39.0 }
+                        ]);
+                    }
+                }
+
+                // Fetch Farm Zones for Map
+                const farmRes = await farmsAPI.getAll();
+                if (farmRes && farmRes.data) {
+                    const formattedZones = [];
+                    let firstCenter = null;
+
+                    farmRes.data.forEach(f => {
+                        if (f.zones) {
+                            f.zones.forEach(z => {
+                                let bounds = [];
+                                let center = null;
+                                let radius = 0;
+                                if (z.geofence?.type === 'Polygon' && z.geofence.coordinates && z.geofence.coordinates.length > 0) {
+                                    bounds = z.geofence.coordinates[0].map(c => [c[1], c[0]]);
+                                    if (!firstCenter) firstCenter = bounds[0];
+                                } else if (z.geofence?.type === 'Point' && z.geofence.coordinates && z.geofence.coordinates.length === 2) {
+                                    center = [z.geofence.coordinates[1], z.geofence.coordinates[0]];
+                                    radius = z.geofence.radius || 100;
+                                    if (!firstCenter) firstCenter = center;
+                                }
+
+                                // Check risk for this zone
+                                const animalsInZone = currentLivestock.filter(a => (a.livestock.location === z.name) || (a.livestock.location === null)); // Fallback if no location
+                                const zoneRisks = risks.filter(r => animalsInZone.some(a => (a.livestock.name === r.id || a.livestock.tagNumber === r.id)));
+                                
+                                let status = 'Stable';
+                                let color = '#10b981';
+
+                                if (zoneRisks.length > 0) {
+                                    status = 'High Risk Area';
+                                    color = '#ef4444';
+                                }
+
+                                if (bounds.length > 0 || center) {
+                                    formattedZones.push({
+                                        name: z.name,
+                                        type: z.geofence?.type,
+                                        bounds: bounds,
+                                        center: center,
+                                        radius: radius,
+                                        color: color,
+                                        status: status,
+                                        population: animalsInZone.length || 0
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                    setFarmZones(formattedZones);
+                    if (firstCenter) setMapCenter(firstCenter);
+                }
+            } catch (err) {
+                console.error("Failed to fetch data for predictions:", err);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleDismiss = (id) => {
         setOpportunities(opportunities.filter(o => o.id !== id));
@@ -165,7 +261,8 @@ function Predictions() {
                 <div className="pred-delta-banner">
                     <div className="delta-icon"><Activity size={24} /></div>
                     <p className="delta-text">
-                        <strong>What Changed Overnight:</strong> 2 animals moved from Low to High risk. Disease spread probability in Barn A increased by +3 animals. DEV023 battery dropped below 30%.
+                        <strong>What Changed Overnight:</strong> {highRiskAnimals.length > 0 ? `${highRiskAnimals.length} animals moved to risk categories. ` : 'No high risk animals detected. Herd is stable. '}
+                        {deviceFailures.length > 0 ? `${deviceFailures.length} devices require battery charging.` : 'All device telemetry is stable.'}
                     </p>
                 </div>
 
@@ -173,21 +270,21 @@ function Predictions() {
                     {/* Top Stats Row */}
                     <div className="pred-stats-row" style={{ padding: 0 }}>
                         {/* Disease Spread - Navigational Gateway (New Behavior) */}
-                        <div className="dribbble-stat-card solid-orange" style={{ cursor: 'pointer', transition: 'all 0.2s', border: '1px solid #fde68a' }} onClick={() => navigate('/disease-risk')} onMouseEnter={(e) => e.currentTarget.style.borderColor = '#f59e0b'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#fde68a'}>
+                        <div className="dribbble-stat-card solid-orange" style={{ cursor: 'pointer', transition: 'all 0.2s', border: '1px solid #fde68a', background: highRiskAnimals.length > 0 ? undefined : '#f0fdf4', borderColor: highRiskAnimals.length > 0 ? undefined : '#bbf7d0' }} onClick={() => navigate('/disease-risk')} onMouseEnter={(e) => e.currentTarget.style.borderColor = highRiskAnimals.length > 0 ? '#f59e0b' : '#22c55e'} onMouseLeave={(e) => e.currentTarget.style.borderColor = highRiskAnimals.length > 0 ? '#fde68a' : '#bbf7d0'}>
                             <div className="stat-left">
                                 <h3>Disease Spread Risk</h3>
-                                <p style={{ color: '#f59e0b', fontSize: '1.2rem' }}>Medium Risk Herd</p>
-                                <span style={{ fontSize: '0.9rem', color: '#b45309', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>View Full Disease Risk Analysis <ChevronRight size={14} /></span>
+                                <p style={{ color: highRiskAnimals.length > 0 ? '#f59e0b' : '#16a34a', fontSize: '1.2rem' }}>{highRiskAnimals.length > 0 ? 'Medium Risk Herd' : 'Low Risk Herd'}</p>
+                                <span style={{ fontSize: '0.9rem', color: highRiskAnimals.length > 0 ? '#b45309' : '#15803d', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>View Full Disease Risk Analysis <ChevronRight size={14} /></span>
                             </div>
-                            <div className="stat-icon"><ShieldAlert size={32} color="#f59e0b" /></div>
+                            <div className="stat-icon"><ShieldAlert size={32} color={highRiskAnimals.length > 0 ? "#f59e0b" : "#10b981"} /></div>
                         </div>
 
                         {/* Infrastructure - Styled White with Accent Bar */}
                         <div className="dribbble-stat-card solid">
                             <div className="stat-left">
                                 <h3>Infrastructure Stability</h3>
-                                <p style={{ color: '#1a362a' }}>92% <span className="trend-badge down-good"><Minus size={16} /> Stable</span></p>
-                                <span style={{ fontSize: '0.9rem', color: '#6b7d73', fontWeight: 500 }}>4 devices require imminent attention</span>
+                                <p style={{ color: '#1a362a' }}>{deviceFailures.length > 0 ? 'Attention Needed' : 'Stable'} <span className="trend-badge down-good"><Minus size={16} /> </span></p>
+                                <span style={{ fontSize: '0.9rem', color: '#6b7d73', fontWeight: 500 }}>{deviceFailures.length} devices require imminent attention</span>
                             </div>
                             <div className="stat-icon"><Zap size={32} color="#3b82f6" /></div>
                         </div>
@@ -225,31 +322,40 @@ function Predictions() {
                                     </span>
                                 </div>
                                 <div className="pred-map-wrapper">
-                                    <MapContainer center={[34.0515, -118.2437]} zoom={15} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+                                    <MapContainer key={`${mapCenter[0]}-${mapCenter[1]}`} center={mapCenter} zoom={16} style={{ height: '100%', width: '100%' }} zoomControl={false}>
                                         <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution='&copy; OpenStreetMap' />
 
-                                        {/* Barn A Risk Zone */}
-                                        <Circle center={[34.053, -118.242]} radius={150} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.2 }}>
-                                            <Popup className="custom-popup">
-                                                <div className="popup-header">Barn A</div>
-                                                <div className="popup-body">
-                                                    <p><span>Population:</span> <strong>45 Heads</strong></p>
-                                                    <p><span>Predicted Risk:</span> <strong style={{ color: '#ef4444' }}>Thermal Shock / Fever</strong></p>
-                                                    <div className="popup-action">Calculate Relocation Route →</div>
-                                                </div>
-                                            </Popup>
-                                        </Circle>
-
-                                        {/* North Pasture Safe Zone */}
-                                        <Circle center={[34.050, -118.246]} radius={200} pathOptions={{ color: '#10b981', fillColor: '#10b981', fillOpacity: 0.2 }}>
-                                            <Popup className="custom-popup">
-                                                <div className="popup-header">North Pasture</div>
-                                                <div className="popup-body">
-                                                    <p><span>Population:</span> <strong>120 Heads</strong></p>
-                                                    <p><span>Predicted Risk:</span> <strong style={{ color: '#10b981' }}>None (Stable)</strong></p>
-                                                </div>
-                                            </Popup>
-                                        </Circle>
+                                        {farmZones.map((zone, idx) => {
+                                            const isRisk = zone.status === 'High Risk Area';
+                                            if (zone.type === 'Polygon' && zone.bounds && zone.bounds.length > 0) {
+                                                return (
+                                                    <Polygon key={idx} positions={zone.bounds} pathOptions={{ color: zone.color, fillColor: zone.color, fillOpacity: 0.2 }}>
+                                                        <Popup className="custom-popup">
+                                                            <div className="popup-header">{zone.name}</div>
+                                                            <div className="popup-body">
+                                                                <p><span>Population:</span> <strong>{zone.population} Heads</strong></p>
+                                                                <p><span>Status:</span> <strong style={{ color: zone.color }}>{zone.status}</strong></p>
+                                                                {isRisk && <div className="popup-action">Calculate Relocation Route →</div>}
+                                                            </div>
+                                                        </Popup>
+                                                    </Polygon>
+                                                );
+                                            } else if (zone.type === 'Point' && zone.center) {
+                                                return (
+                                                    <Circle key={idx} center={zone.center} radius={zone.radius || 150} pathOptions={{ color: zone.color, fillColor: zone.color, fillOpacity: 0.2 }}>
+                                                        <Popup className="custom-popup">
+                                                            <div className="popup-header">{zone.name}</div>
+                                                            <div className="popup-body">
+                                                                <p><span>Population:</span> <strong>{zone.population} Heads</strong></p>
+                                                                <p><span>Status:</span> <strong style={{ color: zone.color }}>{zone.status}</strong></p>
+                                                                {isRisk && <div className="popup-action">Calculate Relocation Route →</div>}
+                                                            </div>
+                                                        </Popup>
+                                                    </Circle>
+                                                );
+                                            }
+                                            return null;
+                                        })}
                                     </MapContainer>
 
                                     {/* Map Legend */}
@@ -276,7 +382,7 @@ function Predictions() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {highRiskAnimals.map((a, i) => (
+                                            {highRiskAnimals.length > 0 ? highRiskAnimals.map((a, i) => (
                                                 <tr key={i}>
                                                     <td>{a.id}</td>
                                                     <td>{a.current}</td>
@@ -294,7 +400,14 @@ function Predictions() {
                                                         </button>
                                                     </td>
                                                 </tr>
-                                            ))}
+                                            )) : (
+                                                <tr>
+                                                    <td colSpan="6" style={{ textAlign: 'center', padding: '24px', color: '#6b7d73' }}>
+                                                        <CheckCircle2 size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                                        <p style={{ margin: 0 }}>No high-risk animals detected by AI models.</p>
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -310,15 +423,15 @@ function Predictions() {
                                 <h3 className="card-title"><Layers size={24} color="#3b82f6" /> Risk Distribution (Individual)</h3>
                                 <div className="risk-dist-grid">
                                     <div className="risk-dist-item">
-                                        <span className="risk-dist-num" style={{ color: '#ef4444' }}>5</span>
+                                        <span className="risk-dist-num" style={{ color: '#ef4444' }}>{highRiskAnimals.filter(a => a.risk === 'High').length}</span>
                                         <span className="risk-dist-label">High Risk</span>
                                     </div>
                                     <div className="risk-dist-item">
-                                        <span className="risk-dist-num" style={{ color: '#f59e0b' }}>7</span>
+                                        <span className="risk-dist-num" style={{ color: '#f59e0b' }}>{highRiskAnimals.filter(a => a.risk === 'Medium').length}</span>
                                         <span className="risk-dist-label">Medium Risk</span>
                                     </div>
                                     <div className="risk-dist-item">
-                                        <span className="risk-dist-num" style={{ color: '#10b981' }}>130</span>
+                                        <span className="risk-dist-num" style={{ color: '#10b981' }}>{highRiskAnimals.length === 0 ? 'All' : 'Rest'}</span>
                                         <span className="risk-dist-label">Low Risk</span>
                                     </div>
                                 </div>
@@ -358,14 +471,21 @@ function Predictions() {
                                     <table className="pred-light-table" style={{ width: 'calc(100% - 64px)', margin: '0 32px' }}>
                                         <thead><tr><th>SYS ID</th><th>Battery</th><th>Risk</th><th>Failure T-Minus</th></tr></thead>
                                         <tbody>
-                                            {deviceFailures.map((d, i) => (
+                                            {deviceFailures.length > 0 ? deviceFailures.map((d, i) => (
                                                 <tr key={i}>
                                                     <td>{d.id}<br /><span style={{ fontSize: '0.75rem', color: '#6b7d73' }}>{d.animal}</span></td>
                                                     <td style={{ color: '#ef4444', fontWeight: 700 }}>{d.battery}</td>
                                                     <td><span className={`pill-status ${d.risk.toLowerCase()}`}>{d.risk}</span></td>
                                                     <td style={{ fontWeight: 600 }}>{d.time}</td>
                                                 </tr>
-                                            ))}
+                                            )) : (
+                                                <tr>
+                                                    <td colSpan="4" style={{ textAlign: 'center', padding: '24px', color: '#6b7d73' }}>
+                                                        <CheckCircle2 size={32} style={{ marginBottom: 12, color: '#10b981' }} />
+                                                        <p style={{ margin: 0 }}>All hardware telemetry devices operating normally.</p>
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>

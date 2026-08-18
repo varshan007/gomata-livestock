@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Polygon, Circle, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Polygon, Circle, Marker, Popup, useMap, Tooltip as LeafletTooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -119,6 +119,27 @@ function MapIntelligence() {
                     coords = [l.livestock.coords[1], l.livestock.coords[0]];
                 }
 
+                let fallbackCoords = [28.634064, 77.161358];
+                // Attempt to find the farm or zone in fData to use as a fallback
+                const assignedFarm = fData.find(f => f._id === l.livestock.farmId || f.name === l.livestock.farmId);
+                if (assignedFarm) {
+                    if (assignedFarm.geofence?.type === 'Point' && assignedFarm.geofence.coordinates) {
+                        fallbackCoords = [assignedFarm.geofence.coordinates[1], assignedFarm.geofence.coordinates[0]];
+                    } else if (assignedFarm.geofence?.type === 'Polygon' && assignedFarm.geofence.coordinates) {
+                        fallbackCoords = [assignedFarm.geofence.coordinates[0][0][1], assignedFarm.geofence.coordinates[0][0][0]];
+                    }
+                    if (l.livestock.zoneId && assignedFarm.zones) {
+                        const assignedZone = assignedFarm.zones.find(z => z._id === l.livestock.zoneId || z.name === l.livestock.location);
+                        if (assignedZone) {
+                            if (assignedZone.geofence?.type === 'Point' && assignedZone.geofence.coordinates) {
+                                fallbackCoords = [assignedZone.geofence.coordinates[1], assignedZone.geofence.coordinates[0]];
+                            } else if (assignedZone.geofence?.type === 'Polygon' && assignedZone.geofence.coordinates) {
+                                fallbackCoords = [assignedZone.geofence.coordinates[0][0][1], assignedZone.geofence.coordinates[0][0][0]];
+                            }
+                        }
+                    }
+                }
+
                 return {
                     id: l.livestock._id,
                     name: l.livestock.name,
@@ -127,7 +148,7 @@ function MapIntelligence() {
                     temp: temp ? temp.toFixed(1) : '--',
                     location: l.livestock.location || 'Unknown',
                     lastUpdate: l.latestSensorData.timestamp ? new Date(l.latestSensorData.timestamp).toLocaleTimeString() : 'N/A',
-                    coords: coords || [28.634064, 77.161358],
+                    coords: coords || fallbackCoords,
                     img: getPlaceholderImage(l.livestock.breed)
                 };
             });
@@ -156,10 +177,19 @@ function MapIntelligence() {
                     if (fBounds.length > 0) {
                         pFarms.push({
                             name: f.name,
+                            type: 'Polygon',
                             bounds: fBounds,
                             color: '#3b82f6' // Blue tracer
                         });
                     }
+                } else if (f.geofence?.type === 'Point' && f.geofence.coordinates && f.geofence.coordinates.length === 2) {
+                    pFarms.push({
+                        name: f.name,
+                        type: 'Point',
+                        center: [f.geofence.coordinates[1], f.geofence.coordinates[0]],
+                        radius: f.geofence.radius || 500,
+                        color: '#3b82f6'
+                    });
                 }
 
                 // Child Zones
@@ -365,17 +395,40 @@ function MapIntelligence() {
 
                                 {/* Parent Farms */}
                                 {parentFarms.map((farm, idx) => (
-                                    <Polygon
-                                        key={`farm-${idx}`}
-                                        positions={farm.bounds}
-                                        pathOptions={{
-                                            color: farm.color,
-                                            fillColor: 'transparent',
-                                            fillOpacity: 0,
-                                            weight: 3,
-                                            dashArray: '8, 8'
-                                        }}
-                                    />
+                                    farm.type === 'Polygon' ? (
+                                        <Polygon
+                                            key={`farm-${idx}`}
+                                            positions={farm.bounds}
+                                            pathOptions={{
+                                                color: farm.color,
+                                                fillColor: 'transparent',
+                                                fillOpacity: 0,
+                                                weight: 3,
+                                                dashArray: '8, 8'
+                                            }}
+                                        >
+                                            <LeafletTooltip direction="center" className="zone-label-tooltip farm-label">
+                                                {farm.name || "Farm Boundary"}
+                                            </LeafletTooltip>
+                                        </Polygon>
+                                    ) : (
+                                        <Circle
+                                            key={`farm-${idx}`}
+                                            center={farm.center}
+                                            radius={Number(farm.radius) || 500}
+                                            pathOptions={{
+                                                color: farm.color,
+                                                fillColor: 'transparent',
+                                                fillOpacity: 0,
+                                                weight: 3,
+                                                dashArray: '8, 8'
+                                            }}
+                                        >
+                                            <LeafletTooltip direction="center" className="zone-label-tooltip farm-label">
+                                                {farm.name || "Farm Boundary"}
+                                            </LeafletTooltip>
+                                        </Circle>
+                                    )
                                 ))}
 
                                 {/* Farm Zones */}
@@ -391,12 +444,16 @@ function MapIntelligence() {
                                                 weight: 2,
                                                 dashArray: '5, 10'
                                             }}
-                                        />
+                                        >
+                                            <LeafletTooltip direction="center" className="zone-label-tooltip">
+                                                {zone.name}
+                                            </LeafletTooltip>
+                                        </Polygon>
                                     ) : (
                                         <Circle
                                             key={`zone-${idx}`}
                                             center={zone.center}
-                                            radius={zone.radius}
+                                            radius={Number(zone.radius) || 100}
                                             pathOptions={{
                                                 color: zone.color,
                                                 fillColor: zone.color,
@@ -404,7 +461,11 @@ function MapIntelligence() {
                                                 weight: 2,
                                                 dashArray: '5, 10'
                                             }}
-                                        />
+                                        >
+                                            <LeafletTooltip direction="center" className="zone-label-tooltip">
+                                                {zone.name}
+                                            </LeafletTooltip>
+                                        </Circle>
                                     )
                                 ))}
 
