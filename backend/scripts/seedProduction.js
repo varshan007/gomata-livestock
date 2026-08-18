@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Livestock = require('../models/Livestock');
+const LivestockMaster = require('../models/LivestockMaster');
 const SensorData = require('../models/SensorData');
 const Alert = require('../models/Alert');
 const User = require('../models/User');
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/livestock_m
 async function seedProduction() {
     try {
         console.log('🧹 Clearing existing production data...');
+        await LivestockMaster.deleteMany({});
         await Livestock.deleteMany({});
         await SensorData.deleteMany({});
         await Alert.deleteMany({});
@@ -66,6 +68,28 @@ async function seedProduction() {
                 farmId: farm._id,
                 zoneId: zone._id
             });
+            
+            await LivestockMaster.create({
+                livestock_id: ls._id.toString(),
+                name: ls.name,
+                breed: ls.breed,
+                species: 'Cow',
+                age: ls.age,
+                weight: ls.weight,
+                userId: adminUser._id,
+                farm_id: farm._id.toString(),
+                farm_name: farm.name,
+                zone_id: zone._id.toString(),
+                zone_name: zone.name,
+                device_id: ls.deviceId,
+                mapping_id: `MAP-${ls.deviceId}-${ls._id}`,
+                health_status: isBessie ? 'Fever' : 'Normal',
+                temperature: isBessie ? 40.5 : 38.0,
+                heart_rate: isBessie ? 80 : 60,
+                battery: 90,
+                last_updated: new Date()
+            });
+            
             livestockList.push(ls);
         }
 
