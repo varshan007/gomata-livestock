@@ -43,8 +43,8 @@ function FarmDetails() {
             try {
                 const headers = { Authorization: `Bearer ${token}` };
                 const [fRes, lsRes] = await Promise.all([
-                    fetch('http://localhost:8000/api/farms', { headers }),
-                    fetch('http://localhost:8000/api/livestock', { headers })
+                    fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/farms`, { headers }),
+                    fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/livestock`, { headers })
                 ]);
                 const fJson = await fRes.json();
                 const lsJson = await lsRes.json();

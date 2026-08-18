@@ -115,7 +115,7 @@ const Dashboard = () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) return;
-                const res = await fetch('http://localhost:8000/api/alerts', {
+                const res = await fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/alerts`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const json = await res.json();

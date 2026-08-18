@@ -280,7 +280,7 @@ export default function AIOrchestrator() {
         let responseText = '';
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8000/api/ai/chat', {
+            const res = await fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/ai/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

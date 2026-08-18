@@ -17,14 +17,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/livestock_m
 
 async function seedProduction() {
     try {
-        console.log('🧹 Clearing existing production data...');
-        await LivestockMaster.deleteMany({});
-        await Livestock.deleteMany({});
-        await SensorData.deleteMany({});
-        await Alert.deleteMany({});
-        await Farm.deleteMany({});
-        await Zone.deleteMany({});
-        // Leave the User admin alone if it exists, but we'll add Vets.
+        console.log('🧹 NOT clearing existing production data to avoid wiping other accounts...');
 
         const adminEmail = process.env.SEED_ADMIN_EMAIL;
         const adminPassword = process.env.SEED_ADMIN_PASSWORD;
@@ -54,16 +47,17 @@ async function seedProduction() {
         console.log('🐄 Creating 15 Cattle...');
         const breeds = ['Holstein', 'Jersey', 'Angus', 'Hereford', 'Brahman'];
         const livestockList = [];
+        const rPrefix = Math.floor(Math.random() * 1000);
         for (let i = 1; i <= 15; i++) {
             const isBessie = (i === 1);
             const ls = await Livestock.create({
-                tagNumber: isBessie ? 'BESSIE-001' : `TAG-${1000 + i}`,
+                tagNumber: isBessie ? `BESSIE-${rPrefix}-001` : `TAG-${rPrefix}-${1000 + i}`,
                 name: isBessie ? 'Bessie' : `Cow ${i}`,
                 breed: breeds[i % breeds.length],
                 age: Math.floor(Math.random() * 5) + 1,
                 weight: Math.floor(Math.random() * 200) + 400,
                 gender: 'Female',
-                deviceId: isBessie ? 'ESP32_BESSIE' : `ESP32_${2000 + i}`,
+                deviceId: isBessie ? `ESP32_BESSIE_${rPrefix}` : `SIM-DEV-${rPrefix}-${1000 + i}`,
                 status: 'Active',
                 farmId: farm._id,
                 zoneId: zone._id

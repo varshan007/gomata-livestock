@@ -40,7 +40,7 @@ function Devices() {
             const token = localStorage.getItem('token');
             if (!token) return;
             try {
-                const res = await fetch('http://localhost:8000/api/devices', {
+                const res = await fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/devices`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const json = await res.json();

@@ -93,8 +93,8 @@ function MapIntelligence() {
             const headers = { Authorization: `Bearer ${token}` };
 
             const [lsRes, fRes] = await Promise.all([
-                fetch('http://localhost:8000/api/livestock', { headers }),
-                fetch('http://localhost:8000/api/farms', { headers })
+                fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/livestock`, { headers }),
+                fetch(`${process.env.REACT_APP_API_URL || 'https://gomata-backend.onrender.com/api'}/farms`, { headers })
             ]);
 
             const lsJson = await lsRes.json();
