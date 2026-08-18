@@ -117,10 +117,11 @@ async function seedProduction() {
         const bessie = livestockList.find(l => l.name === 'Bessie');
         await Alert.create({
             livestockId: bessie._id,
+            userId: adminUser._id,
             alertType: 'Health',
             severity: 'High',
             message: 'AI Early Warning: Consistent temperature rise detected over the last 6 hours (up to 40.5°C). High risk of fever/infection.',
-            status: 'New',
+            status: 'Pending',
             timestamp: now
         });
 
