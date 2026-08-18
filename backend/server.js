@@ -307,13 +307,12 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
-// Serve Frontend static files
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Provide a basic response for root/non-API requests instead of serving frontend files
 app.use((req, res, next) => {
   if (req.path.startsWith('/api/')) {
-    return next(); // Let API requests fall through to 404 handler
+    return next();
   }
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  res.status(200).json({ message: "GoMata API is running. Frontend is hosted separately." });
 });
 
 // Setup Error Handling Middleware
