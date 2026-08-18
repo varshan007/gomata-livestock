@@ -1,5 +1,5 @@
 const { Worker } = require('bullmq');
-const redisConnection = require('../config/redis');
+const Redis = require('ioredis');
 const { QUEUE_NAMES, queues } = require('../config/bullmq');
 
 /**
@@ -56,7 +56,7 @@ const telemetryFeatureWorker = new Worker(QUEUE_NAMES.FEATURE_TELEMETRY_EXTRACT,
     await queues.featureAggregate.add('aggregate-telemetry', featureEvent);
 
     return { status: 'processed', tenantId, animalId };
-}, { connection: redisConnection });
+}, { connection: new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false }) });
 
 telemetryFeatureWorker.on('failed', (job, err) => {
     console.error(`[telemetryFeatureWorker] Job failed: ${err.message}`);

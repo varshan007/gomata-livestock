@@ -1,5 +1,5 @@
 const { Worker } = require('bullmq');
-const redisConnection = require('../config/redis');
+const Redis = require('ioredis');
 const { QUEUE_NAMES, queues } = require('../config/bullmq');
 
 /**
@@ -34,7 +34,7 @@ const episodeFeatureWorker = new Worker(QUEUE_NAMES.FEATURE_EPISODE_EXTRACT, asy
     await queues.featureAggregate.add('aggregate-episode', featureEvent);
 
     return { status: 'processed', tenantId, animalId };
-}, { connection: redisConnection });
+}, { connection: new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false }) });
 
 episodeFeatureWorker.on('failed', (job, err) => {
     console.error(`[episodeFeatureWorker] Job failed: ${err.message}`);

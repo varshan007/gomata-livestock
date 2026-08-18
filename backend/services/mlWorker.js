@@ -10,7 +10,7 @@ const envFile = process.env.NODE_ENV === 'production'
 require('dotenv').config({ path: path.join(__dirname, '../', envFile) });
 
 const { Worker, QUEUE_NAMES } = require('../config/bullmq');
-const redisConnection = require('../config/redis');
+const Redis = require('ioredis');
 const mlServiceClient = require('./mlServiceClient');
 const logger = require('../utils/logger');
 
@@ -27,7 +27,7 @@ const mlWorker = new Worker(QUEUE_NAMES.ML_PREDICTIONS, async job => {
         logger.error({ action: 'ml_job_error', jobId: job.id, animalId: job.data.animalId, duration, result: 'error', error: error.message, service: 'bullmq' }, 'ML prediction job failed');
         throw error;
     }
-}, { connection: redisConnection });
+}, { connection: new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false }) });
 
 mlWorker.on('completed', job => {
     logger.info({ action: 'worker_job_completed', jobId: job.id, service: 'bullmq' }, 'Job completed in worker');

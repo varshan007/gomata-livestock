@@ -1,12 +1,13 @@
 const logger = require('../../../utils/logger');
 const { Queue, Worker } = require('bullmq');
+const Redis = require('ioredis');
 const Alert = require('../../../models/Alert');
 const User = require('../../../models/User');
 
 class StaffAssignmentAgent {
     constructor(bus) {
         this.bus = bus;
-        const connection = { host: '127.0.0.1', port: 6379 };
+        const connection = new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false });
 
         // Setup BullMQ Queue for sending escalations
         this.escalationQueue = new Queue('AlertEscalationQueue', { connection });

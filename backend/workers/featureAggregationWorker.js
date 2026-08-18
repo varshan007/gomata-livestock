@@ -1,5 +1,5 @@
 const { Worker } = require('bullmq');
-const redisConnection = require('../config/redis');
+const Redis = require('ioredis');
 const { QUEUE_NAMES } = require('../config/bullmq');
 const featureStoreClient = require('../services/featureStoreClient');
 
@@ -67,7 +67,7 @@ const featureAggregationWorker = new Worker(QUEUE_NAMES.FEATURE_AGGREGATE, async
 
     return { status: 'aggregated', tenantId, animalId, latency: currentVector.meta.latency_ms };
 
-}, { connection: redisConnection });
+}, { connection: new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null, enableReadyCheck: false }) });
 
 featureAggregationWorker.on('failed', (job, err) => {
     console.error(`[featureAggregationWorker] Job failed: ${err.message}`);
