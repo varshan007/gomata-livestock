@@ -92,11 +92,13 @@ async function seedProduction() {
 
                 sensorDocs.push({
                     livestockId: ls._id,
+                    deviceId: ls.deviceId,
                     timestamp: timestamp,
                     temperature: parseFloat(temp.toFixed(2)),
                     heartRate: parseFloat(hr.toFixed(2)),
                     activityLevel: 0.5,
-                    location: { latitude: 19.07 + Math.random()*0.01, longitude: 72.87 + Math.random()*0.01 },
+                    latitude: 19.07 + Math.random()*0.01,
+                    longitude: 72.87 + Math.random()*0.01,
                     batteryLevel: 90 - (hours % 24)
                 });
 
