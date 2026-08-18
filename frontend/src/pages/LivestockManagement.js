@@ -544,12 +544,6 @@ function LivestockManagement() {
                 <div className="mgt-content-split">
 
                     {/* LEFT COLUMN: Data Table Card */}
-                    {loading && <div className="loading-bar"></div>}
-            
-                    <div style={{ background: 'red', color: 'white', padding: '10px', textAlign: 'center', zIndex: 9999, fontWeight: 'bold' }}>
-                        DEBUG INFO: API URL = {process.env.REACT_APP_API_URL || 'Not Set'} | Animals = {livestock ? livestock.length : 'null'} | Status = {livestock ? 'Loaded' : 'Waiting'}
-                    </div>
-
                     <div className="mgt-table-card">
                         <div className="mgt-table-header">
                             <div className="mgt-search">
