@@ -10,7 +10,7 @@ const Livestock = require('../models/Livestock');
 const mongoose = require('mongoose');
 const { protect } = require('../middleware/authMiddleware');
 const OTP = require('../models/OTP');
-const { sendEmailOTP, sendPhoneOTP } = require('../utils/otpService');
+const { sendEmailOTP, sendPhoneOTP, verifyPhoneOTP } = require('../utils/otpService');
 const crypto = require('crypto');
 
 const generateToken = (id) => {
@@ -227,32 +227,16 @@ router.post('/send-otp', async (req, res) => {
     }
 
     try {
-        const otpCode = crypto.randomInt(100000, 999999).toString();
-
-        await OTP.deleteMany({ identifier });
-
-        await OTP.create({
-            identifier,
-            code: otpCode,
-            type
-        });
-
-        // 🔥 DEV MODE BYPASS (ALWAYS WORKS)
-        if (process.env.NODE_ENV !== "production") {
-            logger.info({ action: 'auth_send_otp', result: 'success', identifier: identifier, mode: 'dev', otp: otpCode }, `DEV MODE OTP for ${identifier}: ${otpCode}`);
-            return successResponse(res, {
-                message: "OTP generated (DEV MODE)",
-                otp: otpCode
-            });
-        }
-
-        // 🔥 PRODUCTION MODE
         let success = false;
 
         if (type === 'email') {
+            const otpCode = crypto.randomInt(100000, 999999).toString();
+            await OTP.deleteMany({ identifier });
+            await OTP.create({ identifier, code: otpCode, type });
             success = await sendEmailOTP(identifier, otpCode);
         } else if (type === 'phone' || type === 'mobile') {
-            success = await sendPhoneOTP(identifier, otpCode);
+            // Twilio Verify handles its own code generation and storage
+            success = await sendPhoneOTP(identifier);
         }
 
         if (success) {
@@ -278,13 +262,24 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     try {
-        const validOtp = await OTP.findOne({ identifier, code });
+        if (identifier.includes('@')) {
+            // Email Verification
+            const validOtp = await OTP.findOne({ identifier, code });
 
-        if (validOtp) {
-            await OTP.deleteOne({ _id: validOtp._id }); // Single-use!
-            return successResponse(res, { message: "OTP verified successfully" });
+            if (validOtp) {
+                await OTP.deleteOne({ _id: validOtp._id }); // Single-use!
+                return successResponse(res, { message: "Email OTP verified successfully" });
+            } else {
+                return errorResponse(res, 'INVALID_OTP', 'Invalid or expired Email OTP', 400);
+            }
         } else {
-            return errorResponse(res, 'INVALID_OTP', 'Invalid or expired OTP', 400);
+            // Mobile Verification via Twilio Verify
+            const isValid = await verifyPhoneOTP(identifier, code);
+            if (isValid) {
+                return successResponse(res, { message: "Mobile OTP verified successfully" });
+            } else {
+                return errorResponse(res, 'INVALID_OTP', 'Invalid or expired Mobile OTP', 400);
+            }
         }
     } catch (error) {
         return errorResponse(res, 'OTP_VERIFICATION_FAILED', 'OTP verification failed', 500, error.message);

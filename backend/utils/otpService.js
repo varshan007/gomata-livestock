@@ -15,12 +15,14 @@ if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
     logger.warn("⚠️ Twilio credentials missing in .env. SMS dispatch will only be mocked.");
 }
 
-// Ensure Nodemailer transporter exists (Ethereal for testing if no user creds)
+// Ensure Nodemailer transporter exists
 let transporter;
 const initTransporter = async () => {
     if (process.env.SMTP_HOST && process.env.SMTP_USER) {
         transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT || 587,
+            secure: false, // true for 465, false for other ports
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
@@ -28,26 +30,12 @@ const initTransporter = async () => {
         });
         logger.info("✅ Custom SMTP Transporter Initialized");
     } else {
-        // Fallback to Ethereal free testing account
-        let testAccount = await nodemailer.createTestAccount();
-        transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: testAccount.user, // generated ethereal user
-                pass: testAccount.pass, // generated ethereal password
-            },
-        });
-        logger.info("⚠️ Ethereal Test SMTP Transporter Initialized (for testing)");
+        logger.warn("⚠️ Custom SMTP credentials missing. Email dispatch will be disabled or mocked.");
     }
 };
 
 initTransporter();
 
-/**
- * Sends a 6-digit OTP via Email
- */
 const sendEmailOTP = async (email, otpCode) => {
     if (!transporter) {
         logger.error("Transporter not initialized yet.");
@@ -74,10 +62,6 @@ const sendEmailOTP = async (email, otpCode) => {
         });
 
         logger.info("✅ Email sent: %s", info.messageId);
-        // If using Ethereal, log the preview URL
-        if (info.messageId && nodemailer.getTestMessageUrl(info)) {
-            logger.info("-> 📧 Preview Ethereal Email Here: %s", nodemailer.getTestMessageUrl(info));
-        }
         return true;
     } catch (error) {
         logger.error("❌ Email dispatch failed:", error);
@@ -85,44 +69,63 @@ const sendEmailOTP = async (email, otpCode) => {
     }
 };
 
-/**
- * Sends a 6-digit OTP via SMS Using Twilio
- */
-const sendPhoneOTP = async (phone, otpCode) => {
-    if (!twilioClient) {
-        logger.warn(`[MOCK SMS] Would send SMS to ${phone} with code: ${otpCode}`);
-        return true; // Pretend it worked if Twilio is missing
+const sendPhoneOTP = async (phone) => {
+    if (!twilioClient || !process.env.TWILIO_VERIFY_SERVICE_SID) {
+        logger.warn(`[MOCK SMS] Twilio not configured. Would send SMS to ${phone}`);
+        return true;
     }
 
     try {
-        // Ensure phone has country code. Assuming India +91 if none provided logic could go here, 
-        // but user input should ideally be standardized or we prepend the country code.
         let formattedPhone = phone;
         if (!formattedPhone.startsWith('+')) {
-            // Assume Indian number by default for this app and strip any leading zeros
             formattedPhone = '+91' + formattedPhone.replace(/^0+/, '');
             logger.info(`Auto-formatted phone number to E.164 standard: ${formattedPhone}`);
         }
 
-        const message = await twilioClient.messages.create({
-            body: `Your GoMata Verification Code is: ${otpCode}. It expires in 5 minutes.`,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: formattedPhone
-        });
+        const verification = await twilioClient.verify.v2
+            .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+            .verifications.create({ to: formattedPhone, channel: 'sms' });
 
-        logger.info(`✅ SMS sent via Twilio successfully. SID: ${message.sid}`);
+        logger.info(`✅ SMS sent via Twilio Verify successfully. Status: ${verification.status}`);
         return true;
     } catch (error) {
-        logger.warn("\n==============================================");
-        logger.warn("🚨 TWILIO TRIAL LIMIT EXCEEDED 🚨");
-        logger.warn("Bypassing SMS requirement. Please use this OTP code:");
-        logger.warn(`===> ${otpCode} <===`);
-        logger.warn("==============================================\n");
-        return true; // We return true to prevent blocking the user pipeline
+        logger.error("❌ Twilio Verify dispatch failed:", error);
+        return false;
+    }
+};
+
+const verifyPhoneOTP = async (phone, code) => {
+    if (!twilioClient || !process.env.TWILIO_VERIFY_SERVICE_SID) {
+        logger.warn(`[MOCK SMS] Bypassing Twilio verify for ${phone}`);
+        return true;
+    }
+
+    try {
+        let formattedPhone = phone;
+        if (!formattedPhone.startsWith('+')) {
+            formattedPhone = '+91' + formattedPhone.replace(/^0+/, '');
+        }
+
+        const verificationCheck = await twilioClient.verify.v2
+            .services(process.env.TWILIO_VERIFY_SERVICE_SID)
+            .verificationChecks.create({ to: formattedPhone, code });
+
+        if (verificationCheck.status === 'approved') {
+            logger.info(`✅ SMS OTP verified via Twilio!`);
+            return true;
+        } else {
+            logger.warn(`❌ Twilio Verify rejected OTP. Status: ${verificationCheck.status}`);
+            return false;
+        }
+    } catch (error) {
+        logger.error("❌ Twilio Verify check failed:", error);
+        return false;
     }
 };
 
 module.exports = {
     sendEmailOTP,
-    sendPhoneOTP
+    sendPhoneOTP,
+    verifyPhoneOTP,
+    twilioClient
 };
