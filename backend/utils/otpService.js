@@ -18,11 +18,9 @@ if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
 // Ensure Nodemailer transporter exists
 let transporter;
 const initTransporter = async () => {
-    if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
         transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT || 587,
-            secure: false, // true for 465, false for other ports
+            service: 'gmail',
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
