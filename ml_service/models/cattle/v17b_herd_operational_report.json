@@ -1,0 +1,16 @@
+{
+  "version": "17.2",
+  "intensity_mae": 0.09178818365558981,
+  "intensity_corr": 0.9065740112049365,
+  "outbreak_auc": 0.998125,
+  "slope_mae": 0.12145816040458157,
+  "slope_corr": 0.4604093117753427,
+  "peak_day_mae": 0.7995343327522277,
+  "peak_size_mae": 0.1829010362736881,
+  "stability_corr": 0.6316571586790524,
+  "breakdown_auc": 0.9866666666666668,
+  "vaccination_R0_reduction": 0.11671027845274225,
+  "n_eval_farms": 100,
+  "n_outbreaks": 80,
+  "n_breakdowns": 70
+}

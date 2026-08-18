@@ -1,0 +1,9 @@
+{
+  "watchlist_th": 0.45,
+  "xgb_th": 0.8,
+  "fused_th": 0.75,
+  "pct_24h": 21.052631578947366,
+  "fp_per_week": 3.840479999999994,
+  "pct_reduction": 86.54435002597646,
+  "eval_eps": 19
+}

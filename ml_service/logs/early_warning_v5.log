@@ -1,0 +1,14 @@
+2026-02-28 23:47:01,510 [INFO] ============================================================
+2026-02-28 23:47:01,511 [INFO] ⏱ Phase 6 Part 3 — Early Detection Capability
+2026-02-28 23:47:01,511 [INFO] ============================================================
+2026-02-28 23:47:02,891 [INFO] Fused: 185000 rows
+2026-02-28 23:47:04,078 [INFO] Combined animal+time split:
+2026-02-28 23:47:04,081 [INFO]   Train animals: 74, Test animals: 19
+2026-02-28 23:47:04,082 [INFO]   Train: 102980 rows (998 positive, 1.0%)
+2026-02-28 23:47:04,082 [INFO]   Test:  82020 rows (3035 positive, 3.7%)
+2026-02-28 23:47:04,082 [INFO]     ├ Temporal test (known animals, future time): 44182
+2026-02-28 23:47:04,082 [INFO]     └ Unseen animal test: 37838
+2026-02-28 23:47:04,184 [INFO] Test: 82020 rows, 3035 pos, 2418 ticks sev≥2
+2026-02-28 23:47:04,312 [INFO]   θ=0.5: 51 episodes, 6% ≥24h, 8% ≥12h, FP/wk=0.34
+2026-02-28 23:47:04,438 [INFO]   θ=0.7: 51 episodes, 0% ≥24h, 0% ≥12h, FP/wk=0.00
+2026-02-28 23:47:04,565 [INFO]   θ=0.85: 51 episodes, 0% ≥24h, 0% ≥12h, FP/wk=0.00

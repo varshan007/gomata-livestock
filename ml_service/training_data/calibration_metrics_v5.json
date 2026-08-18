@@ -1,0 +1,14 @@
+{
+  "prevalence": 0.037003,
+  "pr_auc": 0.6449,
+  "roc_auc": 0.9239,
+  "pr_lift": 17.43,
+  "pr_lift_pass": true,
+  "ece": 0.028081,
+  "mce": 0.665491,
+  "brier_score": 0.027603,
+  "ece_pass": true,
+  "overconfident_high_bins": true,
+  "test_size": 82020,
+  "test_positive": 3035
+}

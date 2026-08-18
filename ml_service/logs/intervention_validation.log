@@ -1,0 +1,139 @@
+2026-02-28 22:24:16,422 [INFO] ============================================================
+2026-02-28 22:24:16,422 [INFO] 🧬 GoMata Intervention Validation Engine — v1
+2026-02-28 22:24:16,422 [INFO]    Cows: 50, Runs/scenario: 5
+2026-02-28 22:24:16,422 [INFO] ============================================================
+2026-02-28 22:24:16,422 [INFO] 
+── Scenario: Early Treatment (sev=1) ──
+2026-02-28 22:24:16,422 [INFO]   Run 1/5...
+2026-02-28 22:24:18,448 [INFO]     Episodes: 5, Avg Duration: 1.3h, Avg Milk Loss: 51.97
+2026-02-28 22:24:18,448 [INFO]   Run 2/5...
+2026-02-28 22:24:20,412 [INFO]     Episodes: 2, Avg Duration: 1.2h, Avg Milk Loss: 68.5
+2026-02-28 22:24:20,412 [INFO]   Run 3/5...
+2026-02-28 22:24:22,320 [INFO]     Episodes: 5, Avg Duration: 1.6h, Avg Milk Loss: 165.3
+2026-02-28 22:24:22,321 [INFO]   Run 4/5...
+2026-02-28 22:24:24,388 [INFO]     Episodes: 2, Avg Duration: 1.4h, Avg Milk Loss: 113.46
+2026-02-28 22:24:24,388 [INFO]   Run 5/5...
+2026-02-28 22:24:26,316 [INFO]     Episodes: 7, Avg Duration: 1.6h, Avg Milk Loss: 98.64
+2026-02-28 22:24:26,316 [INFO] 
+── Scenario: Late Treatment (sev=3) ──
+2026-02-28 22:24:26,317 [INFO]   Run 1/5...
+2026-02-28 22:24:28,261 [INFO]     Episodes: 7, Avg Duration: 6.4h, Avg Milk Loss: 338.01
+2026-02-28 22:24:28,263 [INFO]   Run 2/5...
+2026-02-28 22:24:30,150 [INFO]     Episodes: 3, Avg Duration: 6.6h, Avg Milk Loss: 553.7
+2026-02-28 22:24:30,150 [INFO]   Run 3/5...
+2026-02-28 22:24:32,051 [INFO]     Episodes: 2, Avg Duration: 5.7h, Avg Milk Loss: 659.42
+2026-02-28 22:24:32,051 [INFO]   Run 4/5...
+2026-02-28 22:24:34,024 [INFO]     Episodes: 3, Avg Duration: 7h, Avg Milk Loss: 393.74
+2026-02-28 22:24:34,024 [INFO]   Run 5/5...
+2026-02-28 22:24:36,032 [INFO]     Episodes: 3, Avg Duration: 6.1h, Avg Milk Loss: 436.19
+2026-02-28 22:24:36,473 [INFO]   Plot saved: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/intervention_comparison.png
+2026-02-28 22:24:36,479 [INFO] 
+── Intervention Comparison Table ──
+2026-02-28 22:24:36,483 [INFO] 
+               Scenario  Trigger Severity  Avg Duration (hours)  Avg Duration (days)  Avg Milk Loss  Avg Max Severity  Episodes  Runs
+Early Treatment (sev=1)                 1                   1.4                  0.1          99.57               1.0       4.2     5
+ Late Treatment (sev=3)                 3                   6.4                  0.3         476.21               3.0       3.6     5
+2026-02-28 22:24:36,483 [INFO] 
+── Treatment Impact Analysis ──
+2026-02-28 22:24:36,483 [INFO]   Early treatment milk loss: 99.57
+2026-02-28 22:24:36,483 [INFO]   Late treatment milk loss:  476.21
+2026-02-28 22:24:36,483 [INFO]   Difference: 79.1%  (target ≥20%)
+2026-02-28 22:24:36,483 [INFO]   Early duration: 1.4h
+2026-02-28 22:24:36,483 [INFO]   Late duration:  6.4h
+2026-02-28 22:24:36,483 [INFO] 
+  VERDICT: ✅ PASS
+2026-02-28 22:24:36,483 [INFO]     Milk loss diff ≥20%: ✅ (79.1%)
+2026-02-28 22:24:36,483 [INFO]     Late duration > early: ✅
+2026-02-28 22:24:36,483 [INFO] 
+🟢 INTERVENTION VALIDATION PASSED — Treatment dynamics are causal
+2026-02-28 22:24:36,483 [INFO] ============================================================
+2026-02-28 22:32:45,807 [INFO] ============================================================
+2026-02-28 22:32:45,807 [INFO] 🧬 GoMata Intervention Validation Engine — v1
+2026-02-28 22:32:45,807 [INFO]    Cows: 50, Runs/scenario: 3
+2026-02-28 22:32:45,807 [INFO] ============================================================
+2026-02-28 22:32:45,807 [INFO] 
+── Scenario: Early Treatment (sev=1) ──
+2026-02-28 22:32:45,807 [INFO]   Run 1/3...
+2026-02-28 22:32:47,578 [INFO]     Episodes: 1, Avg Duration: 1.5h, Avg Milk Loss: 233.55
+2026-02-28 22:32:47,578 [INFO]   Run 2/3...
+2026-02-28 22:32:49,329 [INFO]     Episodes: 0, Avg Duration: 0h, Avg Milk Loss: 0
+2026-02-28 22:32:49,329 [INFO]   Run 3/3...
+2026-02-28 22:32:51,137 [INFO]     Episodes: 2, Avg Duration: 1.2h, Avg Milk Loss: 86.77
+2026-02-28 22:32:51,137 [INFO] 
+── Scenario: Late Treatment (sev=3) ──
+2026-02-28 22:32:51,137 [INFO]   Run 1/3...
+2026-02-28 22:32:52,921 [INFO]     Episodes: 4, Avg Duration: 6h, Avg Milk Loss: 435.8
+2026-02-28 22:32:52,921 [INFO]   Run 2/3...
+2026-02-28 22:32:54,735 [INFO]     Episodes: 5, Avg Duration: 6.4h, Avg Milk Loss: 401.27
+2026-02-28 22:32:54,735 [INFO]   Run 3/3...
+2026-02-28 22:32:56,499 [INFO]     Episodes: 4, Avg Duration: 6h, Avg Milk Loss: 348.61
+2026-02-28 22:32:56,832 [INFO]   Plot saved: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/intervention_comparison.png
+2026-02-28 22:32:56,835 [INFO] 
+── Intervention Comparison Table ──
+2026-02-28 22:32:56,836 [INFO] 
+               Scenario  Trigger Severity  Avg Duration (hours)  Avg Duration (days)  Avg Milk Loss  Avg Max Severity  Episodes  Runs
+Early Treatment (sev=1)                 1                   0.9                  0.0         106.77              0.67       1.0     3
+ Late Treatment (sev=3)                 3                   6.1                  0.3         395.23              3.00       4.3     3
+2026-02-28 22:32:56,836 [INFO] 
+── Treatment Impact Analysis ──
+2026-02-28 22:32:56,836 [INFO]   Early treatment milk loss: 106.77
+2026-02-28 22:32:56,836 [INFO]   Late treatment milk loss:  395.23
+2026-02-28 22:32:56,836 [INFO]   Difference: 73.0%  (target ≥20%)
+2026-02-28 22:32:56,836 [INFO]   Early duration: 0.9h
+2026-02-28 22:32:56,836 [INFO]   Late duration:  6.1h
+2026-02-28 22:32:56,836 [INFO] 
+  VERDICT: ✅ PASS
+2026-02-28 22:32:56,836 [INFO]     Milk loss diff ≥20%: ✅ (73.0%)
+2026-02-28 22:32:56,836 [INFO]     Late duration > early: ✅
+2026-02-28 22:32:56,836 [INFO] 
+🟢 INTERVENTION VALIDATION PASSED — Treatment dynamics are causal
+2026-02-28 22:32:56,836 [INFO] ============================================================
+2026-02-28 22:57:06,278 [INFO] ============================================================
+2026-02-28 22:57:06,278 [INFO] 🧬 GoMata Intervention Validation Engine — v1
+2026-02-28 22:57:06,278 [INFO]    Cows: 50, Runs/scenario: 5
+2026-02-28 22:57:06,278 [INFO] ============================================================
+2026-02-28 22:57:06,278 [INFO] 
+── Scenario: Early Treatment (sev=1) ──
+2026-02-28 22:57:06,278 [INFO]   Run 1/5...
+2026-02-28 22:57:08,220 [INFO]     Episodes: 3, Avg Duration: 1.4h, Avg Milk Loss: 41.53
+2026-02-28 22:57:08,220 [INFO]   Run 2/5...
+2026-02-28 22:57:10,196 [INFO]     Episodes: 1, Avg Duration: 1.6h, Avg Milk Loss: 0.69
+2026-02-28 22:57:10,196 [INFO]   Run 3/5...
+2026-02-28 22:57:12,160 [INFO]     Episodes: 1, Avg Duration: 1.1h, Avg Milk Loss: 18.56
+2026-02-28 22:57:12,160 [INFO]   Run 4/5...
+2026-02-28 22:57:14,190 [INFO]     Episodes: 3, Avg Duration: 1.8h, Avg Milk Loss: 54.61
+2026-02-28 22:57:14,191 [INFO]   Run 5/5...
+2026-02-28 22:57:16,347 [INFO]     Episodes: 1, Avg Duration: 2h, Avg Milk Loss: 82.83
+2026-02-28 22:57:16,348 [INFO] 
+── Scenario: Late Treatment (sev=3) ──
+2026-02-28 22:57:16,348 [INFO]   Run 1/5...
+2026-02-28 22:57:18,580 [INFO]     Episodes: 5, Avg Duration: 5.9h, Avg Milk Loss: 389.28
+2026-02-28 22:57:18,581 [INFO]   Run 2/5...
+2026-02-28 22:57:20,487 [INFO]     Episodes: 4, Avg Duration: 6.8h, Avg Milk Loss: 558.47
+2026-02-28 22:57:20,487 [INFO]   Run 3/5...
+2026-02-28 22:57:22,455 [INFO]     Episodes: 2, Avg Duration: 6h, Avg Milk Loss: 377.19
+2026-02-28 22:57:22,455 [INFO]   Run 4/5...
+2026-02-28 22:57:24,346 [INFO]     Episodes: 0, Avg Duration: 0h, Avg Milk Loss: 0
+2026-02-28 22:57:24,346 [INFO]   Run 5/5...
+2026-02-28 22:57:26,336 [INFO]     Episodes: 2, Avg Duration: 5.8h, Avg Milk Loss: 267.54
+2026-02-28 22:57:26,806 [INFO]   Plot saved: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/intervention_comparison.png
+2026-02-28 22:57:26,813 [INFO] 
+── Intervention Comparison Table ──
+2026-02-28 22:57:26,819 [INFO] 
+               Scenario  Trigger Severity  Avg Duration (hours)  Avg Duration (days)  Avg Milk Loss  Avg Max Severity  Episodes  Runs
+Early Treatment (sev=1)                 1                   1.6                  0.1          39.64               1.0       1.8     5
+ Late Treatment (sev=3)                 3                   4.9                  0.2         318.50               2.4       2.6     5
+2026-02-28 22:57:26,819 [INFO] 
+── Treatment Impact Analysis ──
+2026-02-28 22:57:26,819 [INFO]   Early treatment milk loss: 39.64
+2026-02-28 22:57:26,819 [INFO]   Late treatment milk loss:  318.50
+2026-02-28 22:57:26,819 [INFO]   Difference: 87.6%  (target ≥20%)
+2026-02-28 22:57:26,819 [INFO]   Early duration: 1.6h
+2026-02-28 22:57:26,819 [INFO]   Late duration:  4.9h
+2026-02-28 22:57:26,819 [INFO] 
+  VERDICT: ✅ PASS
+2026-02-28 22:57:26,819 [INFO]     Milk loss diff ≥20%: ✅ (87.6%)
+2026-02-28 22:57:26,819 [INFO]     Late duration > early: ✅
+2026-02-28 22:57:26,819 [INFO] 
+🟢 INTERVENTION VALIDATION PASSED — Treatment dynamics are causal
+2026-02-28 22:57:26,819 [INFO] ============================================================

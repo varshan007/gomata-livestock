@@ -1,0 +1,35 @@
+{
+  "version": "21.0",
+  "architecture": "NodeEncoder \u2192 ResGAT\u00d72(96d, 4h) \u2192 AttentionPool \u2192 MLP Heads",
+  "node_dim": 22,
+  "gat_dim": 96,
+  "n_gat_heads": 4,
+  "n_gat_layers": 2,
+  "max_cows": 150,
+  "t_steps": 28,
+  "loss_weights": {
+    "outbreak": 1.0,
+    "breakdown": 1.0,
+    "intensity": 1.0,
+    "HSI": 1.0,
+    "delta_R0": 3.0,
+    "vaccination": 2.0
+  },
+  "training": {
+    "epochs_used": 9,
+    "early_stopped": true,
+    "lr": 0.0003,
+    "warmup": 2,
+    "batch_size": 8,
+    "num_farms": 2000,
+    "seed": 42
+  },
+  "metrics": {
+    "dr0_pearson": 0.9809296131134033,
+    "vacc_spearman": 0.9457702248298842,
+    "outbreak_auc": 0.9902649538338018,
+    "breakdown_auc": 0.9629700324489406,
+    "intensity_corr": 0.9325725144794995,
+    "hsi_corr": 0.9323093326673562
+  }
+}

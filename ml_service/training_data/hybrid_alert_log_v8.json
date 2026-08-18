@@ -1,0 +1,17 @@
+{
+  "hybrid_alerts": {
+    "episodes": 51,
+    "detected": 18,
+    "pct_24h": 15.7,
+    "pct_12h": 23.5,
+    "pct_6h": 25.5,
+    "avg_lead_h": 22.0,
+    "fp_per_week": 24.75,
+    "fp_total": 1007,
+    "alerts": {
+      "clinical_p1": 1183,
+      "early_warning_p2": 0,
+      "monitor_p3": 2036
+    },
+    "pass_24h": false,
+    "pass_fp": 

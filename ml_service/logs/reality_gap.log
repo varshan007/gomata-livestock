@@ -1,0 +1,342 @@
+2026-02-28 22:24:58,150 [INFO] ============================================================
+2026-02-28 22:24:58,151 [INFO] 🧬 GoMata Reality Gap Testing Engine — v1
+2026-02-28 22:24:58,151 [INFO] ============================================================
+2026-02-28 22:24:58,152 [INFO] 
+── Loading validation_clean_v3 ──
+2026-02-28 22:24:59,495 [INFO] Loaded 50000 v3 records (['temp_current', 'temp_6h_avg', 'temp_6h_std', 'temp_6h_slope', 'temp_zscore', 'hr_current', 'hr_6h_avg', 'hr_6h_std', 'hr_6h_slope', 'activity_current']...)
+2026-02-28 22:24:59,495 [INFO] 
+── Running V3 Reality Gap Scenarios ──
+2026-02-28 22:25:02,139 [INFO] Clean v3 metrics: {'disease_auc': 0.9829541809911875, 'severity_mae': 0.37802653333333336, 'forecast_rmse': np.float64(0.005434450299075801), 'milk_monotonic': True, 'milk_loss_error': 0}
+2026-02-28 22:25:02,139 [INFO]   Running scenario: Sensor Drift (all)
+2026-02-28 22:25:02,205 [INFO]   Running scenario: Temp Drift Only
+2026-02-28 22:25:02,239 [INFO]   Running scenario: HR Drift Only
+2026-02-28 22:25:02,274 [INFO]   Running scenario: Missing 5%
+2026-02-28 22:25:02,314 [INFO]   Running scenario: Missing 15%
+2026-02-28 22:25:02,354 [INFO]   Running scenario: Missing 30%
+2026-02-28 22:25:02,395 [INFO]   Running scenario: Block Missing 6h
+2026-02-28 22:25:02,436 [INFO]   Running scenario: Device Failure (temp)
+2026-02-28 22:25:02,463 [INFO]   Running scenario: Device Failure (hr)
+2026-02-28 22:25:02,495 [INFO]   Running scenario: Temporal Delay 30min
+2026-02-28 22:25:02,553 [INFO]   Running scenario: Temporal Delay 2h
+2026-02-28 22:25:02,606 [INFO]   Running scenario: Temporal Delay 6h
+2026-02-28 22:25:02,662 [INFO] Saved degradation table: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/reality_gap_v3.csv
+2026-02-28 22:25:02,663 [INFO] 
+── V3 Degradation Table ──
+2026-02-28 22:25:02,665 [INFO] 
+             Scenario          Metric  Clean  Noisy  % Change
+       Clean Baseline     disease_auc 0.9830 0.9830      0.00
+       Clean Baseline    severity_mae 0.3780 0.3780      0.00
+       Clean Baseline   forecast_rmse 0.0054 0.0054      0.00
+       Clean Baseline milk_loss_error 0.0000 0.0000      0.00
+   Sensor Drift (all)     disease_auc 0.9830 0.9830      0.00
+   Sensor Drift (all)    severity_mae 0.3780 2.9302    675.12
+   Sensor Drift (all)   forecast_rmse 0.0054 0.0054      0.00
+   Sensor Drift (all) milk_loss_error 0.0000 0.0000      0.00
+      Temp Drift Only     disease_auc 0.9830 0.9830      0.00
+      Temp Drift Only    severity_mae 0.3780 2.9301    675.10
+      Temp Drift Only   forecast_rmse 0.0054 0.0054      0.00
+      Temp Drift Only milk_loss_error 0.0000 0.0000      0.00
+        HR Drift Only     disease_auc 0.9830 0.9830      0.00
+        HR Drift Only    severity_mae 0.3780 0.3780      0.00
+        HR Drift Only   forecast_rmse 0.0054 0.0054      0.00
+        HR Drift Only milk_loss_error 0.0000 0.0000      0.00
+           Missing 5%     disease_auc 0.9830 0.9623     -2.11
+           Missing 5%    severity_mae 0.3780 0.3782      0.04
+           Missing 5%   forecast_rmse 0.0054 0.0053     -2.58
+           Missing 5% milk_loss_error 0.0000 0.0000      0.00
+          Missing 15%     disease_auc 0.9830 0.9224     -6.16
+          Missing 15%    severity_mae 0.3780 0.3788      0.20
+          Missing 15%   forecast_rmse 0.0054 0.0050     -7.86
+          Missing 15% milk_loss_error 0.0000 0.0000      0.00
+          Missing 30%     disease_auc 0.9830 0.8487    -13.66
+          Missing 30%    severity_mae 0.3780 0.3796      0.41
+          Missing 30%   forecast_rmse 0.0054 0.0045    -16.63
+          Missing 30% milk_loss_error 0.0000 0.0000      0.00
+     Block Missing 6h     disease_auc 0.9830 0.9816     -0.14
+     Block Missing 6h    severity_mae 0.3780 0.3790      0.26
+     Block Missing 6h   forecast_rmse 0.0054 0.0054     -0.39
+     Block Missing 6h milk_loss_error 0.0000 0.0000      0.00
+Device Failure (temp)     disease_auc 0.9830 0.9830      0.00
+Device Failure (temp)    severity_mae 0.3780 0.0000   -100.00
+Device Failure (temp)   forecast_rmse 0.0054 0.0000   -100.00
+Device Failure (temp) milk_loss_error 0.0000 0.0000      0.00
+  Device Failure (hr)     disease_auc 0.9830 0.9830      0.00
+  Device Failure (hr)    severity_mae 0.3780 0.3780      0.00
+  Device Failure (hr)   forecast_rmse 0.0054 0.0054      0.00
+  Device Failure (hr) milk_loss_error 0.0000 0.0000      0.00
+ Temporal Delay 30min     disease_auc 0.9830 0.5857    -40.41
+ Temporal Delay 30min    severity_mae 0.3780 0.3846      1.74
+ Temporal Delay 30min   forecast_rmse 0.0054 0.0054     -0.00
+ Temporal Delay 30min milk_loss_error 0.0000 0.0000      0.00
+    Temporal Delay 2h     disease_auc 0.9830 0.5699    -42.02
+    Temporal Delay 2h    severity_mae 0.3780 0.3847      1.76
+    Temporal Delay 2h   forecast_rmse 0.0054 0.0054      0.00
+    Temporal Delay 2h milk_loss_error 0.0000 0.0000      0.00
+    Temporal Delay 6h     disease_auc 0.9830 0.5625    -42.77
+    Temporal Delay 6h    severity_mae 0.3780 0.3848      1.79
+    Temporal Delay 6h   forecast_rmse 0.0054 0.0054      0.02
+    Temporal Delay 6h milk_loss_error 0.0000 0.0000      0.00
+2026-02-28 22:25:02,665 [INFO] 
+── V3 Pass/Fail Verdicts ──
+2026-02-28 22:25:02,666 [INFO] 
+             Scenario  AUC Drop %  RMSE Increase %  Milk Monotonic   VERDICT
+   Sensor Drift (all)        0.00             0.00            True    ✅ PASS
+      Temp Drift Only        0.00             0.00            True    ✅ PASS
+        HR Drift Only        0.00             0.00            True    ✅ PASS
+           Missing 5%        2.11            -2.58            True    ✅ PASS
+          Missing 15%        6.16            -7.86            True    ✅ PASS
+          Missing 30%       13.66           -16.63            True    ✅ PASS
+     Block Missing 6h        0.14            -0.39            True    ✅ PASS
+Device Failure (temp)        0.00          -100.00            True    ✅ PASS
+  Device Failure (hr)        0.00             0.00            True    ✅ PASS
+ Temporal Delay 30min       40.41            -0.00            True ❌ FRAGILE
+    Temporal Delay 2h       42.02             0.00            True ❌ FRAGILE
+    Temporal Delay 6h       42.77             0.02            True ❌ FRAGILE
+2026-02-28 22:25:02,666 [INFO] 
+── Loading validation_clean_v4 ──
+2026-02-28 22:25:04,853 [INFO] Loaded 50000 v4 records
+2026-02-28 22:25:04,853 [INFO] 
+── Running V4 Reality Gap Scenarios ──
+2026-02-28 22:25:04,891 [INFO] Clean v4 metrics: {'disease_auc': 0.9129779392780335, 'severity_mae': 0.4398798666666666, 'forecast_rmse': np.float64(0.005595195358664971), 'milk_monotonic': False, 'milk_loss_error': np.float64(2.184496162859012)}
+2026-02-28 22:25:04,892 [INFO]   Running scenario: Sensor Drift (all)
+2026-02-28 22:25:04,994 [INFO]   Running scenario: Missing 5%
+2026-02-28 22:25:05,077 [INFO]   Running scenario: Missing 15%
+2026-02-28 22:25:05,148 [INFO]   Running scenario: Missing 30%
+2026-02-28 22:25:05,221 [INFO]   Running scenario: Temporal Delay 2h
+2026-02-28 22:25:05,357 [INFO]   Running scenario: Temporal Delay 6h
+2026-02-28 22:25:05,485 [INFO]   Running scenario: Vacc Misreporting 10%
+2026-02-28 22:25:05,554 [INFO]   Running scenario: Antibiotic Delay 12h
+2026-02-28 22:25:05,632 [INFO]   Running scenario: Feed Change Missing 10%
+2026-02-28 22:25:06,112 [INFO] Saved degradation table: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/reality_gap_v4.csv
+2026-02-28 22:25:06,114 [INFO] 
+── V4 Degradation Table ──
+2026-02-28 22:25:06,120 [INFO] 
+               Scenario          Metric  Clean  Noisy  % Change
+    Clean Baseline (v4)     disease_auc 0.9130 0.9130      0.00
+    Clean Baseline (v4)    severity_mae 0.4399 0.4399      0.00
+    Clean Baseline (v4)   forecast_rmse 0.0056 0.0056      0.00
+    Clean Baseline (v4) milk_loss_error 2.1845 2.1845      0.00
+     Sensor Drift (all)     disease_auc 0.9130 0.9130      0.00
+     Sensor Drift (all)    severity_mae 0.4399 2.8875    556.43
+     Sensor Drift (all)   forecast_rmse 0.0056 0.0056      0.00
+     Sensor Drift (all) milk_loss_error 2.1845 2.1845      0.00
+             Missing 5%     disease_auc 0.9130 0.8958     -1.88
+             Missing 5%    severity_mae 0.4399 0.4403      0.09
+             Missing 5%   forecast_rmse 0.0056 0.0055     -2.48
+             Missing 5% milk_loss_error 2.1845 2.1845      0.00
+            Missing 15%     disease_auc 0.9130 0.8664     -5.10
+            Missing 15%    severity_mae 0.4399 0.4413      0.31
+            Missing 15%   forecast_rmse 0.0056 0.0052     -7.93
+            Missing 15% milk_loss_error 2.1845 2.1845      0.00
+            Missing 30%     disease_auc 0.9130 0.8133    -10.91
+            Missing 30%    severity_mae 0.4399 0.4417      0.41
+            Missing 30%   forecast_rmse 0.0056 0.0047    -16.47
+            Missing 30% milk_loss_error 2.1845 2.1845      0.00
+      Temporal Delay 2h     disease_auc 0.9130 0.5101    -44.13
+      Temporal Delay 2h    severity_mae 0.4399 0.4477      1.79
+      Temporal Delay 2h   forecast_rmse 0.0056 0.0056      0.30
+      Temporal Delay 2h milk_loss_error 2.1845 2.1845      0.00
+      Temporal Delay 6h     disease_auc 0.9130 0.5278    -42.18
+      Temporal Delay 6h    severity_mae 0.4399 0.4472      1.66
+      Temporal Delay 6h   forecast_rmse 0.0056 0.0056      0.91
+      Temporal Delay 6h milk_loss_error 2.1845 2.1845      0.00
+  Vacc Misreporting 10%     disease_auc 0.9130 0.9130      0.00
+  Vacc Misreporting 10%    severity_mae 0.4399 0.4399      0.00
+  Vacc Misreporting 10%   forecast_rmse 0.0056 0.0056      0.00
+  Vacc Misreporting 10% milk_loss_error 2.1845 2.1845      0.00
+   Antibiotic Delay 12h     disease_auc 0.9130 0.9130      0.00
+   Antibiotic Delay 12h    severity_mae 0.4399 0.4399      0.00
+   Antibiotic Delay 12h   forecast_rmse 0.0056 0.0056      0.00
+   Antibiotic Delay 12h milk_loss_error 2.1845 2.1845      0.00
+Feed Change Missing 10%     disease_auc 0.9130 0.9130      0.00
+Feed Change Missing 10%    severity_mae 0.4399 0.4399      0.00
+Feed Change Missing 10%   forecast_rmse 0.0056 0.0056      0.00
+Feed Change Missing 10% milk_loss_error 2.1845 2.1845      0.00
+2026-02-28 22:25:06,120 [INFO] 
+── V4 Pass/Fail Verdicts ──
+2026-02-28 22:25:06,123 [INFO] 
+               Scenario  AUC Drop %  RMSE Increase %  Milk Monotonic   VERDICT
+     Sensor Drift (all)        0.00             0.00           False ❌ FRAGILE
+             Missing 5%        1.88            -2.48           False ❌ FRAGILE
+            Missing 15%        5.10            -7.93           False ❌ FRAGILE
+            Missing 30%       10.91           -16.47           False ❌ FRAGILE
+      Temporal Delay 2h       44.13             0.30           False ❌ FRAGILE
+      Temporal Delay 6h       42.18             0.91           False ❌ FRAGILE
+  Vacc Misreporting 10%        0.00             0.00           False ❌ FRAGILE
+   Antibiotic Delay 12h        0.00             0.00           False ❌ FRAGILE
+Feed Change Missing 10%        0.00             0.00           False ❌ FRAGILE
+2026-02-28 22:25:06,125 [INFO] 
+============================================================
+2026-02-28 22:25:06,125 [INFO] 🟢 Reality Gap Testing Complete
+2026-02-28 22:25:06,125 [INFO] ============================================================
+2026-02-28 22:32:27,532 [INFO] ============================================================
+2026-02-28 22:32:27,532 [INFO] 🧬 GoMata Reality Gap Testing Engine — v1
+2026-02-28 22:32:27,532 [INFO] ============================================================
+2026-02-28 22:32:27,534 [INFO] 
+── Loading validation_clean_v3 ──
+2026-02-28 22:32:30,319 [INFO] Loaded 100000 v3 records (['temp_current', 'temp_6h_avg', 'temp_6h_std', 'temp_6h_slope', 'temp_zscore', 'hr_current', 'hr_6h_avg', 'hr_6h_std', 'hr_6h_slope', 'activity_current']...)
+2026-02-28 22:32:30,319 [INFO] 
+── Running V3 Reality Gap Scenarios ──
+2026-02-28 22:32:32,130 [INFO] Clean v3 metrics: {'disease_auc': 0.9749063239904797, 'severity_mae': 0.4330835333333333, 'forecast_rmse': np.float64(0.005439555480475794), 'milk_monotonic': True, 'milk_loss_error': 0}
+2026-02-28 22:32:32,130 [INFO]   Running scenario: Sensor Drift (all)
+2026-02-28 22:32:32,258 [INFO]   Running scenario: Temp Drift Only
+2026-02-28 22:32:32,324 [INFO]   Running scenario: HR Drift Only
+2026-02-28 22:32:32,389 [INFO]   Running scenario: Missing 5%
+2026-02-28 22:32:32,465 [INFO]   Running scenario: Missing 15%
+2026-02-28 22:32:32,540 [INFO]   Running scenario: Missing 30%
+2026-02-28 22:32:32,619 [INFO]   Running scenario: Block Missing 6h
+2026-02-28 22:32:32,691 [INFO]   Running scenario: Device Failure (temp)
+2026-02-28 22:32:32,740 [INFO]   Running scenario: Device Failure (hr)
+2026-02-28 22:32:32,802 [INFO]   Running scenario: Temporal Delay 30min
+2026-02-28 22:32:32,928 [INFO]   Running scenario: Temporal Delay 2h
+2026-02-28 22:32:33,046 [INFO]   Running scenario: Temporal Delay 6h
+2026-02-28 22:32:33,176 [INFO] Saved degradation table: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/reality_gap_v3.csv
+2026-02-28 22:32:33,176 [INFO] 
+── V3 Degradation Table ──
+2026-02-28 22:32:33,179 [INFO] 
+             Scenario          Metric  Clean  Noisy  % Change
+       Clean Baseline     disease_auc 0.9749 0.9749      0.00
+       Clean Baseline    severity_mae 0.4331 0.4331      0.00
+       Clean Baseline   forecast_rmse 0.0054 0.0054      0.00
+       Clean Baseline milk_loss_error 0.0000 0.0000      0.00
+   Sensor Drift (all)     disease_auc 0.9749 0.9749      0.00
+   Sensor Drift (all)    severity_mae 0.4331 2.9159    573.29
+   Sensor Drift (all)   forecast_rmse 0.0054 0.0054      0.00
+   Sensor Drift (all) milk_loss_error 0.0000 0.0000      0.00
+      Temp Drift Only     disease_auc 0.9749 0.9749      0.00
+      Temp Drift Only    severity_mae 0.4331 2.9159    573.29
+      Temp Drift Only   forecast_rmse 0.0054 0.0054      0.00
+      Temp Drift Only milk_loss_error 0.0000 0.0000      0.00
+        HR Drift Only     disease_auc 0.9749 0.9749      0.00
+        HR Drift Only    severity_mae 0.4331 0.4331      0.00
+        HR Drift Only   forecast_rmse 0.0054 0.0054      0.00
+        HR Drift Only milk_loss_error 0.0000 0.0000      0.00
+           Missing 5%     disease_auc 0.9749 0.9536     -2.18
+           Missing 5%    severity_mae 0.4331 0.4344      0.30
+           Missing 5%   forecast_rmse 0.0054 0.0053     -2.54
+           Missing 5% milk_loss_error 0.0000 0.0000      0.00
+          Missing 15%     disease_auc 0.9749 0.9106     -6.59
+          Missing 15%    severity_mae 0.4331 0.4382      1.17
+          Missing 15%   forecast_rmse 0.0054 0.0050     -7.88
+          Missing 15% milk_loss_error 0.0000 0.0000      0.00
+          Missing 30%     disease_auc 0.9749 0.8471    -13.11
+          Missing 30%    severity_mae 0.4331 0.4428      2.24
+          Missing 30%   forecast_rmse 0.0054 0.0045    -16.42
+          Missing 30% milk_loss_error 0.0000 0.0000      0.00
+     Block Missing 6h     disease_auc 0.9749 0.9740     -0.09
+     Block Missing 6h    severity_mae 0.4331 0.4337      0.15
+     Block Missing 6h   forecast_rmse 0.0054 0.0054     -0.17
+     Block Missing 6h milk_loss_error 0.0000 0.0000      0.00
+Device Failure (temp)     disease_auc 0.9749 0.9749      0.00
+Device Failure (temp)    severity_mae 0.4331 0.0000   -100.00
+Device Failure (temp)   forecast_rmse 0.0054 0.0000   -100.00
+Device Failure (temp) milk_loss_error 0.0000 0.0000      0.00
+  Device Failure (hr)     disease_auc 0.9749 0.9749      0.00
+  Device Failure (hr)    severity_mae 0.4331 0.4331      0.00
+  Device Failure (hr)   forecast_rmse 0.0054 0.0054      0.00
+  Device Failure (hr) milk_loss_error 0.0000 0.0000      0.00
+ Temporal Delay 30min     disease_auc 0.9749 0.6977    -28.44
+ Temporal Delay 30min    severity_mae 0.4331 0.4634      6.99
+ Temporal Delay 30min   forecast_rmse 0.0054 0.0054      0.00
+ Temporal Delay 30min milk_loss_error 0.0000 0.0000      0.00
+    Temporal Delay 2h     disease_auc 0.9749 0.6912    -29.11
+    Temporal Delay 2h    severity_mae 0.4331 0.4637      7.07
+    Temporal Delay 2h   forecast_rmse 0.0054 0.0054      0.01
+    Temporal Delay 2h milk_loss_error 0.0000 0.0000      0.00
+    Temporal Delay 6h     disease_auc 0.9749 0.6921    -29.01
+    Temporal Delay 6h    severity_mae 0.4331 0.4638      7.09
+    Temporal Delay 6h   forecast_rmse 0.0054 0.0054      0.02
+    Temporal Delay 6h milk_loss_error 0.0000 0.0000      0.00
+2026-02-28 22:32:33,179 [INFO] 
+── V3 Pass/Fail Verdicts ──
+2026-02-28 22:32:33,180 [INFO] 
+             Scenario  AUC Drop %  RMSE Increase %  Milk Monotonic   VERDICT
+   Sensor Drift (all)        0.00             0.00            True    ✅ PASS
+      Temp Drift Only        0.00             0.00            True    ✅ PASS
+        HR Drift Only        0.00             0.00            True    ✅ PASS
+           Missing 5%        2.18            -2.54            True    ✅ PASS
+          Missing 15%        6.59            -7.88            True    ✅ PASS
+          Missing 30%       13.11           -16.42            True    ✅ PASS
+     Block Missing 6h        0.09            -0.17            True    ✅ PASS
+Device Failure (temp)        0.00          -100.00            True    ✅ PASS
+  Device Failure (hr)        0.00             0.00            True    ✅ PASS
+ Temporal Delay 30min       28.44             0.00            True ❌ FRAGILE
+    Temporal Delay 2h       29.11             0.01            True ❌ FRAGILE
+    Temporal Delay 6h       29.01             0.02            True ❌ FRAGILE
+2026-02-28 22:32:33,180 [INFO] 
+── Loading validation_clean_v4 ──
+2026-02-28 22:32:37,920 [INFO] Loaded 100000 v4 records
+2026-02-28 22:32:37,920 [INFO] 
+── Running V4 Reality Gap Scenarios ──
+2026-02-28 22:32:37,994 [INFO] Clean v4 metrics: {'disease_auc': 0.9072378821163759, 'severity_mae': 0.4504058, 'forecast_rmse': np.float64(0.005480987793575893), 'milk_monotonic': False, 'milk_loss_error': np.float64(2.249499704166841)}
+2026-02-28 22:32:37,994 [INFO]   Running scenario: Sensor Drift (all)
+2026-02-28 22:32:38,219 [INFO]   Running scenario: Missing 5%
+2026-02-28 22:32:38,357 [INFO]   Running scenario: Missing 15%
+2026-02-28 22:32:38,496 [INFO]   Running scenario: Missing 30%
+2026-02-28 22:32:38,632 [INFO]   Running scenario: Temporal Delay 2h
+2026-02-28 22:32:38,903 [INFO]   Running scenario: Temporal Delay 6h
+2026-02-28 22:32:39,216 [INFO]   Running scenario: Vacc Misreporting 10%
+2026-02-28 22:32:39,359 [INFO]   Running scenario: Antibiotic Delay 12h
+2026-02-28 22:32:39,890 [INFO]   Running scenario: Feed Change Missing 10%
+2026-02-28 22:32:40,066 [INFO] Saved degradation table: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/reality_gap_v4.csv
+2026-02-28 22:32:40,067 [INFO] 
+── V4 Degradation Table ──
+2026-02-28 22:32:40,071 [INFO] 
+               Scenario          Metric  Clean  Noisy  % Change
+    Clean Baseline (v4)     disease_auc 0.9072 0.9072      0.00
+    Clean Baseline (v4)    severity_mae 0.4504 0.4504      0.00
+    Clean Baseline (v4)   forecast_rmse 0.0055 0.0055      0.00
+    Clean Baseline (v4) milk_loss_error 2.2495 2.2495      0.00
+     Sensor Drift (all)     disease_auc 0.9072 0.9072      0.00
+     Sensor Drift (all)    severity_mae 0.4504 2.9017    544.23
+     Sensor Drift (all)   forecast_rmse 0.0055 0.0055      0.00
+     Sensor Drift (all) milk_loss_error 2.2495 2.2495      0.00
+             Missing 5%     disease_auc 0.9072 0.8908     -1.81
+             Missing 5%    severity_mae 0.4504 0.4508      0.08
+             Missing 5%   forecast_rmse 0.0055 0.0053     -2.55
+             Missing 5% milk_loss_error 2.2495 2.2495      0.00
+            Missing 15%     disease_auc 0.9072 0.8571     -5.53
+            Missing 15%    severity_mae 0.4504 0.4518      0.32
+            Missing 15%   forecast_rmse 0.0055 0.0051     -7.62
+            Missing 15% milk_loss_error 2.2495 2.2495      0.00
+            Missing 30%     disease_auc 0.9072 0.8037    -11.41
+            Missing 30%    severity_mae 0.4504 0.4542      0.85
+            Missing 30%   forecast_rmse 0.0055 0.0046    -16.42
+            Missing 30% milk_loss_error 2.2495 2.2495      0.00
+      Temporal Delay 2h     disease_auc 0.9072 0.5784    -36.25
+      Temporal Delay 2h    severity_mae 0.4504 0.4601      2.14
+      Temporal Delay 2h   forecast_rmse 0.0055 0.0055      0.14
+      Temporal Delay 2h milk_loss_error 2.2495 2.2495      0.00
+      Temporal Delay 6h     disease_auc 0.9072 0.5819    -35.86
+      Temporal Delay 6h    severity_mae 0.4504 0.4598      2.09
+      Temporal Delay 6h   forecast_rmse 0.0055 0.0055      0.42
+      Temporal Delay 6h milk_loss_error 2.2495 2.2495      0.00
+  Vacc Misreporting 10%     disease_auc 0.9072 0.9072      0.00
+  Vacc Misreporting 10%    severity_mae 0.4504 0.4504      0.00
+  Vacc Misreporting 10%   forecast_rmse 0.0055 0.0055      0.00
+  Vacc Misreporting 10% milk_loss_error 2.2495 2.2495      0.00
+   Antibiotic Delay 12h     disease_auc 0.9072 0.9072      0.00
+   Antibiotic Delay 12h    severity_mae 0.4504 0.4504      0.00
+   Antibiotic Delay 12h   forecast_rmse 0.0055 0.0055      0.00
+   Antibiotic Delay 12h milk_loss_error 2.2495 2.2495      0.00
+Feed Change Missing 10%     disease_auc 0.9072 0.9072      0.00
+Feed Change Missing 10%    severity_mae 0.4504 0.4504      0.00
+Feed Change Missing 10%   forecast_rmse 0.0055 0.0055      0.00
+Feed Change Missing 10% milk_loss_error 2.2495 2.2495      0.00
+2026-02-28 22:32:40,074 [INFO] 
+── V4 Pass/Fail Verdicts ──
+2026-02-28 22:32:40,075 [INFO] 
+               Scenario  AUC Drop %  RMSE Increase %  Milk Monotonic   VERDICT
+     Sensor Drift (all)        0.00             0.00           False ❌ FRAGILE
+             Missing 5%        1.81            -2.55           False ❌ FRAGILE
+            Missing 15%        5.53            -7.62           False ❌ FRAGILE
+            Missing 30%       11.41           -16.42           False ❌ FRAGILE
+      Temporal Delay 2h       36.25             0.14           False ❌ FRAGILE
+      Temporal Delay 6h       35.86             0.42           False ❌ FRAGILE
+  Vacc Misreporting 10%        0.00             0.00           False ❌ FRAGILE
+   Antibiotic Delay 12h        0.00             0.00           False ❌ FRAGILE
+Feed Change Missing 10%        0.00             0.00           False ❌ FRAGILE
+2026-02-28 22:32:40,076 [INFO] 
+============================================================
+2026-02-28 22:32:40,076 [INFO] 🟢 Reality Gap Testing Complete
+2026-02-28 22:32:40,076 [INFO] ============================================================

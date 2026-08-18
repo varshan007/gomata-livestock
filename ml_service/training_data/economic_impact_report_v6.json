@@ -1,0 +1,26 @@
+{
+  "0.3": {
+    "threshold": 0.3,
+    "pct_reduction": 25.1,
+    "milk_saved": 14.26,
+    "treatments": 4,
+    "fa": 3832,
+    "pass": false
+  },
+  "0.5": {
+    "threshold": 0.5,
+    "pct_reduction": 24.7,
+    "milk_saved": 14.02,
+    "treatments": 3,
+    "fa": 3128,
+    "pass": false
+  },
+  "0.7": {
+    "threshold": 0.7,
+    "pct_reduction": 23.5,
+    "milk_saved": 13.37,
+    "treatments": 3,
+    "fa": 1137,
+    "pass": false
+  }
+}

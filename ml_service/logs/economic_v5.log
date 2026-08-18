@@ -1,0 +1,14 @@
+2026-02-28 23:47:05,099 [INFO] ============================================================
+2026-02-28 23:47:05,099 [INFO] 💰 Phase 6 Part 4 — Economic Impact Evaluation
+2026-02-28 23:47:05,099 [INFO] ============================================================
+2026-02-28 23:47:06,314 [INFO] Fused: 185000 rows
+2026-02-28 23:47:07,500 [INFO] Combined animal+time split:
+2026-02-28 23:47:07,501 [INFO]   Train animals: 74, Test animals: 19
+2026-02-28 23:47:07,504 [INFO]   Train: 102980 rows (998 positive, 1.0%)
+2026-02-28 23:47:07,505 [INFO]   Test:  82020 rows (3035 positive, 3.7%)
+2026-02-28 23:47:07,505 [INFO]     ├ Temporal test (known animals, future time): 44182
+2026-02-28 23:47:07,505 [INFO]     └ Unseen animal test: 37838
+2026-02-28 23:47:07,843 [INFO]   θ=0.3: 40% reduction, ROI=-83%, net=$-217
+2026-02-28 23:47:07,966 [INFO]   θ=0.5: 38% reduction, ROI=-76%, net=$-129
+2026-02-28 23:47:08,089 [INFO]   θ=0.7: 17% reduction, ROI=-26%, net=$-7
+2026-02-28 23:47:08,089 [INFO]   ✅ economic_impact_report_v5.json saved

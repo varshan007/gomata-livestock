@@ -1,0 +1,24 @@
+{
+  "features": [
+    "milk_deviation",
+    "conductivity_deviation",
+    "feed_deviation",
+    "weight_deviation",
+    "hours_since_vaccination",
+    "hours_since_antibiotic",
+    "hours_since_transport",
+    "hours_since_feed_change",
+    "vacc_decay",
+    "abx_decay",
+    "transport_decay",
+    "feed_decay",
+    "total_antibiotic_days",
+    "vaccination_count_12m",
+    "feed_changes_30d",
+    "parity",
+    "bcs",
+    "age"
+  ],
+  "count": 18,
+  "version": "v4_hardened"
+}

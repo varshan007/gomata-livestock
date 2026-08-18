@@ -1,0 +1,50 @@
+{
+  "0.3": {
+    "threshold": 0.3,
+    "episodes": 51,
+    "detected": 28,
+    "pct_24h": 22.0,
+    "pct_12h": 31.0,
+    "pct_6h": 35.0,
+    "avg_lead_h": 19.9,
+    "fp_per_week": 94.2,
+    "pass_24h": false,
+    "pass_fp": false
+  },
+  "0.5": {
+    "threshold": 0.5,
+    "episodes": 51,
+    "detected": 28,
+    "pct_24h": 22.0,
+    "pct_12h": 31.0,
+    "pct_6h": 35.0,
+    "avg_lead_h": 19.9,
+    "fp_per_week": 76.9,
+    "pass_24h": false,
+    "pass_fp": false
+  },
+  "0.7": {
+    "threshold": 0.7,
+    "episodes": 51,
+    "detected": 28,
+    "pct_24h": 22.0,
+    "pct_12h": 31.0,
+    "pct_6h": 35.0,
+    "avg_lead_h": 17.5,
+    "fp_per_week": 27.9,
+    "pass_24h": false,
+    "pass_fp": false
+  },
+  "0.9": {
+    "threshold": 0.9,
+    "episodes": 51,
+    "detected": 24,
+    "pct_24h": 12.0,
+    "pct_12h": 31.0,
+    "pct_6h": 33.0,
+    "avg_lead_h": 17.5,
+    "fp_per_week": 12.3,
+    "pass_24h": false,
+    "pass_fp": false
+  }
+}

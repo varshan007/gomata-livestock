@@ -1,0 +1,208 @@
+[dotenv@17.3.1] injecting env (13) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[EventBus] Connected to Redis at redis://127.0.0.1:6379
+🚀 SERVER RESTARTED - MULTI-AGENT PHASE 1 ONLINE 🚀
+✅ Twilio Client Initialized
+✅ Custom SMTP Transporter Initialized
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+(node:24823) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24823) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+🚀 Server running on port 8000
+📍 API available at http://localhost:8000
+✅ MongoDB Connected
+[AuthAgent] Started.
+[OnboardingAgent] Started.
+[HardwareAgent] Connecting to MQTT broker at mqtt://127.0.0.1:1883...
+[SyncAgent] Starting WebSocket synchronization...
+[SyncAgent] Started.
+[DataProcessingAgent] Started. Listening for raw telemetry...
+[HealthAgent] Started. Monitoring normalized telemetry for anomalies...
+[AlertAgent] Started. Listening for new AI health alerts...
+[NotificationDeliveryAgent] Started. Awaiting verified alerts to dispatch via SMS...
+✅ All Phase 1 & Phase 2 AI Agents Initialized successfully.
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] ⚠️ MQTT Connection lost. Buffering locally...
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883
+[HardwareAgent] MQTT Error: connect ECONNREFUSED 127.0.0.1:1883

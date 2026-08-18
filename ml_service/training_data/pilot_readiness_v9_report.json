@@ -1,0 +1,58 @@
+{
+  "version": "pilot_readiness_v9",
+  "data_source": "v5.2_preclinical",
+  "data_stats": {
+    "total_rows": 1000000,
+    "animals": 500,
+    "test_animals": 100,
+    "disease_episodes": 121,
+    "test_disease_episodes": 25,
+    "disease_rate": 24.2
+  },
+  "readiness_score": 50.0,
+  "passed": 3,
+  "total": 6,
+  "categories": {
+    "accuracy": {
+      "status": "pass",
+      "disease_auc": 0.9823,
+      "pr_auc": 0.9313,
+      "detail": "Disease classifier performs excellently (0.98+) on noisy multi-phase data."
+    },
+    "robustness": {
+      "status": "pass",
+      "detail": "Model trained on stochastic multi-phase drift profiles covered by AR(1) noise."
+    },
+    "calibration": {
+      "status": "pass",
+      "ece": 0.0188,
+      "mce": 0.3137,
+      "detail": "ECE=0.0188 (within 0.05 target). Well-calibrated."
+    },
+    "early_detection": {
+      "status": "fail",
+      "pct_24h": 24,
+      "pct_12h": 36,
+      "avg_lead_h": 29.2,
+      "detail": "24% at 24h is realistic but falls short of the \u226540% target."
+    },
+    "economic_utility": {
+      "status": "pass",
+      "pct_reduction": 77.0,
+      "detail": "77% milk loss reduction (target \u226545%). Highly valuable despite FPs."
+    },
+    "false_positive_burden": {
+      "status": "fail",
+      "fp_per_week": 50.6,
+      "detail": "50 FP/wk at optimal threshold (target \u22645). Environmental noise causes false positives."
+    }
+  },
+  "improvements_from_v8": {
+    "realism": "Replaced deterministic single sigmoid with 3-phase stochastic drift and AR(1) correlated noise.",
+    "statistical_confidence": "Scaled from 4 test episodes to 25 test episodes."
+  },
+  "next_steps": {
+    "fp_reduction": "Need sequence models (RNN/Transformer) to distinguish disease drift from environmental noise.",
+    "early_detection": "Need self-supervised pretraining on healthy history to detect anomaly trajectories earlier."
+  }
+}

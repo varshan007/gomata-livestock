@@ -1,0 +1,106 @@
+{
+  "version": "20.5",
+  "architecture": "ResGAT\u00d72 \u2192 Branch(Herd|Node|PenSubgraphPooler+PenRiskHead)",
+  "node_dim": 22,
+  "gat_dim": 96,
+  "tft_dim": 96,
+  "pen_dim": 292,
+  "n_gat_heads": 6,
+  "n_gat_layers": 2,
+  "n_tft_heads": 4,
+  "max_cows": 150,
+  "max_pens": 10,
+  "t_steps": 28,
+  "loss_weights": {
+    "intensity": 1.0,
+    "slope": 1.0,
+    "trend": 1.0,
+    "HSI": 1.0,
+    "R0_reduction": 1.0,
+    "peak_day": 1.0,
+    "peak_size": 1.0,
+    "breakdown": 1.2,
+    "resources": 1.0,
+    "delta_R0": 4.0,
+    "pen_risk": 3.0,
+    "vaccination": 3.0
+  },
+  "heads": [
+    "intensity",
+    "slope",
+    "trend",
+    "HSI",
+    "R0_reduction",
+    "peak_day",
+    "peak_size",
+    "breakdown",
+    "resources",
+    "node_super_spreader_score",
+    "pen_risk_scores",
+    "optimal_vaccination_rank"
+  ],
+  "output_schema": {
+    "herd_level": {
+      "intensity": "float [0,1] \u2014 peak infection intensity",
+      "slope": "float [-1,1] \u2014 infection trend slope",
+      "trend": "float [-1,1] \u2014 7-day trend",
+      "HSI": "float [0,1] \u2014 herd stability index",
+      "R0_reduction": "float [0,1] \u2014 spectral R0 reduction potential",
+      "peak_day": "float \u2014 estimated peak day / 4",
+      "peak_size": "float [0,1] \u2014 peak infection size",
+      "breakdown": "logit \u2014 system breakdown probability",
+      "resources": "float[3] \u2014 [milk_loss, antibiotic, isolation]"
+    },
+    "node_level": {
+      "node_super_spreader_score": "float[N] [0,1] \u2014 \u0394R\u2080 per node",
+      "optimal_vaccination_rank": "float[N] [0,1] \u2014 vaccination priority"
+    },
+    "pen_level": {
+      "pen_risk_scores": "float[P] \u2014 z-scored pen risk"
+    }
+  },
+  "features": [
+    "P_infection",
+    "P_heat",
+    "P_mastitis",
+    "P_lameness",
+    "P_calving",
+    "severity",
+    "collapse_risk",
+    "hazard_slope",
+    "hazard_integral_24h",
+    "phase_onset",
+    "phase_peak",
+    "phase_recovery",
+    "attention_entropy",
+    "recovery_hazard",
+    "milk_loss_est",
+    "health_score",
+    "vaccination_status",
+    "pen_encoding",
+    "degree_centrality",
+    "betweenness_centrality",
+    "eigenvector_centrality",
+    "clustering_coefficient"
+  ],
+  "graph_families": [
+    "hub",
+    "scale_free",
+    "small_world",
+    "erdos_renyi",
+    "bipartite",
+    "clustered",
+    "community",
+    "multi_hub"
+  ],
+  "training": {
+    "farms": 2000,
+    "epochs": 20,
+    "batch_size": 8,
+    "optimizer": "AdamW(lr=3e-4, wd=1e-4)",
+    "scheduler": "OneCycleLR(max_lr=8e-4, pct_start=0.25)",
+    "grad_clip": 1.5,
+    "amp": true,
+    "t_subsample": 2
+  }
+}

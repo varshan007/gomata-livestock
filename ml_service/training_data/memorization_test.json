@@ -1,0 +1,27 @@
+{
+  "baseline_auc": 0.9982,
+  "shuffle_animal_auc": 1.0,
+  "shuffle_time_auc": 1.0,
+  "random_label_auc": 0.502,
+  "verdicts": {
+    "animal_memorization": {
+      "test": "Shuffle animal IDs",
+      "result": 1.0,
+      "passed": true,
+      "reason": "Similar AUC = learns physiology not identity"
+    },
+    "temporal_dependency": {
+      "test": "Shuffle timestamps",
+      "result": 1.0,
+      "passed": false,
+      "reason": "Lower AUC = genuinely uses temporal features"
+    },
+    "random_label_check": {
+      "test": "Random labels",
+      "result": 0.502,
+      "passed": true,
+      "reason": "~0.5 AUC = no spurious patterns"
+    }
+  },
+  "overall_passed": false
+}

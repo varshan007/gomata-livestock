@@ -1,0 +1,45 @@
+2026-02-28 22:56:48,637 [INFO] ============================================================
+2026-02-28 22:56:48,637 [INFO] 🧬 GoMata Robustness Evaluation v2
+2026-02-28 22:56:48,637 [INFO] ============================================================
+2026-02-28 22:56:49,603 [INFO] Loaded model: 60 features
+2026-02-28 22:56:50,321 [INFO] Eval set: 39939 rows, disease+ 516
+2026-02-28 22:56:50,321 [INFO] 
+── Part 1: Reality Gap Testing (with trained model) ──
+2026-02-28 22:56:50,382 [INFO] Clean baseline AUC: 1.0000
+2026-02-28 22:56:50,455 [INFO]   Sensor Drift: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,528 [INFO]   Missing 5%: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,606 [INFO]   Missing 10%: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,699 [INFO]   Missing 15%: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,771 [INFO]   Missing 30%: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,845 [INFO]   Block Missing 4h: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:50,914 [INFO]   Device Offline (temp): AUC=1.0000 (drop -0.0%) ✅ PASS
+2026-02-28 22:56:50,980 [INFO]   Device Offline (hr): AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:51,051 [INFO]   Temporal Delay 30min: AUC=1.0000 (drop -0.0%) ✅ PASS
+2026-02-28 22:56:51,122 [INFO]   Temporal Delay 2h: AUC=1.0000 (drop -0.0%) ✅ PASS
+2026-02-28 22:56:51,198 [INFO]   Temporal Delay 6h: AUC=1.0000 (drop -0.0%) ✅ PASS
+2026-02-28 22:56:51,266 [INFO]   Mgmt Misreporting: AUC=1.0000 (drop 0.0%) ✅ PASS
+2026-02-28 22:56:51,266 [INFO] 
+── Running Counterfactual Herd Testing ──
+2026-02-28 22:57:05,689 [INFO] Counterfactual: ✅ PASS
+2026-02-28 22:57:05,690 [INFO] 
+── Running Intervention Validation ──
+2026-02-28 22:57:26,988 [INFO] Intervention: ✅ PASS (87.6% diff)
+2026-02-28 22:57:26,993 [INFO] 
+============================================================
+2026-02-28 22:57:26,993 [INFO] 📊 PILOT READINESS REPORT v2
+2026-02-28 22:57:26,993 [INFO] ============================================================
+2026-02-28 22:57:26,994 [INFO] 
+                Criterion              Target              Result Verdict
+reality_gap_15pct_missing       AUC drop ≤12%           0.0% drop  ✅ PASS
+     reality_gap_6h_delay       AUC drop ≤10%          -0.0% drop  ✅ PASS
+           counterfactual Peak + R₀ monotonic Peak + R₀ monotonic  ✅ PASS
+             intervention Milk loss diff ≥20%    87.6% difference  ✅ PASS
+2026-02-28 22:57:26,994 [INFO] 
+────────────────────────────────────────────────────────────
+2026-02-28 22:57:26,994 [INFO]   Pilot Readiness Score: 100%
+2026-02-28 22:57:26,994 [INFO]   Criteria Passed: 4/4
+2026-02-28 22:57:26,994 [INFO]   Duration: 38.4s
+2026-02-28 22:57:26,994 [INFO] ────────────────────────────────────────────────────────────
+2026-02-28 22:57:26,994 [INFO] 
+🟢 SYSTEM QUALIFIED FOR PILOT DEPLOYMENT
+2026-02-28 22:57:26,994 [INFO] ============================================================

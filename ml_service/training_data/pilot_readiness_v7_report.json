@@ -1,0 +1,101 @@
+{
+  "version": "pilot_readiness_v7",
+  "readiness_score": 40.0,
+  "passed": 2,
+  "total": 5,
+  "categories": {
+    "accuracy": {
+      "status": "pass",
+      "roc_auc": 0.8452,
+      "detail": "Onset prediction AUC=0.845"
+    },
+    "robustness": {
+      "status": "pass",
+      "detail": "Inherited from v5"
+    },
+    "calibration": {
+      "status": "fail",
+      "ece": 0.0394,
+      "mce": 0.3838,
+      "brier": 0.0418,
+      "detail": "ECE=0.039 (>0.03), MCE=0.384. Onset model less calibrated than disease model."
+    },
+    "early_detection": {
+      "status": "fail",
+      "detail": "22% \u226524h (target 40%). Improved 3.7x from v5 (5.9%). 55% episodes fully detected. FP too high.",
+      "results": {
+        "0.3": {
+          "threshold": 0.3,
+          "episodes": 51,
+          "detected": 28,
+          "pct_24h": 22.0,
+          "pct_12h": 31.0,
+          "pct_6h": 35.0,
+          "avg_lead_h": 19.9,
+          "fp_per_week": 94.2,
+          "pass_24h": false,
+          "pass_fp": false
+        },
+        "0.5": {
+          "threshold": 0.5,
+          "episodes": 51,
+          "detected": 28,
+          "pct_24h": 22.0,
+          "pct_12h": 31.0,
+          "pct_6h": 35.0,
+          "avg_lead_h": 19.9,
+          "fp_per_week": 76.9,
+          "pass_24h": false,
+          "pass_fp": false
+        },
+        "0.7": {
+          "threshold": 0.7,
+          "episodes": 51,
+          "detected": 28,
+          "pct_24h": 22.0,
+          "pct_12h": 31.0,
+          "pct_6h": 35.0,
+          "avg_lead_h": 17.5,
+          "fp_per_week": 27.9,
+          "pass_24h": false,
+          "pass_fp": false
+        },
+        "0.9": {
+          "threshold": 0.9,
+          "episodes": 51,
+          "detected": 24,
+          "pct_24h": 12.0,
+          "pct_12h": 31.0,
+          "pct_6h": 33.0,
+          "avg_lead_h": 17.5,
+          "fp_per_week": 12.3,
+          "pass_24h": false,
+          "pass_fp": false
+        }
+      }
+    },
+    "economic_utility": {
+      "status": "fail",
+      "detail": "25% milk reduction (target 45%). Reduced by high FP costs.",
+      "pct_reduction": 25.0
+    }
+  },
+  "onset_model": {
+    "features": 89,
+    "accel_in_top15": 2,
+    "top_features": {
+      "hr_delta_7d": 7.81,
+      "hours_since_transport": 7.42,
+      "parity": 6.07,
+      "bcs": 5.99,
+      "abx_decay": 5.48,
+      "hr_lag_12h": 5.14
+    }
+  },
+  "improvements_from_v5": {
+    "24h_detection": "5.9% -> 22% (3.7x improvement)",
+    "episodes_detected": "55% of 51 episodes",
+    "avg_lead_time": "19.9 hours",
+    "pr_auc": "0.471 -> 0.591"
+  }
+}

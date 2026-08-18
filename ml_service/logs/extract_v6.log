@@ -1,0 +1,17 @@
+2026-02-28 23:58:52,153 [INFO] ============================================================
+2026-02-28 23:58:52,153 [INFO] 🧠 Phase 7 — V6 Feature Extraction (vectorized)
+2026-02-28 23:58:52,153 [INFO] ============================================================
+2026-02-28 23:58:52,814 [INFO] V3: 199691, V4: 185000
+2026-02-28 23:58:52,883 [INFO] Fused: 185000 rows, 93 animals
+2026-02-28 23:58:52,883 [INFO] Computing acceleration features per animal...
+2026-02-28 23:58:53,885 [INFO] Done: 185000 rows from 93 animals
+2026-02-28 23:58:53,891 [INFO] Creating onset_binary...
+2026-02-28 23:58:54,493 [INFO] Onset: 8653 positive (4.68%)
+2026-02-28 23:58:54,495 [INFO] Computing temporal weights...
+2026-02-28 23:59:05,086 [INFO] 
+============================================================
+2026-02-28 23:59:05,086 [INFO] ✅ V6 Features: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/features_v6.csv
+2026-02-28 23:59:05,086 [INFO]    185000 rows × 89 features
+2026-02-28 23:59:05,093 [INFO]    Animals: 93
+2026-02-28 23:59:05,093 [INFO]    Onset rate: 4.68%
+2026-02-28 23:59:05,093 [INFO] ============================================================

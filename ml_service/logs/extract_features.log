@@ -1,0 +1,311 @@
+2026-02-26 17:41:47,182 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 17:41:48,775 [INFO] Connecting to MongoDB... Target Anomalies: 25475
+2026-02-26 17:41:48,776 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 17:41:50,038 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 17:41:50,458 [INFO] Total events queued for extraction: 100475
+2026-02-26 17:41:54,378 [INFO] Processed Batch: 5000/100475 | Valid: 0 | Skipped: 5000
+2026-02-26 17:41:58,544 [INFO] Processed Batch: 10000/100475 | Valid: 0 | Skipped: 10000
+2026-02-26 17:42:02,845 [INFO] Processed Batch: 15000/100475 | Valid: 0 | Skipped: 15000
+2026-02-26 17:42:06,723 [INFO] Processed Batch: 20000/100475 | Valid: 0 | Skipped: 20000
+2026-02-26 17:42:10,712 [INFO] Processed Batch: 25000/100475 | Valid: 0 | Skipped: 25000
+2026-02-26 17:42:14,989 [INFO] Processed Batch: 30000/100475 | Valid: 0 | Skipped: 30000
+2026-02-26 17:42:19,342 [INFO] Processed Batch: 35000/100475 | Valid: 0 | Skipped: 35000
+2026-02-26 17:42:23,265 [INFO] Processed Batch: 40000/100475 | Valid: 0 | Skipped: 40000
+2026-02-26 17:42:26,954 [INFO] Processed Batch: 45000/100475 | Valid: 0 | Skipped: 45000
+2026-02-26 17:42:31,349 [INFO] Processed Batch: 50000/100475 | Valid: 0 | Skipped: 50000
+2026-02-26 17:42:34,959 [INFO] Processed Batch: 55000/100475 | Valid: 0 | Skipped: 55000
+2026-02-26 17:42:38,703 [INFO] Processed Batch: 60000/100475 | Valid: 0 | Skipped: 60000
+2026-02-26 17:42:43,128 [INFO] Processed Batch: 65000/100475 | Valid: 0 | Skipped: 65000
+2026-02-26 17:42:46,800 [INFO] Processed Batch: 70000/100475 | Valid: 0 | Skipped: 70000
+2026-02-26 17:42:50,833 [INFO] Processed Batch: 75000/100475 | Valid: 0 | Skipped: 75000
+2026-02-26 17:42:54,739 [INFO] Processed Batch: 80000/100475 | Valid: 0 | Skipped: 80000
+2026-02-26 17:42:58,412 [INFO] Processed Batch: 85000/100475 | Valid: 0 | Skipped: 85000
+2026-02-26 17:43:02,622 [INFO] Processed Batch: 90000/100475 | Valid: 0 | Skipped: 90000
+2026-02-26 17:43:06,642 [INFO] Processed Batch: 95000/100475 | Valid: 0 | Skipped: 95000
+2026-02-26 17:43:10,634 [INFO] Processed Batch: 100000/100475 | Valid: 0 | Skipped: 100000
+2026-02-26 17:43:10,912 [INFO] Extraction complete. Processed 100475 events. Valid Output: 0. Skipped (insufficient telemetry): 100475
+2026-02-26 17:43:10,912 [ERROR] No valid features extracted. Exiting.
+2026-02-26 17:45:18,007 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 17:45:18,008 [INFO] Setting up query for Training Events...
+2026-02-26 17:45:18,338 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 17:45:18,338 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 17:45:19,350 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 17:45:19,680 [INFO] Total events queued for extraction: 100489
+2026-02-26 17:45:25,577 [INFO] Processed Batch: 5000/100489 | Valid: 0 | Skipped: 5000
+2026-02-26 17:45:30,453 [INFO] Processed Batch: 10000/100489 | Valid: 0 | Skipped: 10000
+2026-02-26 17:45:35,337 [INFO] Processed Batch: 15000/100489 | Valid: 0 | Skipped: 15000
+2026-02-26 17:45:40,737 [INFO] Processed Batch: 20000/100489 | Valid: 0 | Skipped: 20000
+2026-02-26 17:45:45,573 [INFO] Processed Batch: 25000/100489 | Valid: 0 | Skipped: 25000
+2026-02-26 17:45:51,261 [INFO] Processed Batch: 30000/100489 | Valid: 0 | Skipped: 30000
+2026-02-26 17:45:56,594 [INFO] Processed Batch: 35000/100489 | Valid: 0 | Skipped: 35000
+2026-02-26 17:46:02,022 [INFO] Processed Batch: 40000/100489 | Valid: 0 | Skipped: 40000
+2026-02-26 17:46:07,746 [INFO] Processed Batch: 45000/100489 | Valid: 0 | Skipped: 45000
+2026-02-26 17:46:13,225 [INFO] Processed Batch: 50000/100489 | Valid: 0 | Skipped: 50000
+2026-02-26 17:46:19,202 [INFO] Processed Batch: 55000/100489 | Valid: 0 | Skipped: 55000
+2026-02-26 17:46:24,359 [INFO] Processed Batch: 60000/100489 | Valid: 0 | Skipped: 60000
+2026-02-26 17:46:25,895 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 17:46:25,895 [INFO] Setting up query for Training Events...
+2026-02-26 17:46:26,153 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 17:46:26,154 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 17:46:27,284 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 17:46:27,573 [INFO] Total events queued for extraction: 100489
+2026-02-26 17:46:30,092 [INFO] Processed Batch: 65000/100489 | Valid: 0 | Skipped: 65000
+2026-02-26 17:46:36,118 [INFO] Processed Batch: 70000/100489 | Valid: 0 | Skipped: 70000
+2026-02-26 17:46:41,902 [INFO] Processed Batch: 75000/100489 | Valid: 0 | Skipped: 75000
+2026-02-26 17:46:43,628 [INFO] Processed Batch: 5000/100489 | Valid: 0 | Skipped: 5000
+2026-02-26 17:46:48,567 [INFO] Processed Batch: 80000/100489 | Valid: 0 | Skipped: 80000
+2026-02-26 17:46:55,645 [INFO] Processed Batch: 85000/100489 | Valid: 0 | Skipped: 85000
+2026-02-26 17:47:01,907 [INFO] Processed Batch: 10000/100489 | Valid: 0 | Skipped: 10000
+2026-02-26 17:47:02,163 [INFO] Processed Batch: 90000/100489 | Valid: 0 | Skipped: 90000
+2026-02-26 17:47:07,851 [INFO] Processed Batch: 95000/100489 | Valid: 0 | Skipped: 95000
+2026-02-26 17:47:13,946 [INFO] Processed Batch: 100000/100489 | Valid: 0 | Skipped: 100000
+2026-02-26 17:47:14,466 [INFO] Extraction complete. Processed 100489 events. Valid Output: 0. Skipped (insufficient telemetry): 100489
+2026-02-26 17:47:14,467 [ERROR] No valid features extracted. Exiting.
+2026-02-26 17:47:48,026 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 17:47:48,027 [INFO] Setting up query for Training Events...
+2026-02-26 17:47:48,305 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 17:47:48,305 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 17:47:49,322 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 17:47:49,650 [INFO] Total events queued for extraction: 100489
+2026-02-26 17:48:02,081 [INFO] Processed Batch: 5000/100489 | Valid: 283 | Skipped: 4717
+2026-02-26 17:48:14,679 [INFO] Processed Batch: 10000/100489 | Valid: 578 | Skipped: 9422
+2026-02-26 17:48:27,724 [INFO] Processed Batch: 15000/100489 | Valid: 876 | Skipped: 14124
+2026-02-26 17:48:40,211 [INFO] Processed Batch: 20000/100489 | Valid: 1167 | Skipped: 18833
+2026-02-26 17:48:52,984 [INFO] Processed Batch: 25000/100489 | Valid: 1472 | Skipped: 23528
+2026-02-26 17:49:04,675 [INFO] Processed Batch: 30000/100489 | Valid: 1759 | Skipped: 28241
+2026-02-26 17:49:18,124 [INFO] Processed Batch: 35000/100489 | Valid: 2080 | Skipped: 32920
+2026-02-26 17:49:28,695 [INFO] Processed Batch: 40000/100489 | Valid: 2347 | Skipped: 37653
+2026-02-26 17:49:41,580 [INFO] Processed Batch: 45000/100489 | Valid: 2655 | Skipped: 42345
+2026-02-26 17:49:53,991 [INFO] Processed Batch: 50000/100489 | Valid: 2964 | Skipped: 47036
+2026-02-26 17:50:04,402 [INFO] Processed Batch: 55000/100489 | Valid: 3209 | Skipped: 51791
+2026-02-26 17:50:16,893 [INFO] Processed Batch: 60000/100489 | Valid: 3503 | Skipped: 56497
+2026-02-26 17:50:27,803 [INFO] Processed Batch: 65000/100489 | Valid: 3771 | Skipped: 61229
+2026-02-26 17:50:39,391 [INFO] Processed Batch: 70000/100489 | Valid: 4047 | Skipped: 65953
+2026-02-26 17:50:51,538 [INFO] Processed Batch: 75000/100489 | Valid: 4338 | Skipped: 70662
+2026-02-26 17:51:03,810 [INFO] Processed Batch: 80000/100489 | Valid: 4627 | Skipped: 75373
+2026-02-26 17:51:16,078 [INFO] Processed Batch: 85000/100489 | Valid: 4914 | Skipped: 80086
+2026-02-26 17:51:29,599 [INFO] Processed Batch: 90000/100489 | Valid: 5203 | Skipped: 84797
+2026-02-26 17:51:42,725 [INFO] Processed Batch: 95000/100489 | Valid: 5486 | Skipped: 89514
+2026-02-26 17:51:56,197 [INFO] Processed Batch: 100000/100489 | Valid: 5771 | Skipped: 94229
+2026-02-26 17:51:57,406 [INFO] Extraction complete. Processed 100489 events. Valid Output: 5798. Skipped (insufficient telemetry): 94691
+2026-02-26 17:51:57,457 [INFO] Final Dataset Size: 5798 records
+2026-02-26 17:51:57,458 [INFO] Class Distribution -> Anomalies: 0 (0.00%) | Normals: 5798
+2026-02-26 17:51:57,526 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.csv
+2026-02-26 17:52:00,155 [INFO] Exported Parquet: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.parquet
+2026-02-26 17:53:22,674 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 17:53:22,674 [INFO] Setting up query for Training Events...
+2026-02-26 17:53:22,964 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 17:53:22,964 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 17:53:23,958 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 17:53:24,275 [INFO] Total events queued for extraction: 100489
+2026-02-26 17:53:37,261 [INFO] Processed Batch: 5000/100489 | Valid: 357 | Skipped: 4643
+2026-02-26 17:53:49,884 [INFO] Processed Batch: 10000/100489 | Valid: 692 | Skipped: 9308
+2026-02-26 17:54:03,876 [INFO] Processed Batch: 15000/100489 | Valid: 1057 | Skipped: 13943
+2026-02-26 17:54:17,097 [INFO] Processed Batch: 20000/100489 | Valid: 1405 | Skipped: 18595
+2026-02-26 17:54:30,753 [INFO] Processed Batch: 25000/100489 | Valid: 1766 | Skipped: 23234
+2026-02-26 17:54:44,330 [INFO] Processed Batch: 30000/100489 | Valid: 2125 | Skipped: 27875
+2026-02-26 17:54:57,739 [INFO] Processed Batch: 35000/100489 | Valid: 2482 | Skipped: 32518
+2026-02-26 17:55:11,780 [INFO] Processed Batch: 40000/100489 | Valid: 2850 | Skipped: 37150
+2026-02-26 17:55:25,499 [INFO] Processed Batch: 45000/100489 | Valid: 3212 | Skipped: 41788
+2026-02-26 17:55:40,644 [INFO] Processed Batch: 50000/100489 | Valid: 3600 | Skipped: 46400
+2026-02-26 17:55:53,063 [INFO] Processed Batch: 55000/100489 | Valid: 3920 | Skipped: 51080
+2026-02-26 17:56:06,610 [INFO] Processed Batch: 60000/100489 | Valid: 4276 | Skipped: 55724
+2026-02-26 17:56:19,656 [INFO] Processed Batch: 65000/100489 | Valid: 4613 | Skipped: 60387
+2026-02-26 17:56:33,113 [INFO] Processed Batch: 70000/100489 | Valid: 4965 | Skipped: 65035
+2026-02-26 17:56:46,523 [INFO] Processed Batch: 75000/100489 | Valid: 5314 | Skipped: 69686
+2026-02-26 17:57:00,436 [INFO] Processed Batch: 80000/100489 | Valid: 5665 | Skipped: 74335
+2026-02-26 17:57:14,021 [INFO] Processed Batch: 85000/100489 | Valid: 6024 | Skipped: 78976
+2026-02-26 17:57:27,154 [INFO] Processed Batch: 90000/100489 | Valid: 6372 | Skipped: 83628
+2026-02-26 17:57:40,330 [INFO] Processed Batch: 95000/100489 | Valid: 6716 | Skipped: 88284
+2026-02-26 17:57:53,811 [INFO] Processed Batch: 100000/100489 | Valid: 7071 | Skipped: 92929
+2026-02-26 17:57:55,074 [INFO] Extraction complete. Processed 100489 events. Valid Output: 7103. Skipped (insufficient telemetry): 93386
+2026-02-26 17:57:55,165 [INFO] Final Dataset Size: 7103 records
+2026-02-26 17:57:55,165 [INFO] Class Distribution -> Anomalies: 1358 (19.12%) | Normals: 5745
+2026-02-26 17:57:55,258 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.csv
+2026-02-26 17:57:55,374 [INFO] Exported Parquet: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.parquet
+2026-02-26 18:08:52,131 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:08:52,132 [INFO] Setting up query for Training Events...
+2026-02-26 18:08:52,467 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:08:52,468 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:08:53,500 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:08:53,821 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:09:00,470 [INFO] Processed Batch: 5000/100489 | Valid: 0 | Skipped: 5000 | Yield: 0.0%
+2026-02-26 18:09:07,013 [INFO] Processed Batch: 10000/100489 | Valid: 0 | Skipped: 10000 | Yield: 0.0%
+2026-02-26 18:09:13,151 [INFO] Processed Batch: 15000/100489 | Valid: 0 | Skipped: 15000 | Yield: 0.0%
+2026-02-26 18:09:19,251 [INFO] Processed Batch: 20000/100489 | Valid: 0 | Skipped: 20000 | Yield: 0.0%
+2026-02-26 18:09:25,845 [INFO] Processed Batch: 25000/100489 | Valid: 0 | Skipped: 25000 | Yield: 0.0%
+2026-02-26 18:09:31,753 [INFO] Processed Batch: 30000/100489 | Valid: 0 | Skipped: 30000 | Yield: 0.0%
+2026-02-26 18:09:38,422 [INFO] Processed Batch: 35000/100489 | Valid: 0 | Skipped: 35000 | Yield: 0.0%
+2026-02-26 18:10:18,022 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:10:18,023 [INFO] Setting up query for Training Events...
+2026-02-26 18:10:18,300 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:10:18,301 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:10:19,319 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:10:19,695 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:10:33,507 [INFO] Processed Batch: 5000/100489 | Valid: 374 | Skipped: 4626 | Yield: 7.5%
+2026-02-26 18:10:48,034 [INFO] Processed Batch: 10000/100489 | Valid: 757 | Skipped: 9243 | Yield: 7.6%
+2026-02-26 18:11:03,523 [INFO] Processed Batch: 15000/100489 | Valid: 1162 | Skipped: 13838 | Yield: 7.7%
+2026-02-26 18:11:17,004 [INFO] Processed Batch: 20000/100489 | Valid: 1500 | Skipped: 18500 | Yield: 7.5%
+2026-02-26 18:11:31,175 [INFO] Processed Batch: 25000/100489 | Valid: 1852 | Skipped: 23148 | Yield: 7.4%
+2026-02-26 18:14:50,142 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:14:50,142 [INFO] Setting up query for Training Events...
+2026-02-26 18:14:51,693 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:14:51,693 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:14:52,767 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:14:53,112 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:15:00,625 [INFO] Processed Batch: 5000/100489 | Valid: 0 | Skipped: 5000 | Yield: 0.0%
+2026-02-26 18:15:07,386 [INFO] Processed Batch: 10000/100489 | Valid: 0 | Skipped: 10000 | Yield: 0.0%
+2026-02-26 18:15:15,027 [INFO] Processed Batch: 15000/100489 | Valid: 0 | Skipped: 15000 | Yield: 0.0%
+2026-02-26 18:15:21,527 [INFO] Processed Batch: 20000/100489 | Valid: 0 | Skipped: 20000 | Yield: 0.0%
+2026-02-26 18:15:27,720 [INFO] Processed Batch: 25000/100489 | Valid: 0 | Skipped: 25000 | Yield: 0.0%
+2026-02-26 18:15:34,756 [INFO] Processed Batch: 30000/100489 | Valid: 0 | Skipped: 30000 | Yield: 0.0%
+2026-02-26 18:15:42,058 [INFO] Processed Batch: 35000/100489 | Valid: 0 | Skipped: 35000 | Yield: 0.0%
+2026-02-26 18:20:21,750 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:20:21,750 [INFO] Setting up query for Training Events...
+2026-02-26 18:20:22,040 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:20:22,041 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:20:23,073 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:20:23,415 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:20:28,971 [INFO] Processed Batch: 5000/100489 | Valid: 0 | Skipped: 5000 | Yield: 0.0%
+2026-02-26 18:20:34,492 [INFO] Processed Batch: 10000/100489 | Valid: 0 | Skipped: 10000 | Yield: 0.0%
+2026-02-26 18:20:40,054 [INFO] Processed Batch: 15000/100489 | Valid: 0 | Skipped: 15000 | Yield: 0.0%
+2026-02-26 18:20:46,271 [INFO] Processed Batch: 20000/100489 | Valid: 0 | Skipped: 20000 | Yield: 0.0%
+2026-02-26 18:20:52,090 [INFO] Processed Batch: 25000/100489 | Valid: 0 | Skipped: 25000 | Yield: 0.0%
+2026-02-26 18:20:57,813 [INFO] Processed Batch: 30000/100489 | Valid: 0 | Skipped: 30000 | Yield: 0.0%
+2026-02-26 18:21:05,815 [INFO] Processed Batch: 35000/100489 | Valid: 0 | Skipped: 35000 | Yield: 0.0%
+2026-02-26 18:21:11,895 [INFO] Processed Batch: 40000/100489 | Valid: 0 | Skipped: 40000 | Yield: 0.0%
+2026-02-26 18:21:18,604 [INFO] Processed Batch: 45000/100489 | Valid: 0 | Skipped: 45000 | Yield: 0.0%
+2026-02-26 18:21:25,522 [INFO] Processed Batch: 50000/100489 | Valid: 0 | Skipped: 50000 | Yield: 0.0%
+2026-02-26 18:21:32,784 [INFO] Processed Batch: 55000/100489 | Valid: 0 | Skipped: 55000 | Yield: 0.0%
+2026-02-26 18:21:39,785 [INFO] Processed Batch: 60000/100489 | Valid: 0 | Skipped: 60000 | Yield: 0.0%
+2026-02-26 18:21:47,667 [INFO] Processed Batch: 65000/100489 | Valid: 0 | Skipped: 65000 | Yield: 0.0%
+2026-02-26 18:21:55,678 [INFO] Processed Batch: 70000/100489 | Valid: 0 | Skipped: 70000 | Yield: 0.0%
+2026-02-26 18:22:03,769 [INFO] Processed Batch: 75000/100489 | Valid: 0 | Skipped: 75000 | Yield: 0.0%
+2026-02-26 18:22:10,675 [INFO] Processed Batch: 80000/100489 | Valid: 0 | Skipped: 80000 | Yield: 0.0%
+2026-02-26 18:22:18,305 [INFO] Processed Batch: 85000/100489 | Valid: 0 | Skipped: 85000 | Yield: 0.0%
+2026-02-26 18:22:25,967 [INFO] Processed Batch: 90000/100489 | Valid: 0 | Skipped: 90000 | Yield: 0.0%
+2026-02-26 18:22:32,768 [INFO] Processed Batch: 95000/100489 | Valid: 0 | Skipped: 95000 | Yield: 0.0%
+2026-02-26 18:22:39,892 [INFO] Processed Batch: 100000/100489 | Valid: 0 | Skipped: 100000 | Yield: 0.0%
+2026-02-26 18:22:40,727 [INFO] ========================================
+2026-02-26 18:22:40,727 [INFO] EXTRACTION SUMMARY
+2026-02-26 18:22:40,727 [INFO] ========================================
+2026-02-26 18:22:40,728 [INFO] Total events processed: 100489
+2026-02-26 18:22:40,728 [INFO] Valid records: 0
+2026-02-26 18:22:40,728 [INFO] Skipped records: 100489
+2026-02-26 18:22:40,728 [INFO] Extraction yield: 0.0%
+2026-02-26 18:22:40,728 [INFO] ========================================
+2026-02-26 18:22:40,728 [ERROR] No valid features extracted. Exiting.
+2026-02-26 18:26:20,454 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:26:20,454 [INFO] Setting up query for Training Events...
+2026-02-26 18:26:20,839 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:26:20,840 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:26:21,925 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:26:22,261 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:26:36,878 [INFO] Processed Batch: 5000/100489 | Valid: 389 | Skipped: 4611 | Yield: 7.8%
+2026-02-26 18:26:50,445 [INFO] Processed Batch: 10000/100489 | Valid: 746 | Skipped: 9254 | Yield: 7.5%
+2026-02-26 18:27:03,616 [INFO] Processed Batch: 15000/100489 | Valid: 1096 | Skipped: 13904 | Yield: 7.3%
+2026-02-26 18:27:17,299 [INFO] Processed Batch: 20000/100489 | Valid: 1453 | Skipped: 18547 | Yield: 7.3%
+2026-02-26 18:27:31,525 [INFO] Processed Batch: 25000/100489 | Valid: 1807 | Skipped: 23193 | Yield: 7.2%
+2026-02-26 18:27:47,304 [INFO] Processed Batch: 30000/100489 | Valid: 2182 | Skipped: 27818 | Yield: 7.3%
+2026-02-26 18:28:02,819 [INFO] Processed Batch: 35000/100489 | Valid: 2566 | Skipped: 32434 | Yield: 7.3%
+2026-02-26 18:28:17,413 [INFO] Processed Batch: 40000/100489 | Valid: 2920 | Skipped: 37080 | Yield: 7.3%
+2026-02-26 18:28:32,603 [INFO] Processed Batch: 45000/100489 | Valid: 3304 | Skipped: 41696 | Yield: 7.3%
+2026-02-26 18:28:45,959 [INFO] Processed Batch: 50000/100489 | Valid: 3624 | Skipped: 46376 | Yield: 7.2%
+2026-02-26 18:28:59,750 [INFO] Processed Batch: 55000/100489 | Valid: 3986 | Skipped: 51014 | Yield: 7.2%
+2026-02-26 18:29:14,696 [INFO] Processed Batch: 60000/100489 | Valid: 4357 | Skipped: 55643 | Yield: 7.3%
+2026-02-26 18:29:30,110 [INFO] Processed Batch: 65000/100489 | Valid: 4743 | Skipped: 60257 | Yield: 7.3%
+2026-02-26 18:29:44,585 [INFO] Processed Batch: 70000/100489 | Valid: 5086 | Skipped: 64914 | Yield: 7.3%
+2026-02-26 18:29:57,847 [INFO] Processed Batch: 75000/100489 | Valid: 5425 | Skipped: 69575 | Yield: 7.2%
+2026-02-26 18:30:13,434 [INFO] Processed Batch: 80000/100489 | Valid: 5805 | Skipped: 74195 | Yield: 7.3%
+2026-02-26 18:30:29,552 [INFO] Processed Batch: 85000/100489 | Valid: 6172 | Skipped: 78828 | Yield: 7.3%
+2026-02-26 18:30:46,257 [INFO] Processed Batch: 90000/100489 | Valid: 6506 | Skipped: 83494 | Yield: 7.2%
+2026-02-26 18:31:02,184 [INFO] Processed Batch: 95000/100489 | Valid: 6869 | Skipped: 88131 | Yield: 7.2%
+2026-02-26 18:31:17,554 [INFO] Processed Batch: 100000/100489 | Valid: 7213 | Skipped: 92787 | Yield: 7.2%
+2026-02-26 18:31:18,991 [INFO] ========================================
+2026-02-26 18:31:18,992 [INFO] EXTRACTION SUMMARY
+2026-02-26 18:31:18,992 [INFO] ========================================
+2026-02-26 18:31:18,992 [INFO] Total events processed: 100489
+2026-02-26 18:31:18,992 [INFO] Valid records: 7248
+2026-02-26 18:31:18,992 [INFO] Skipped records: 93241
+2026-02-26 18:31:18,992 [INFO] Extraction yield: 7.2%
+2026-02-26 18:31:18,992 [INFO] ========================================
+2026-02-26 18:31:19,056 [INFO] Final Dataset Size: 7248 records
+2026-02-26 18:31:19,057 [INFO] Class Distribution -> Anomalies: 1358 (18.74%) | Normals: 5890
+2026-02-26 18:31:19,228 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.csv
+2026-02-26 18:31:19,353 [INFO] Exported Parquet: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.parquet
+2026-02-26 18:33:42,386 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:33:42,386 [INFO] Setting up query for Training Events...
+2026-02-26 18:33:42,726 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:33:42,726 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:33:43,714 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:33:44,053 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:33:56,038 [INFO] Processed: 5000/100489 | Valid: 321 | Skipped: 4679 | Yield: 6.4%
+2026-02-26 18:34:09,447 [INFO] Processed: 10000/100489 | Valid: 667 | Skipped: 9333 | Yield: 6.7%
+2026-02-26 18:34:23,425 [INFO] Processed: 15000/100489 | Valid: 1020 | Skipped: 13980 | Yield: 6.8%
+2026-02-26 18:34:37,137 [INFO] Processed: 20000/100489 | Valid: 1368 | Skipped: 18632 | Yield: 6.8%
+2026-02-26 18:34:50,809 [INFO] Processed: 25000/100489 | Valid: 1715 | Skipped: 23285 | Yield: 6.9%
+2026-02-26 18:35:04,194 [INFO] Processed: 30000/100489 | Valid: 2059 | Skipped: 27941 | Yield: 6.9%
+2026-02-26 18:35:17,050 [INFO] Processed: 35000/100489 | Valid: 2385 | Skipped: 32615 | Yield: 6.8%
+2026-02-26 18:35:33,563 [INFO] Processed: 40000/100489 | Valid: 2758 | Skipped: 37242 | Yield: 6.9%
+2026-02-26 18:35:47,597 [INFO] Processed: 45000/100489 | Valid: 3121 | Skipped: 41879 | Yield: 6.9%
+2026-02-26 18:36:02,944 [INFO] Processed: 50000/100489 | Valid: 3470 | Skipped: 46530 | Yield: 6.9%
+2026-02-26 18:36:16,651 [INFO] Processed: 55000/100489 | Valid: 3823 | Skipped: 51177 | Yield: 7.0%
+2026-02-26 18:36:34,079 [INFO] Processed: 60000/100489 | Valid: 4221 | Skipped: 55779 | Yield: 7.0%
+2026-02-26 18:36:49,372 [INFO] Processed: 65000/100489 | Valid: 4603 | Skipped: 60397 | Yield: 7.1%
+2026-02-26 18:37:03,955 [INFO] Processed: 70000/100489 | Valid: 4942 | Skipped: 65058 | Yield: 7.1%
+2026-02-26 18:37:18,471 [INFO] Processed: 75000/100489 | Valid: 5311 | Skipped: 69689 | Yield: 7.1%
+2026-02-26 18:37:33,316 [INFO] Processed: 80000/100489 | Valid: 5657 | Skipped: 74343 | Yield: 7.1%
+2026-02-26 18:37:47,820 [INFO] Processed: 85000/100489 | Valid: 6013 | Skipped: 78987 | Yield: 7.1%
+2026-02-26 18:38:02,709 [INFO] Processed: 90000/100489 | Valid: 6384 | Skipped: 83616 | Yield: 7.1%
+2026-02-26 18:38:18,089 [INFO] Processed: 95000/100489 | Valid: 6771 | Skipped: 88229 | Yield: 7.1%
+2026-02-26 18:38:33,055 [INFO] Processed: 100000/100489 | Valid: 7138 | Skipped: 92862 | Yield: 7.1%
+2026-02-26 18:38:34,413 [INFO] ========================================
+2026-02-26 18:38:34,413 [INFO] EXTRACTION SUMMARY
+2026-02-26 18:38:34,413 [INFO] ========================================
+2026-02-26 18:38:34,413 [INFO] Total events processed: 100489
+2026-02-26 18:38:34,413 [INFO] Valid records: 7173
+2026-02-26 18:38:34,413 [INFO] Skipped records: 93316
+2026-02-26 18:38:34,413 [INFO] Extraction yield: 7.1%
+2026-02-26 18:38:34,414 [INFO] ========================================
+2026-02-26 18:38:34,477 [INFO] Final Dataset Size: 7173
+2026-02-26 18:38:34,477 [INFO] Class Distribution -> Anomalies: 1358 (18.93%) | Normals: 5815
+2026-02-26 18:38:34,647 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.csv
+2026-02-26 18:38:34,742 [INFO] Exported Parquet: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.parquet
+2026-02-26 18:44:13,592 [INFO] Starting production ML feature extraction pipeline...
+2026-02-26 18:44:13,592 [INFO] Setting up query for Training Events...
+2026-02-26 18:44:13,918 [INFO] Connecting to MongoDB... Target Anomalies: 25489
+2026-02-26 18:44:13,918 [INFO] Targeting Normal sample size limit: 75000
+2026-02-26 18:44:15,067 [INFO] Successfully sampled 75000 Normal events.
+2026-02-26 18:44:15,525 [INFO] Total events queued for extraction: 100489
+2026-02-26 18:44:29,295 [INFO] Processed Batch: 5000/100489 | Valid: 354 | Skipped: 4646 | Yield: 7.1%
+2026-02-26 18:44:43,083 [INFO] Processed Batch: 10000/100489 | Valid: 702 | Skipped: 9298 | Yield: 7.0%
+2026-02-26 18:44:58,468 [INFO] Processed Batch: 15000/100489 | Valid: 1079 | Skipped: 13921 | Yield: 7.2%
+2026-02-26 18:45:12,136 [INFO] Processed Batch: 20000/100489 | Valid: 1433 | Skipped: 18567 | Yield: 7.2%
+2026-02-26 18:45:27,047 [INFO] Processed Batch: 25000/100489 | Valid: 1797 | Skipped: 23203 | Yield: 7.2%
+2026-02-26 18:45:42,386 [INFO] Processed Batch: 30000/100489 | Valid: 2182 | Skipped: 27818 | Yield: 7.3%
+2026-02-26 18:45:56,545 [INFO] Processed Batch: 35000/100489 | Valid: 2534 | Skipped: 32466 | Yield: 7.2%
+2026-02-26 18:46:09,737 [INFO] Processed Batch: 40000/100489 | Valid: 2872 | Skipped: 37128 | Yield: 7.2%
+2026-02-26 18:46:23,981 [INFO] Processed Batch: 45000/100489 | Valid: 3212 | Skipped: 41788 | Yield: 7.1%
+2026-02-26 18:46:37,160 [INFO] Processed Batch: 50000/100489 | Valid: 3547 | Skipped: 46453 | Yield: 7.1%
+2026-02-26 18:46:52,276 [INFO] Processed Batch: 55000/100489 | Valid: 3914 | Skipped: 51086 | Yield: 7.1%
+2026-02-26 18:47:07,121 [INFO] Processed Batch: 60000/100489 | Valid: 4282 | Skipped: 55718 | Yield: 7.1%
+2026-02-26 18:47:22,427 [INFO] Processed Batch: 65000/100489 | Valid: 4655 | Skipped: 60345 | Yield: 7.2%
+2026-02-26 18:47:37,470 [INFO] Processed Batch: 70000/100489 | Valid: 5013 | Skipped: 64987 | Yield: 7.2%
+2026-02-26 18:47:53,481 [INFO] Processed Batch: 75000/100489 | Valid: 5383 | Skipped: 69617 | Yield: 7.2%
+2026-02-26 18:48:09,227 [INFO] Processed Batch: 80000/100489 | Valid: 5753 | Skipped: 74247 | Yield: 7.2%
+2026-02-26 18:48:23,864 [INFO] Processed Batch: 85000/100489 | Valid: 6101 | Skipped: 78899 | Yield: 7.2%
+2026-02-26 18:48:41,292 [INFO] Processed Batch: 90000/100489 | Valid: 6455 | Skipped: 83545 | Yield: 7.2%
+2026-02-26 18:48:58,349 [INFO] Processed Batch: 95000/100489 | Valid: 6818 | Skipped: 88182 | Yield: 7.2%
+2026-02-26 18:49:17,709 [INFO] Processed Batch: 100000/100489 | Valid: 7180 | Skipped: 92820 | Yield: 7.2%
+2026-02-26 18:49:18,819 [INFO] ========================================
+2026-02-26 18:49:18,820 [INFO] EXTRACTION SUMMARY
+2026-02-26 18:49:18,820 [INFO] ========================================
+2026-02-26 18:49:18,820 [INFO] Total events processed: 100489
+2026-02-26 18:49:18,820 [INFO] Valid records: 7206
+2026-02-26 18:49:18,820 [INFO] Skipped records: 93283
+2026-02-26 18:49:18,820 [INFO] Extraction yield: 7.2%
+2026-02-26 18:49:18,820 [INFO] ========================================
+2026-02-26 18:49:18,941 [INFO] Final Dataset Size: 7206 records
+2026-02-26 18:49:18,941 [INFO] Class Distribution -> Anomalies: 1358 (18.85%) | Normals: 5848
+2026-02-26 18:49:19,300 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.csv
+2026-02-26 18:49:19,593 [INFO] Exported Parquet: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset.parquet

@@ -1,0 +1,8 @@
+{
+    "Outbreak AUC": 0.9987129987129987,
+    "Breakdown AUC": 0.9902865468674114,
+    "Intensity Corr": 0.9899000689651651,
+    "Stability Corr": 0.9939428985052646,
+    "Peak Day MAE": 0.4214295941591263,
+    "Sim R0 Reduction": 0.30266896297124224
+}

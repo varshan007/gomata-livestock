@@ -1,0 +1,12 @@
+{
+  "outbreak_7d_auc": 0.10802469135802469,
+  "outbreak_14d_auc": 0.1358024691358025,
+  "peak_day_mae": 0.4657112797101339,
+  "peak_size_mae": 0.1628875255584717,
+  "stability_correlation": -0.09880179833271963,
+  "breakdown_auc": 0.08620689655172414,
+  "vaccination_R0_reduction": 0.13248472945945577,
+  "n_eval_farms": 60,
+  "n_outbreaks_7d": 6,
+  "n_outbreaks_14d": 6
+}

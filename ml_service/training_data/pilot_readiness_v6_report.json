@@ -1,0 +1,42 @@
+{
+  "version": "pilot_readiness_v6",
+  "readiness_score": 60.0,
+  "passed": 3,
+  "total": 5,
+  "categories": {
+    "accuracy": {
+      "status": "pass",
+      "roc_auc": 0.9239,
+      "detail": "ROC-AUC 0.924 in realistic range"
+    },
+    "robustness": {
+      "status": "pass",
+      "detail": "4.6% degradation at 15% missing"
+    },
+    "calibration": {
+      "status": "pass",
+      "ece": 0.028,
+      "brier": 0.028,
+      "pr_lift": 17.4,
+      "detail": "ECE=0.028, Brier=0.028, PR-lift=17.4x"
+    },
+    "early_detection": {
+      "status": "fail",
+      "detail": "5.9% detected 24h early (target 50%). Needs temporal features."
+    },
+    "economic_utility": {
+      "status": "pass",
+      "detail": "39.9% milk loss reduction at theta=0.3. ROI negative due to false alarm costs."
+    }
+  },
+  "decision_threshold": {
+    "optimal_threshold": 0.05,
+    "precision": 0.8994,
+    "recall": 0.3506,
+    "f1": 0.5045,
+    "utility_usd": 52248.0,
+    "fpr_per_week": 2.92,
+    "benefit_per_tp": 50.0,
+    "cost_per_fp": 8.0
+  }
+}

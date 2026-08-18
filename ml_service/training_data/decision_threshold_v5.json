@@ -1,0 +1,10 @@
+{
+  "optimal_threshold": 0.05,
+  "precision": 0.8994,
+  "recall": 0.3506,
+  "f1": 0.5045,
+  "utility_usd": 52248.0,
+  "fpr_per_week": 2.92,
+  "benefit_per_tp": 50.0,
+  "cost_per_fp": 8.0
+}

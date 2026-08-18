@@ -1,0 +1,200 @@
+2026-02-28 23:06:47,796 [INFO] ============================================================
+2026-02-28 23:06:47,796 [INFO] 🔬 GoMata Leakage Audit v1 — Feature Whitelist Enforcement
+2026-02-28 23:06:47,796 [INFO] ============================================================
+2026-02-28 23:06:47,796 [INFO] 
+============================================================
+2026-02-28 23:06:47,796 [INFO] 🔬 Auditing Model v2 (current): 60 features
+2026-02-28 23:06:47,796 [INFO] ============================================================
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: temp_zscore — Embedded from features.temp_zscore — could encode hidden state
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: hsi — heat_stress_index may encode hidden stress state
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: composite_stress — composite_stress_index from hidden stressLoad → label proxy (r=0.56)
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: rumination_drop — Derived from hidden infection/stress state → label proxy (r=0.69)
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: autocorr_temp — Embedded from features.autocorrelation_temp — simulation artifact
+2026-02-28 23:06:47,797 [INFO]   ⚠️  SUSPICIOUS: temp_slope_6h — Embedded from features.temp_6h_slope — may be computed WITH hidden state
+2026-02-28 23:06:47,797 [INFO] 
+  Summary:
+2026-02-28 23:06:47,797 [INFO]     Forbidden: 0
+2026-02-28 23:06:47,797 [INFO]     Suspicious: 6
+2026-02-28 23:06:47,797 [INFO]     Clean: 54
+2026-02-28 23:06:47,797 [INFO]     VERDICT: ✅ NO FORBIDDEN
+2026-02-28 23:06:47,797 [INFO] 
+── Correlation Analysis ──
+2026-02-28 23:06:48,625 [INFO] 
+  Top 10 correlations with disease_binary:
+2026-02-28 23:06:48,625 [INFO]     rumination_drop: 0.6933 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     composite_stress: 0.5600 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_1h_avg: 0.5594 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_current: 0.5559 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_lag_1h: 0.5497 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_6h_avg: 0.5376 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_lag_3h: 0.5192 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     temp_24h_std: 0.5159 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     temp_6h_avg: 0.5089 ⚠️ HIGH
+2026-02-28 23:06:48,625 [INFO]     hr_6h_std: 0.5057 ⚠️ HIGH
+2026-02-28 23:06:48,841 [INFO] 
+  Top 10 correlations with disease_binary:
+2026-02-28 23:06:48,841 [INFO]     weight_deviation: 0.2035
+2026-02-28 23:06:48,841 [INFO]     feed_changes_30d: 0.1452
+2026-02-28 23:06:48,841 [INFO]     transport_decay: 0.1443
+2026-02-28 23:06:48,841 [INFO]     hours_since_antibiotic: 0.1191
+2026-02-28 23:06:48,841 [INFO]     hours_since_feed_change: 0.1019
+2026-02-28 23:06:48,841 [INFO]     feed_decay: 0.0997
+2026-02-28 23:06:48,841 [INFO]     conductivity_deviation: 0.0849
+2026-02-28 23:06:48,841 [INFO]     bcs: 0.0632
+2026-02-28 23:06:48,841 [INFO]     hours_since_vaccination: 0.0531
+2026-02-28 23:06:48,841 [INFO]     age: 0.0375
+2026-02-28 23:06:48,842 [INFO] 
+── Proposed Clean Feature Set ──
+2026-02-28 23:06:48,842 [INFO] 
+============================================================
+2026-02-28 23:06:48,842 [INFO] 🔬 Auditing Proposed clean whitelist: 54 features
+2026-02-28 23:06:48,843 [INFO] ============================================================
+2026-02-28 23:06:48,843 [INFO] 
+  Summary:
+2026-02-28 23:06:48,843 [INFO]     Forbidden: 0
+2026-02-28 23:06:48,843 [INFO]     Suspicious: 0
+2026-02-28 23:06:48,843 [INFO]     Clean: 54
+2026-02-28 23:06:48,843 [INFO]     VERDICT: ✅ NO FORBIDDEN
+2026-02-28 23:06:48,843 [INFO] 
+============================================================
+2026-02-28 23:06:48,843 [INFO] 📋 Audit saved: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/leakage_audit_report.json
+2026-02-28 23:06:48,843 [INFO]    Suspicious features to remove: 6
+2026-02-28 23:06:48,843 [INFO]    Clean features remaining: 54
+2026-02-28 23:06:48,843 [INFO] ============================================================
+2026-02-28 23:07:18,072 [INFO] ============================================================
+2026-02-28 23:07:18,072 [INFO] 🔬 GoMata No-Leak Training — Clean Features + Anti-Leakage Split
+2026-02-28 23:07:18,072 [INFO]    Features: 54 (6 suspicious removed)
+2026-02-28 23:07:18,072 [INFO] ============================================================
+2026-02-28 23:07:18,958 [INFO] Loaded V3: 199691 rows, V4: 199777 rows
+2026-02-28 23:07:19,001 [INFO] Fused: 199691 rows, 54 clean features
+2026-02-28 23:07:19,002 [INFO] Disease: 4310/199691 (2.2%)
+2026-02-28 23:07:19,004 [INFO] 
+── Animal+Time Combined Split ──
+2026-02-28 23:07:20,371 [INFO] Combined animal+time split:
+2026-02-28 23:07:20,372 [INFO]   Train animals: 80, Test animals: 20
+2026-02-28 23:07:20,372 [INFO]   Train: 111874 rows (942 positive, 0.8%)
+2026-02-28 23:07:20,372 [INFO]   Test:  87817 rows (3368 positive, 3.8%)
+2026-02-28 23:07:20,372 [INFO]     ├ Temporal test (known animals, future time): 47997
+2026-02-28 23:07:20,372 [INFO]     └ Unseen animal test: 39820
+2026-02-28 23:07:20,391 [INFO] 
+── Applying 60/40 Curriculum ──
+2026-02-28 23:07:20,487 [INFO] Curriculum: 67125 clean + 44749 noisy = 111874 total
+2026-02-28 23:07:20,488 [INFO] scale_pos_weight: 117.762
+2026-02-28 23:07:20,488 [INFO] 
+── Training Disease Classifier (no-leak) ──
+2026-02-28 23:07:26,877 [INFO] 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     84449
+           1       0.95      0.88      0.91      3368
+
+    accuracy                           0.99     87817
+   macro avg       0.97      0.94      0.95     87817
+weighted avg       0.99      0.99      0.99     87817
+
+2026-02-28 23:07:26,878 [INFO] ROC-AUC: 0.9963
+2026-02-28 23:07:26,878 [INFO] PR-AUC: 0.9572
+2026-02-28 23:07:26,878 [INFO] ECE (calibration): 0.0049
+2026-02-28 23:07:26,878 [INFO] Confusion:
+[[84286   163]
+ [  405  2963]]
+2026-02-28 23:07:26,899 [INFO] Optimal threshold: 0.1369 (F1=0.9174)
+2026-02-28 23:07:26,899 [INFO] 
+── Training Severity Regressor (no-leak) ──
+2026-02-28 23:07:29,118 [INFO] Severity RMSE: 0.1787
+2026-02-28 23:07:29,119 [INFO] 
+── SHAP Feature Importance (Shortcut Detection) ──
+2026-02-28 23:07:29,123 [INFO] 
+Top 15 features:
+2026-02-28 23:07:29,125 [INFO] 
+                    feature  importance        pct  cumulative_pct
+1                hr_current    0.555382  55.540001       55.540001
+2              resp_current    0.061873   6.190000       61.730000
+50         feed_changes_30d    0.057858   5.790000       67.519997
+12                hr_1h_avg    0.029458   2.950000       70.470001
+5             lying_current    0.022057   2.210000       72.680000
+19              resp_6h_avg    0.021236   2.120000       74.800003
+0              temp_current    0.017669   1.770000       76.570000
+4        rumination_current    0.017331   1.730000       78.300003
+46          transport_decay    0.014655   1.470000       79.769997
+25                hr_lag_1h    0.013818   1.380000       81.150002
+53                      age    0.013420   1.340000       82.489998
+47               feed_decay    0.013256   1.330000       83.820000
+9              temp_24h_std    0.013060   1.310000       85.129997
+43  hours_since_feed_change    0.008835   0.880000       86.010002
+51                   parity    0.008608   0.860000       86.870003
+2026-02-28 23:07:29,125 [INFO] 
+Top 3 features explain: 67.5% of total importance
+2026-02-28 23:07:29,126 [INFO] Shortcut bias: ⚠️ YES — top 3 > 60%
+2026-02-28 23:07:32,822 [INFO] 
+SHAP Top 15:
+2026-02-28 23:07:32,823 [INFO] 
+                    feature  mean_shap
+1                hr_current   3.019215
+2              resp_current   2.160448
+5             lying_current   1.549273
+9              temp_24h_std   1.044364
+4        rumination_current   0.822356
+41   hours_since_antibiotic   0.803810
+53                      age   0.554503
+35                 humidity   0.450601
+43  hours_since_feed_change   0.382954
+3          activity_current   0.380349
+20              resp_6h_std   0.293187
+19              resp_6h_avg   0.221371
+52                      bcs   0.211349
+13                hr_6h_avg   0.207167
+0              temp_current   0.205577
+2026-02-28 23:07:33,808 [INFO] SHAP plot: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/shap_summary.png
+2026-02-28 23:07:33,808 [INFO] 
+── Saving Artifacts ──
+2026-02-28 23:07:33,813 [INFO]   ✅ model_no_leak.pkl
+2026-02-28 23:07:33,813 [INFO]   ✅ severity_model_no_leak.pkl
+2026-02-28 23:08:47,530 [INFO] ============================================================
+2026-02-28 23:08:47,531 [INFO] 🔬 Robustness Evaluation — No-Leak Model
+2026-02-28 23:08:47,531 [INFO] ============================================================
+2026-02-28 23:08:48,360 [INFO] Eval: 40367 rows, 1381 positive
+2026-02-28 23:08:48,478 [INFO]   Sensor Drift: AUC=0.9915 (drop 0.3%) ECE=0.0052 ✅ PASS
+2026-02-28 23:08:48,560 [INFO]   Missing 5%: AUC=0.9945 (drop 0.0%) ECE=0.0058 ✅ PASS
+2026-02-28 23:08:48,628 [INFO]   Missing 10%: AUC=0.9936 (drop 0.1%) ECE=0.0072 ✅ PASS
+2026-02-28 23:08:48,697 [INFO]   Missing 15%: AUC=0.9931 (drop 0.2%) ECE=0.0090 ✅ PASS
+2026-02-28 23:08:48,768 [INFO]   Missing 30%: AUC=0.9901 (drop 0.5%) ECE=0.0174 ✅ PASS
+2026-02-28 23:08:48,831 [INFO]   Block Missing 4h: AUC=0.9948 (drop -0.0%) ECE=0.0046 ✅ PASS
+2026-02-28 23:08:48,895 [INFO]   Device Offline (temp): AUC=0.9939 (drop 0.1%) ECE=0.0050 ✅ PASS
+2026-02-28 23:08:48,959 [INFO]   Device Offline (hr): AUC=0.9873 (drop 0.7%) ECE=0.0261 ✅ PASS
+2026-02-28 23:08:49,023 [INFO]   Temporal Delay 30min: AUC=0.9951 (drop -0.0%) ECE=0.0046 ✅ PASS
+2026-02-28 23:08:49,098 [INFO]   Temporal Delay 2h: AUC=0.9957 (drop -0.1%) ECE=0.0047 ✅ PASS
+2026-02-28 23:08:49,163 [INFO]   Temporal Delay 6h: AUC=0.9973 (drop -0.3%) ECE=0.0051 ✅ PASS
+2026-02-28 23:08:49,230 [INFO]   Mgmt Misreporting: AUC=0.9937 (drop 0.1%) ECE=0.0051 ✅ PASS
+2026-02-28 23:08:49,230 [INFO] 
+── Counterfactual ──
+2026-02-28 23:08:55,831 [INFO] ============================================================
+2026-02-28 23:08:55,831 [INFO] 🧬 Memorization Detection Test
+2026-02-28 23:08:55,831 [INFO] ============================================================
+2026-02-28 23:08:56,645 [INFO] Loaded: 199691 rows, 4310 positive
+2026-02-28 23:08:56,646 [INFO] 
+── Baseline: Original Clean Model ──
+2026-02-28 23:08:56,731 [INFO]   Baseline AUC (unseen animals): 0.9982
+2026-02-28 23:08:56,731 [INFO] 
+── Test 1: Shuffle Animal IDs ──
+2026-02-28 23:08:58,127 [INFO]   AUC with shuffled animals: 1.0000
+2026-02-28 23:08:58,127 [INFO]   Expected: Similar to original (model learns physiology, not identity)
+2026-02-28 23:08:58,127 [INFO] 
+── Test 2: Shuffle Timestamp Order ──
+2026-02-28 23:08:59,675 [INFO]   AUC with shuffled timestamps: 1.0000
+2026-02-28 23:08:59,675 [INFO]   Expected: LOWER than original (temporal features broken)
+2026-02-28 23:08:59,676 [INFO] 
+── Test 3: Random Labels ──
+2026-02-28 23:09:00,345 [INFO]   AUC with random labels: 0.5020
+2026-02-28 23:09:00,346 [INFO]   Expected: ~0.50 (no signal = no learning)
+2026-02-28 23:09:00,346 [INFO] 
+============================================================
+2026-02-28 23:09:00,346 [INFO] 📊 MEMORIZATION TEST RESULTS
+2026-02-28 23:09:00,346 [INFO] ============================================================
+2026-02-28 23:09:00,346 [INFO]   Baseline AUC:          0.9982
+2026-02-28 23:09:00,346 [INFO]   Shuffle Animals:       1.0000 ✅
+2026-02-28 23:09:00,346 [INFO]   Shuffle Timestamps:    1.0000 ❌
+2026-02-28 23:09:00,346 [INFO]   Random Labels:         0.5020 ✅
+2026-02-28 23:09:00,346 [INFO] 
+  Overall: ❌ MEMORIZATION DETECTED
+2026-02-28 23:09:00,346 [INFO] ============================================================

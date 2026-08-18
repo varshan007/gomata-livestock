@@ -1,0 +1,90 @@
+2026-02-26 19:38:50,994 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 19:38:53,604 [INFO] Target Anomalies (simulation_v3): 0
+2026-02-26 19:38:53,604 [ERROR] No v3 anomalies found in DB. Ensure simulation is running in v3 mode.
+2026-02-26 19:44:39,362 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 19:44:39,630 [INFO] Target Anomalies (simulation_v3): 0
+2026-02-26 19:44:39,630 [ERROR] No v3 anomalies found in DB. Ensure simulation is running in v3 mode.
+2026-02-26 19:46:13,353 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 19:46:13,603 [INFO] Target Anomalies (simulation_v3): 1191
+2026-02-26 19:46:13,787 [INFO] Targeting Normal sample size limit: 3573
+2026-02-26 19:46:14,064 [INFO] Successfully sampled 3573 Normal events.
+2026-02-26 19:46:14,065 [INFO] Total events queued for extraction: 4764
+2026-02-26 19:46:14,070 [ERROR] No valid features extracted. Exiting.
+2026-02-26 21:04:56,870 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:04:57,315 [INFO] Target Anomalies (simulation_v3): 539
+2026-02-26 21:04:57,512 [INFO] Targeting Normal sample size limit: 1617
+2026-02-26 21:04:57,947 [INFO] Successfully sampled 1606 Normal events.
+2026-02-26 21:04:57,948 [INFO] Total events queued for extraction: 2145
+2026-02-26 21:04:57,965 [INFO] ========================================
+2026-02-26 21:04:57,965 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:04:57,965 [INFO] ========================================
+2026-02-26 21:04:57,965 [INFO] Total events processed: 2145
+2026-02-26 21:04:57,965 [INFO] Final Dataset Size: 2145 records
+2026-02-26 21:04:57,965 [INFO] Class Distribution -> Anomalies: 539 (25.13%) | Normals: 1606
+2026-02-26 21:04:57,965 [INFO] ========================================
+2026-02-26 21:04:57,991 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv
+2026-02-26 21:10:02,704 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:10:03,193 [INFO] Target Anomalies (simulation_v3): 1227
+2026-02-26 21:10:03,425 [INFO] Targeting Normal sample size limit: 3681
+2026-02-26 21:10:03,718 [INFO] Successfully sampled 3629 Normal events.
+2026-02-26 21:10:03,718 [INFO] Total events queued for extraction: 4856
+2026-02-26 21:10:03,748 [INFO] ========================================
+2026-02-26 21:10:03,748 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:10:03,748 [INFO] ========================================
+2026-02-26 21:10:03,748 [INFO] Total events processed: 4856
+2026-02-26 21:10:03,748 [INFO] Final Dataset Size: 4856 records
+2026-02-26 21:10:03,748 [INFO] Class Distribution -> Anomalies: 1227 (25.27%) | Normals: 3629
+2026-02-26 21:10:03,748 [INFO] ========================================
+2026-02-26 21:10:03,801 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv
+2026-02-26 21:20:02,776 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:20:06,035 [INFO] Target Anomalies (simulation_v3): 6763
+2026-02-26 21:20:06,318 [INFO] Targeting Normal sample size limit: 20289
+2026-02-26 21:20:06,625 [INFO] Successfully sampled 3546 Normal events.
+2026-02-26 21:20:06,627 [INFO] Total events queued for extraction: 10309
+2026-02-26 21:20:06,718 [INFO] ========================================
+2026-02-26 21:20:06,718 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:20:06,718 [INFO] ========================================
+2026-02-26 21:20:06,718 [INFO] Total events processed: 10309
+2026-02-26 21:20:06,718 [INFO] Final Dataset Size: 10309 records
+2026-02-26 21:20:06,718 [INFO] Class Distribution -> Anomalies: 6763 (65.60%) | Normals: 3546
+2026-02-26 21:20:06,718 [INFO] ========================================
+2026-02-26 21:20:06,887 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv
+2026-02-26 21:33:48,192 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:33:48,727 [INFO] Target Anomalies (simulation_v3): 15420
+2026-02-26 21:33:49,034 [INFO] Targeting Normal sample size limit: 46260
+2026-02-26 21:33:49,421 [INFO] Successfully sampled 8454 Normal events.
+2026-02-26 21:33:49,423 [INFO] Total events queued for extraction: 23874
+2026-02-26 21:33:49,579 [INFO] ========================================
+2026-02-26 21:33:49,580 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:33:49,580 [INFO] ========================================
+2026-02-26 21:33:49,580 [INFO] Total events processed: 23874
+2026-02-26 21:33:49,580 [INFO] Final Dataset Size: 23874 records
+2026-02-26 21:33:49,580 [INFO] Class Distribution -> Anomalies: 15420 (64.59%) | Normals: 8454
+2026-02-26 21:33:49,580 [INFO] ========================================
+2026-02-26 21:33:49,918 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv
+2026-02-26 21:43:17,292 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:43:20,193 [INFO] Target Anomalies (simulation_v3): 11376
+2026-02-26 21:43:20,501 [INFO] Targeting Normal sample size limit: 34128
+2026-02-26 21:43:20,830 [INFO] Successfully sampled 6049 Normal events.
+2026-02-26 21:43:20,832 [INFO] Total events queued for extraction: 17425
+2026-02-26 21:43:20,987 [INFO] ========================================
+2026-02-26 21:43:20,987 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:43:20,987 [INFO] ========================================
+2026-02-26 21:43:20,987 [INFO] Total events processed: 17425
+2026-02-26 21:43:20,987 [INFO] Final Dataset Size: 17425 records
+2026-02-26 21:43:20,987 [INFO] Class Distribution -> Anomalies: 11376 (65.29%) | Normals: 6049
+2026-02-26 21:43:20,987 [INFO] ========================================
+2026-02-26 21:43:21,287 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv
+2026-02-26 21:54:22,497 [INFO] Starting V3 ML feature extraction pipeline (Embedded Co-Timed Features)...
+2026-02-26 21:54:23,280 [INFO] Target Anomalies (simulation_v3): 13450
+2026-02-26 21:54:23,574 [INFO] Targeting Normal sample size limit: 40350
+2026-02-26 21:54:23,947 [INFO] Successfully sampled 6208 Normal events.
+2026-02-26 21:54:23,950 [INFO] Total events queued for extraction: 19658
+2026-02-26 21:54:24,074 [INFO] ========================================
+2026-02-26 21:54:24,074 [INFO] V3 EXTRACTION SUMMARY
+2026-02-26 21:54:24,074 [INFO] ========================================
+2026-02-26 21:54:24,074 [INFO] Total events processed: 19658
+2026-02-26 21:54:24,074 [INFO] Final Dataset Size: 19658 records
+2026-02-26 21:54:24,074 [INFO] Class Distribution -> Anomalies: 13450 (68.42%) | Normals: 6208
+2026-02-26 21:54:24,074 [INFO] ========================================
+2026-02-26 21:54:24,394 [INFO] Exported CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/health_dataset_v3.csv

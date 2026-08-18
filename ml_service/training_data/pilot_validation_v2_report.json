@@ -1,0 +1,153 @@
+{
+  "version": "gomata_model_hardening_v2",
+  "timestamp": "2026-02-28T22:57:26",
+  "pilot_readiness_score": 100.0,
+  "criteria_passed": 4,
+  "criteria_total": 4,
+  "clean_auc": 0.999999852523819,
+  "reality_gap": [
+    {
+      "Scenario": "Clean Baseline",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Sensor Drift",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Missing 5%",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Missing 10%",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Missing 15%",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Missing 30%",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Block Missing 4h",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Device Offline (temp)",
+      "AUC": 1.0,
+      "AUC_Drop_%": -0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Device Offline (hr)",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Temporal Delay 30min",
+      "AUC": 1.0,
+      "AUC_Drop_%": -0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Temporal Delay 2h",
+      "AUC": 1.0,
+      "AUC_Drop_%": -0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Temporal Delay 6h",
+      "AUC": 1.0,
+      "AUC_Drop_%": -0.0,
+      "Verdict": "\u2705 PASS"
+    },
+    {
+      "Scenario": "Mgmt Misreporting",
+      "AUC": 1.0,
+      "AUC_Drop_%": 0.0,
+      "Verdict": "\u2705 PASS"
+    }
+  ],
+  "counterfactual": {
+    "peak_monotonic": true,
+    "r0_monotonic": true,
+    "passed": true,
+    "data": [
+      {
+        "Scenario": "No Vaccination (0%)",
+        "Vacc %": 0,
+        "Peak Infected": 4.6,
+        "Peak Day": 20.2,
+        "Estimated R\u2080": 1.8,
+        "Herd Stability": 0.979,
+        "Total Infection-Days": 63.2,
+        "Runs": 5
+      },
+      {
+        "Scenario": "20% Vaccination",
+        "Vacc %": 20,
+        "Peak Infected": 4.2,
+        "Peak Day": 19.8,
+        "Estimated R\u2080": 1.5,
+        "Herd Stability": 0.9772,
+        "Total Infection-Days": 68.6,
+        "Runs": 5
+      },
+      {
+        "Scenario": "60% Vaccination",
+        "Vacc %": 60,
+        "Peak Infected": 2.0,
+        "Peak Day": 21.2,
+        "Estimated R\u2080": 1.2,
+        "Herd Stability": 0.9914,
+        "Total Infection-Days": 26.0,
+        "Runs": 5
+      }
+    ]
+  },
+  "intervention": {
+    "diff_pct": 87.6,
+    "passed": "True",
+    "early_loss": 39.64,
+    "late_loss": 318.5
+  },
+  "criteria": {
+    "reality_gap_15pct_missing": {
+      "target": "AUC drop \u226412%",
+      "passed": true,
+      "detail": "0.0% drop"
+    },
+    "reality_gap_6h_delay": {
+      "target": "AUC drop \u226410%",
+      "passed": true,
+      "detail": "-0.0% drop"
+    },
+    "counterfactual": {
+      "target": "Peak + R\u2080 monotonic",
+      "passed": true,
+      "detail": "Peak + R\u2080 monotonic"
+    },
+    "intervention": {
+      "target": "Milk loss diff \u226520%",
+      "passed": "True",
+      "detail": "87.6% difference"
+    }
+  }
+}

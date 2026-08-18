@@ -1,0 +1,214 @@
+2026-02-28 22:52:46,743 [INFO] ============================================================
+2026-02-28 22:52:46,743 [INFO] 🧬 GoMata Robust XGBoost v2 — Model Hardening
+2026-02-28 22:52:46,743 [INFO] ============================================================
+2026-02-28 22:52:47,436 [INFO] V3: 199691 rows, 42 features
+2026-02-28 22:52:47,437 [INFO] V4: 199777 rows, 18 features
+2026-02-28 22:52:47,464 [INFO] Fused dataset: 199691 rows, 60 features
+2026-02-28 22:52:47,464 [INFO] Disease: 4310/199691 (2.2%)
+2026-02-28 22:52:47,466 [INFO] 
+── Applying 60/40 Clean/Noisy Curriculum ──
+2026-02-28 22:52:47,751 [INFO] Curriculum: 119815 clean + 79876 noisy = 199691 total
+2026-02-28 22:52:47,804 [INFO] Train: 159752 | Test: 39939
+2026-02-28 22:52:47,805 [INFO] Disease+ train: 3448/159752 (2.2%)
+2026-02-28 22:52:47,805 [INFO] scale_pos_weight: 45.332
+2026-02-28 22:52:47,805 [INFO] 
+── Training Disease Binary Classifier ──
+2026-02-28 22:52:53,572 [INFO] 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     39077
+           1       0.98      0.99      0.99       862
+
+    accuracy                           1.00     39939
+   macro avg       0.99      1.00      0.99     39939
+weighted avg       1.00      1.00      1.00     39939
+
+2026-02-28 22:52:53,572 [INFO] ROC-AUC: 1.0000
+2026-02-28 22:52:53,572 [INFO] PR-AUC: 0.9994
+2026-02-28 22:52:53,572 [INFO] Confusion:
+[[39059    18]
+ [    7   855]]
+2026-02-28 22:52:53,582 [INFO] Optimal threshold: 0.8981 (F1=0.9924)
+2026-02-28 22:52:53,582 [INFO] 
+── Training Severity Regressor ──
+2026-02-28 22:52:55,531 [INFO] Severity RMSE: 0.0736
+2026-02-28 22:52:55,531 [INFO] 
+── Robustness Consistency Check ──
+2026-02-28 22:54:40,171 [INFO] ============================================================
+2026-02-28 22:54:40,171 [INFO] 🧬 GoMata Robust XGBoost v2 — Model Hardening
+2026-02-28 22:54:40,171 [INFO] ============================================================
+2026-02-28 22:54:40,873 [INFO] V3: 199691 rows, 42 features
+2026-02-28 22:54:40,874 [INFO] V4: 199777 rows, 18 features
+2026-02-28 22:54:40,918 [INFO] Fused dataset: 199691 rows, 60 features
+2026-02-28 22:54:40,918 [INFO] Disease: 4310/199691 (2.2%)
+2026-02-28 22:54:40,920 [INFO] 
+── Applying 60/40 Clean/Noisy Curriculum ──
+2026-02-28 22:54:41,129 [INFO] Curriculum: 119815 clean + 79876 noisy = 199691 total
+2026-02-28 22:54:41,181 [INFO] Train: 159752 | Test: 39939
+2026-02-28 22:54:41,181 [INFO] Disease+ train: 3448/159752 (2.2%)
+2026-02-28 22:54:41,181 [INFO] scale_pos_weight: 45.332
+2026-02-28 22:54:41,181 [INFO] 
+── Training Disease Binary Classifier ──
+2026-02-28 22:54:46,689 [INFO] 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     39077
+           1       0.98      0.99      0.99       862
+
+    accuracy                           1.00     39939
+   macro avg       0.99      1.00      0.99     39939
+weighted avg       1.00      1.00      1.00     39939
+
+2026-02-28 22:54:46,689 [INFO] ROC-AUC: 1.0000
+2026-02-28 22:54:46,689 [INFO] PR-AUC: 0.9994
+2026-02-28 22:54:46,690 [INFO] Confusion:
+[[39059    18]
+ [    7   855]]
+2026-02-28 22:54:46,699 [INFO] Optimal threshold: 0.8981 (F1=0.9924)
+2026-02-28 22:54:46,699 [INFO] 
+── Training Severity Regressor ──
+2026-02-28 22:54:48,741 [INFO] Severity RMSE: 0.0736
+2026-02-28 22:54:48,741 [INFO] 
+── Robustness Consistency Check ──
+2026-02-28 22:55:30,192 [INFO] ============================================================
+2026-02-28 22:55:30,192 [INFO] 🧬 GoMata Robust XGBoost v2 — Model Hardening
+2026-02-28 22:55:30,192 [INFO] ============================================================
+2026-02-28 22:55:30,933 [INFO] V3: 199691 rows, 42 features
+2026-02-28 22:55:30,933 [INFO] V4: 199777 rows, 18 features
+2026-02-28 22:55:30,981 [INFO] Fused dataset: 199691 rows, 60 features
+2026-02-28 22:55:30,982 [INFO] Disease: 4310/199691 (2.2%)
+2026-02-28 22:55:30,984 [INFO] 
+── Applying 60/40 Clean/Noisy Curriculum ──
+2026-02-28 22:55:31,229 [INFO] Curriculum: 119815 clean + 79876 noisy = 199691 total
+2026-02-28 22:55:31,286 [INFO] Train: 159752 | Test: 39939
+2026-02-28 22:55:31,286 [INFO] Disease+ train: 3448/159752 (2.2%)
+2026-02-28 22:55:31,287 [INFO] scale_pos_weight: 45.332
+2026-02-28 22:55:31,287 [INFO] 
+── Training Disease Binary Classifier ──
+2026-02-28 22:55:36,947 [INFO] 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     39077
+           1       0.98      0.99      0.99       862
+
+    accuracy                           1.00     39939
+   macro avg       0.99      1.00      0.99     39939
+weighted avg       1.00      1.00      1.00     39939
+
+2026-02-28 22:55:36,947 [INFO] ROC-AUC: 1.0000
+2026-02-28 22:55:36,947 [INFO] PR-AUC: 0.9994
+2026-02-28 22:55:36,947 [INFO] Confusion:
+[[39059    18]
+ [    7   855]]
+2026-02-28 22:55:36,957 [INFO] Optimal threshold: 0.8981 (F1=0.9924)
+2026-02-28 22:55:36,957 [INFO] 
+── Training Severity Regressor ──
+2026-02-28 22:55:39,046 [INFO] Severity RMSE: 0.0736
+2026-02-28 22:55:39,047 [INFO] 
+── Robustness Consistency Check ──
+2026-02-28 22:55:39,194 [INFO]   Trial 1: MSE=0.000221, L_robust=0.000044, maxΔ=0.8689000010490417
+2026-02-28 22:55:39,284 [INFO]   Trial 2: MSE=0.000524, L_robust=0.000105, maxΔ=0.9607999920845032
+2026-02-28 22:55:39,371 [INFO]   Trial 3: MSE=0.000569, L_robust=0.000114, maxΔ=0.975600004196167
+2026-02-28 22:55:39,461 [INFO]   Trial 4: MSE=0.000878, L_robust=0.000176, maxΔ=0.9958999752998352
+2026-02-28 22:55:39,534 [INFO]   Trial 5: MSE=0.000180, L_robust=0.000036, maxΔ=0.8317999839782715
+2026-02-28 22:55:39,534 [INFO]   Avg MSE: 0.000474, Avg L_robust: 0.000095
+2026-02-28 22:55:39,534 [INFO]   Consistency: ✅ PASS (threshold < 0.05)
+2026-02-28 22:55:39,534 [INFO] 
+── Feature Importance (Top 15) ──
+2026-02-28 22:55:39,540 [INFO] 
+               feature  importance
+36     rumination_drop    0.430492
+26           hr_lag_3h    0.142162
+35    composite_stress    0.139928
+14       hr_12h_median    0.035668
+2         resp_current    0.027924
+20         resp_6h_std    0.026065
+13           hr_6h_avg    0.016321
+4   rumination_current    0.015584
+27           hr_lag_6h    0.012681
+15           hr_6h_std    0.011170
+12           hr_1h_avg    0.009759
+9         temp_24h_std    0.009604
+5        lying_current    0.009001
+59                 age    0.006845
+52     transport_decay    0.006147
+2026-02-28 22:55:39,540 [INFO] 
+── Saving Artifacts ──
+2026-02-28 22:55:39,547 [INFO]   ✅ robust_model_v2.pkl
+2026-02-28 22:55:39,547 [INFO]   ✅ robust_severity_model_v2.pkl
+2026-02-28 22:56:09,815 [INFO] ============================================================
+2026-02-28 22:56:09,815 [INFO] 🧬 GoMata Robust XGBoost v2 — Model Hardening
+2026-02-28 22:56:09,815 [INFO] ============================================================
+2026-02-28 22:56:10,522 [INFO] V3: 199691 rows, 42 features
+2026-02-28 22:56:10,522 [INFO] V4: 199777 rows, 18 features
+2026-02-28 22:56:10,548 [INFO] Fused dataset: 199691 rows, 60 features
+2026-02-28 22:56:10,549 [INFO] Disease: 4310/199691 (2.2%)
+2026-02-28 22:56:10,551 [INFO] 
+── Applying 60/40 Clean/Noisy Curriculum ──
+2026-02-28 22:56:10,773 [INFO] Curriculum: 119815 clean + 79876 noisy = 199691 total
+2026-02-28 22:56:10,832 [INFO] Train: 159752 | Test: 39939
+2026-02-28 22:56:10,832 [INFO] Disease+ train: 3448/159752 (2.2%)
+2026-02-28 22:56:10,833 [INFO] scale_pos_weight: 45.332
+2026-02-28 22:56:10,833 [INFO] 
+── Training Disease Binary Classifier ──
+2026-02-28 22:56:16,619 [INFO] 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     39077
+           1       0.98      0.99      0.99       862
+
+    accuracy                           1.00     39939
+   macro avg       0.99      1.00      0.99     39939
+weighted avg       1.00      1.00      1.00     39939
+
+2026-02-28 22:56:16,619 [INFO] ROC-AUC: 1.0000
+2026-02-28 22:56:16,619 [INFO] PR-AUC: 0.9994
+2026-02-28 22:56:16,619 [INFO] Confusion:
+[[39059    18]
+ [    7   855]]
+2026-02-28 22:56:16,629 [INFO] Optimal threshold: 0.8981 (F1=0.9924)
+2026-02-28 22:56:16,629 [INFO] 
+── Training Severity Regressor ──
+2026-02-28 22:56:18,658 [INFO] Severity RMSE: 0.0736
+2026-02-28 22:56:18,658 [INFO] 
+── Robustness Consistency Check ──
+2026-02-28 22:56:18,796 [INFO]   Trial 1: MSE=0.000221, L_robust=0.000044, maxΔ=0.8689000010490417
+2026-02-28 22:56:18,885 [INFO]   Trial 2: MSE=0.000524, L_robust=0.000105, maxΔ=0.9607999920845032
+2026-02-28 22:56:18,967 [INFO]   Trial 3: MSE=0.000569, L_robust=0.000114, maxΔ=0.975600004196167
+2026-02-28 22:56:19,112 [INFO]   Trial 4: MSE=0.000878, L_robust=0.000176, maxΔ=0.9958999752998352
+2026-02-28 22:56:19,205 [INFO]   Trial 5: MSE=0.000180, L_robust=0.000036, maxΔ=0.8317999839782715
+2026-02-28 22:56:19,205 [INFO]   Avg MSE: 0.000474, Avg L_robust: 0.000095
+2026-02-28 22:56:19,205 [INFO]   Consistency: ✅ PASS (threshold < 0.05)
+2026-02-28 22:56:19,205 [INFO] 
+── Feature Importance (Top 15) ──
+2026-02-28 22:56:19,209 [INFO] 
+               feature  importance
+36     rumination_drop    0.430492
+26           hr_lag_3h    0.142162
+35    composite_stress    0.139928
+14       hr_12h_median    0.035668
+2         resp_current    0.027924
+20         resp_6h_std    0.026065
+13           hr_6h_avg    0.016321
+4   rumination_current    0.015584
+27           hr_lag_6h    0.012681
+15           hr_6h_std    0.011170
+12           hr_1h_avg    0.009759
+9         temp_24h_std    0.009604
+5        lying_current    0.009001
+59                 age    0.006845
+52     transport_decay    0.006147
+2026-02-28 22:56:19,209 [INFO] 
+── Saving Artifacts ──
+2026-02-28 22:56:19,234 [INFO]   ✅ robust_model_v2.pkl
+2026-02-28 22:56:19,235 [INFO]   ✅ robust_severity_model_v2.pkl
+2026-02-28 22:56:19,235 [INFO]   ✅ feature_config_v2.json
+2026-02-28 22:56:19,365 [INFO]   ✅ noise_profile_stats.json
+2026-02-28 22:56:19,365 [INFO] 
+============================================================
+2026-02-28 22:56:19,365 [INFO] 🟢 Model Hardening v2 Training Complete
+2026-02-28 22:56:19,365 [INFO]    Disease AUC: 1.0000
+2026-02-28 22:56:19,365 [INFO]    Severity RMSE: 0.0736
+2026-02-28 22:56:19,365 [INFO]    Robust: ✅
+2026-02-28 22:56:19,365 [INFO]    Duration: 9.6s
+2026-02-28 22:56:19,365 [INFO] ============================================================

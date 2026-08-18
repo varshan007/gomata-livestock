@@ -1,0 +1,8 @@
+{
+  "version": "v6_onset",
+  "total_features": 89,
+  "rows": 185000,
+  "animals": 93,
+  "onset_positive": 8653,
+  "onset_rate": 4.68
+}

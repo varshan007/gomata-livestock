@@ -1,0 +1,35 @@
+{
+  "0.5": {
+    "threshold": 0.5,
+    "total_episodes": 51,
+    "detected_episodes": 11,
+    "pct_detected_24h_early": 5.9,
+    "pct_detected_12h_early": 7.8,
+    "avg_lead_time_hours": 14.5,
+    "fp_per_cow_per_week": 0.34,
+    "total_false_positives": 14,
+    "pass_24h": false
+  },
+  "0.7": {
+    "threshold": 0.7,
+    "total_episodes": 51,
+    "detected_episodes": 5,
+    "pct_detected_24h_early": 2.0,
+    "pct_detected_12h_early": 3.9,
+    "avg_lead_time_hours": 8.0,
+    "fp_per_cow_per_week": 0.0,
+    "total_false_positives": 0,
+    "pass_24h": false
+  },
+  "0.85": {
+    "threshold": 0.85,
+    "total_episodes": 51,
+    "detected_episodes": 2,
+    "pct_detected_24h_early": 0.0,
+    "pct_detected_12h_early": 2.0,
+    "avg_lead_time_hours": 4.0,
+    "fp_per_cow_per_week": 0.0,
+    "total_false_positives": 0,
+    "pass_24h": false
+  }
+}

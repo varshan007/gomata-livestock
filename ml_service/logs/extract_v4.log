@@ -1,0 +1,24 @@
+2026-02-28 22:52:02,989 [INFO] ============================================================
+2026-02-28 22:52:02,989 [INFO] 🧬 V4 Feature Engine — Production + Management (18 features)
+2026-02-28 22:52:02,989 [INFO] ============================================================
+2026-02-28 22:52:06,121 [INFO] Source: validation_clean_v4 (199777 docs)
+2026-02-28 22:52:06,144 [INFO] Found 100 animals
+2026-02-28 22:52:06,750 [INFO]   Processed 10/100 animals (19995 rows)
+2026-02-28 22:52:07,338 [INFO]   Processed 20/100 animals (40021 rows)
+2026-02-28 22:52:08,236 [INFO]   Processed 30/100 animals (60106 rows)
+2026-02-28 22:52:08,938 [INFO]   Processed 40/100 animals (80097 rows)
+2026-02-28 22:52:09,532 [INFO]   Processed 50/100 animals (100000 rows)
+2026-02-28 22:52:10,254 [INFO]   Processed 60/100 animals (119874 rows)
+2026-02-28 22:52:10,888 [INFO]   Processed 70/100 animals (139739 rows)
+2026-02-28 22:52:11,520 [INFO]   Processed 80/100 animals (159750 rows)
+2026-02-28 22:52:12,140 [INFO]   Processed 90/100 animals (179693 rows)
+2026-02-28 22:52:12,885 [INFO]   Processed 100/100 animals (199777 rows)
+2026-02-28 22:52:14,929 [INFO] 
+============================================================
+2026-02-28 22:52:14,929 [INFO] ✅ V4 Extraction Complete
+2026-02-28 22:52:14,929 [INFO]    Records: 199777
+2026-02-28 22:52:14,929 [INFO]    Features: 18
+2026-02-28 22:52:14,931 [INFO]    Disease: 7128 / 199777
+2026-02-28 22:52:14,931 [INFO]    CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/features_v4_hardened.csv
+2026-02-28 22:52:14,932 [INFO]    Duration: 11.9s
+2026-02-28 22:52:14,932 [INFO] ============================================================

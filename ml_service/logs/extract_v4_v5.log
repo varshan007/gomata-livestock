@@ -1,0 +1,12 @@
+2026-02-28 23:26:44,210 [INFO] Loading from trainingevents_v5_production (limit=200000)...
+2026-02-28 23:26:49,335 [INFO] Loaded 185000 records from 93 animals
+2026-02-28 23:26:49,519 [INFO] Computing V4 features per animal...
+2026-02-28 23:26:50,112 [INFO] V4 features computed: 185000 rows from 93 animals
+2026-02-28 23:26:50,136 [INFO] Final V4 matrix: 185000 rows × 18 features
+2026-02-28 23:26:52,043 [INFO] 
+============================================================
+2026-02-28 23:26:52,043 [INFO] ✅ V4 v5 Features: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/features_v4_v5.csv
+2026-02-28 23:26:52,043 [INFO]    185000 rows × 18 features
+2026-02-28 23:26:52,044 [INFO]    Disease rate: 2.2%
+2026-02-28 23:26:52,044 [INFO]    Duration: 7.8s
+2026-02-28 23:26:52,044 [INFO] ============================================================

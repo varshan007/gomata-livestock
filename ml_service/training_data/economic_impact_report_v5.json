@@ -1,0 +1,33 @@
+{
+  "0.3": {
+    "threshold": 0.3,
+    "episodes_found": 11,
+    "total_no_intervention_loss_L": 240.12,
+    "total_with_intervention_loss_L": 144.29,
+    "milk_saved_L": 95.83,
+    "pct_milk_loss_reduction": 39.9,
+    "revenue_saved_usd": 43.12,
+    "treatments": 5,
+    "treatment_cost_usd": 125.0,
+    "false_alarms": 27,
+    "net_benefit_usd": -216.88,
+    "roi_pct": -83.4,
+    "pass": true
+  },
+  "0.5": {
+    "threshold": 0.5,
+    "milk_saved_L": 91.39,
+    "pct_milk_loss_reduction": 38.1,
+    "net_benefit_usd": -128.88,
+    "roi_pct": -75.8,
+    "pass": true
+  },
+  "0.7": {
+    "threshold": 0.7,
+    "milk_saved_L": 41.08,
+    "pct_milk_loss_reduction": 17.1,
+    "net_benefit_usd": -6.51,
+    "roi_pct": -26.1,
+    "pass": false
+  }
+}

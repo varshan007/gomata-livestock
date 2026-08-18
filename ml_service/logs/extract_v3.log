@@ -1,0 +1,21 @@
+2026-02-28 22:49:07,624 [INFO] ============================================================
+2026-02-28 22:49:07,624 [INFO] 🧬 V3 Feature Engine — Sensor Backbone (30+ features)
+2026-02-28 22:49:07,624 [INFO] ============================================================
+2026-02-28 22:49:10,131 [INFO] Source: validation_clean_v3 (199691 docs)
+2026-02-28 22:49:10,221 [INFO] Found 100 animals
+2026-02-28 22:51:25,336 [INFO] ============================================================
+2026-02-28 22:51:25,336 [INFO] 🧬 V3 Feature Engine — Sensor Backbone (42 features)
+2026-02-28 22:51:25,337 [INFO] ============================================================
+2026-02-28 22:51:25,338 [INFO] Loading from validation_clean_v3 (limit=200000)...
+2026-02-28 22:51:29,939 [INFO] Loaded 199691 records from 100 animals
+2026-02-28 22:51:30,027 [INFO] Computing per-animal temporal features...
+2026-02-28 22:51:30,621 [INFO] Computed features for 100 animals, 199691 rows
+2026-02-28 22:51:35,334 [INFO] 
+============================================================
+2026-02-28 22:51:35,334 [INFO] ✅ V3 Extraction Complete
+2026-02-28 22:51:35,334 [INFO]    Records: 199691
+2026-02-28 22:51:35,334 [INFO]    Features: 42
+2026-02-28 22:51:35,336 [INFO]    Disease: 4310 / 199691
+2026-02-28 22:51:35,336 [INFO]    CSV: /Users/googledoodle/Downloads/livestock_monitoring/ml_service/scripts/../training_data/features_v3_hardened.csv
+2026-02-28 22:51:35,336 [INFO]    Duration: 10.0s
+2026-02-28 22:51:35,336 [INFO] ============================================================

@@ -1,0 +1,11 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Warning: Permanently added 'serveo.net' (RSA) to the list of known hosts.
+[33mTo request a particular subdomain, you first need to register your SSH public key.
+To register, visit one the addresses below to login with your Google or GitHub account.
+After registering, you'll be able to request your subdomain the next time you connect
+to Serveo.
+[0m
+https://console.serveo.net/ssh/keys?add=SHA256%3ALFgFvHT93iPRi8c7XsLVZB60YES%2BpypORqXRP%2BQrbLM
+[32mForwarding HTTP traffic from https://e78c73fa52c09eca-152-57-83-79.serveousercontent.com
+[0m[33mTip (1): Add your SSH key to reserve names and keep URLs stable. Pro removes the browser warning page: https://console.serveo.net/settings?n=1&src=ssh_nudge&v=B
+[0mConnection to serveo.net closed by remote host.
