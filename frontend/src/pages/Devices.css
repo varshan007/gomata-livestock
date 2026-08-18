@@ -1,0 +1,330 @@
+/* Devices.css */
+
+.devices-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.devices-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+/* Header Reused from Management */
+.mgt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #f0fdfa 0%, #e0e7ff 100%);
+    padding: 32px 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    margin: 20px 40px 32px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Kpi Cards */
+.devices-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 0 40px 32px 40px;
+}
+
+.device-kpi-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.device-kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+}
+
+.dkpi-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.dkpi-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-family: var(--font-heading, sans-serif);
+}
+
+.dkpi-value.green {
+    color: #10b981;
+}
+
+.dkpi-value.red {
+    color: #ef4444;
+}
+
+.dkpi-value.orange {
+    color: #f59e0b;
+}
+
+.dkpi-value.blue {
+    color: #3b82f6;
+}
+
+/* Table Container */
+.device-content-wrapper {
+    padding: 0 40px 40px 40px;
+}
+
+.devices-table-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Battery Bar Component */
+.battery-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.battery-visual {
+    width: 60px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.battery-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.battery-fill.high {
+    background: #10b981;
+}
+
+.battery-fill.medium {
+    background: #f59e0b;
+}
+
+.battery-fill.low {
+    background: #ef4444;
+}
+
+.battery-text {
+    font-weight: 600;
+    font-size: 0.85rem;
+    width: 32px;
+}
+
+.battery-text.low {
+    color: #ef4444;
+}
+
+/* Signal Bars */
+.signal-cell {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 14px;
+}
+
+.signal-bar {
+    width: 4px;
+    background: #e2e8f0;
+    border-radius: 1px;
+}
+
+.signal-bar.active {
+    background: #10b981;
+}
+
+.signal-bar.active.weak {
+    background: #ef4444;
+}
+
+.signal-bar.active.medium {
+    background: #f59e0b;
+}
+
+/* Status Text Override */
+.device-status.online {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.device-status.offline {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.device-status.unassigned {
+    color: #94a3b8;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.device-status.low-battery {
+    color: #f59e0b;
+    font-weight: 700;
+}
+
+/* Detail Panel Sidebar */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.device-detail-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 420px;
+    background: white;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dd-header {
+    background: linear-gradient(135deg, #f0fdfa 0%, #e0e7ff 100%);
+    padding: 32px 32px 24px 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+
+.dd-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.dd-close:hover {
+    background: white;
+    color: #0f172a;
+    transform: rotate(90deg);
+}
+
+.dd-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 8px 0;
+    font-family: var(--font-heading, sans-serif);
+}
+
+.dd-status-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.dd-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dd-content {
+    padding: 32px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dd-section h4 {
+    margin: 0 0 16px 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 8px;
+}
+
+.dd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.dd-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dd-item label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.dd-item .val {
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.dd-item.full {
+    grid-column: span 2;
+}
+
+.dd-actions {
+    padding: 24px 32px;
+    border-top: 1px solid #f1f5f9;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dd-actions button {
+    width: 100%;
+    justify-content: center;
+}

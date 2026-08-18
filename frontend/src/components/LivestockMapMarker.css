@@ -1,0 +1,73 @@
+.custom-cow-marker {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transform: translateY(-10px);
+    /* Lift slightly */
+    transition: transform 0.2s ease;
+}
+
+.custom-cow-marker:hover {
+    transform: translateY(-15px) scale(1.1);
+    z-index: 100;
+}
+
+.marker-photo-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #10b981;
+    /* Green border */
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.marker-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.marker-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background: #f3f4f6;
+}
+
+.marker-label {
+    margin-top: 4px;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #111827;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    border: 1px solid #e5e7eb;
+}
+
+.marker-arrow {
+    position: absolute;
+    bottom: 20px;
+    /* Adjust based on label height */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #10b981;
+    z-index: 1;
+}

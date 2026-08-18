@@ -1,0 +1,475 @@
+/* PredictionData.css - Matching the Light Premium Dribbble Theme */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* Header Adjustments */
+.pd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pd-back-btn {
+    background: #f0fdf4;
+    color: #10b981;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.pd-back-btn:hover {
+    background: #10b981;
+    color: white;
+}
+
+.pd-title-adjust {
+    margin-left: 16px;
+}
+
+/* Main Content Area */
+.pd-content {
+    padding: 0 40px 40px 40px;
+}
+
+.pd-section-title {
+    font-size: 1.2rem;
+    color: #1a362a;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+}
+
+.pd-section-block {
+    margin-bottom: 40px;
+}
+
+/* Pipeline Diagram */
+.pd-pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.pd-pipe-step {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pipe-icon-box {
+    width: 64px;
+    height: 64px;
+    background: #f8fafc;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    margin-bottom: 16px;
+    transition: transform 0.2s;
+}
+
+.pd-pipe-step:hover .pipe-icon-box {
+    transform: translateY(-5px);
+}
+
+.pd-pipe-step h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.05rem;
+    color: #1a362a;
+}
+
+.pd-pipe-step p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #6b7d73;
+    line-height: 1.4;
+    padding: 0 16px;
+}
+
+.pipe-arrow {
+    color: #cbd5e1;
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding: 0 16px;
+}
+
+/* Freshness Strip */
+.pd-freshness-strip {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.pd-fresh-chip {
+    background: white;
+    padding: 16px 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 250px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f0f2f1;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.dot.fresh {
+    background: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+}
+
+.dot.amber {
+    background: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+}
+
+.dot.red {
+    background: #ef4444;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+}
+
+.fresh-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fresh-details strong {
+    color: #1a362a;
+    font-size: 0.95rem;
+}
+
+.fresh-details span {
+    color: #6b7d73;
+    font-size: 0.8rem;
+}
+
+/* Weather Grid */
+.pd-weather-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.pd-w-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid #f0f2f1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.pd-w-head {
+    color: #6b7d73;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.pd-w-val {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1a362a;
+    margin-bottom: 4px;
+}
+
+.pd-w-sub {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.pd-w-impact {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 12px;
+}
+
+/* Split Wrapper */
+.pd-split-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+}
+
+.pd-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.pd-side-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.pd-compact-card {
+    padding: 24px;
+}
+
+/* Telemetry Grid inside Hardware Card */
+.pd-telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.tel-box {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.tel-box span {
+    display: block;
+    color: #6b7d73;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.tel-box strong {
+    display: block;
+    font-size: 1.4rem;
+    color: #1a362a;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.tel-bar-wrap {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tel-bar {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.tel-bar.red {
+    background: #ef4444;
+}
+
+.tel-bar.amber {
+    background: #f59e0b;
+}
+
+.tel-bar.blue {
+    background: #3b82f6;
+}
+
+.tel-bar.green {
+    background: #10b981;
+}
+
+.tel-sparkline-box h4 {
+    margin: 0 0 16px 0;
+    font-size: 0.95rem;
+    color: #1a362a;
+}
+
+/* Table Setup */
+.pd-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.pd-tabs {
+    display: flex;
+    gap: 8px;
+    background: #f4f6f5;
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.pd-tab {
+    border: none;
+    background: transparent;
+    padding: 6px 12px;
+    color: #6b7d73;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+}
+
+.pd-tab:hover {
+    color: #1a362a;
+}
+
+.pd-tab.active {
+    background: white;
+    color: #10b981;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.pd-table-scroll {
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+
+.pd-mini-table th {
+    font-size: 0.75rem;
+    padding-bottom: 8px;
+}
+
+.pd-mini-table td {
+    padding: 12px 8px;
+    font-size: 0.9rem;
+}
+
+.pd-src-badge {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.pd-table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 16px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Large Confidence Display */
+.pd-confidence-hero {
+    background: linear-gradient(135deg, #10b981, #047857);
+    padding: 32px;
+    border-radius: 32px;
+    color: white;
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+}
+
+.pd-hero-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.huge-conf {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pd-hero-explain {
+    margin: 0 0 24px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.pd-conf-factors {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pd-fact {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fact-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.pd-fact p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+/* Weights Logic */
+.pd-weights-text {
+    font-size: 0.9rem;
+    color: #6b7d73;
+    line-height: 1.5;
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+/* Dictionary */
+.pd-dictionary {
+    margin-top: 40px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 32px;
+}
+
+.pd-dictionary h4 {
+    margin: 0 0 16px 0;
+    color: #1a362a;
+    font-size: 1.1rem;
+}
+
+.dict-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.dict-item {
+    background: #f4f6f5;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    color: #6b7d73;
+    line-height: 1.5;
+}
+
+.dict-item strong {
+    color: #1a362a;
+}

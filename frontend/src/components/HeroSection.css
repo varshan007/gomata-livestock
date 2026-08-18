@@ -1,0 +1,125 @@
+.premium-hero-wrapper {
+    height: 150vh;
+    /* Extra height to allow scrolling while pinned */
+    width: 100%;
+    position: relative;
+    background-color: var(--bg-color);
+}
+
+.premium-hero {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    padding: 0 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.premium-hero-container {
+    display: flex;
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.premium-hero-text {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    will-change: transform;
+    padding-right: 40px;
+}
+
+.hero-headline {
+    font-family: Inter, SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 6vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.letter {
+    color: rgba(255, 255, 255, 0.15);
+    transition: color 0.25s ease-out, text-shadow 0.25s ease-out;
+    will-change: color, text-shadow;
+}
+
+.letter.active {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+.premium-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: max-content;
+    position: relative;
+    text-decoration: none;
+}
+
+.premium-cta-link:hover {
+    color: #ffffff;
+    transform: translateX(6px);
+}
+
+.premium-hero-image-wrapper {
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.premium-hero-img {
+    height: 80vh;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    will-change: transform;
+    /* Subtle shadow for premium depth */
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+    .premium-hero-container {
+        flex-direction: column;
+        justify-content: center;
+        gap: 60px;
+        padding-top: 120px;
+        padding-bottom: 60px;
+    }
+
+    .premium-hero-text,
+    .premium-hero-image-wrapper {
+        width: 100%;
+        padding-right: 0;
+    }
+
+    .hero-headline {
+        font-size: clamp(3rem, 8vw, 4rem);
+    }
+
+    .premium-hero-img {
+        height: 60vh;
+    }
+}

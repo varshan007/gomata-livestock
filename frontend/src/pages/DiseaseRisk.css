@@ -1,0 +1,544 @@
+/* DiseaseRisk.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* Basic Imports from BehaviourAnalysis.css */
+.b-scroll-container {
+    padding: 0 40px 40px 40px;
+}
+
+/* Header */
+.b-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 32px 40px;
+    margin: 32px 0 32px 0;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+}
+
+.b-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.b-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.b-title-area h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    color: #1a362a;
+}
+
+.b-title-area p {
+    color: #6b7d73;
+    margin: 4px 0 0 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.b-horizon-controls {
+    display: flex;
+    background: #f4f6f5;
+    padding: 6px;
+    border-radius: 20px;
+    gap: 4px;
+}
+
+.b-horizon-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 16px;
+    color: #6b7d73;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.b-horizon-btn:hover {
+    color: #1a362a;
+}
+
+.b-horizon-btn.active {
+    background: #ffffff;
+    color: #ef4444;
+    /* Changed to red for Disease Risk */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Quick Stats Row */
+.b-quick-stats {
+    display: flex;
+    gap: 16px;
+}
+
+.b-stat-chip {
+    background: #f0fdf4;
+    border: 1px solid #dcfce3;
+    padding: 10px 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.b-stat-chip span {
+    font-size: 0.75rem;
+    color: #166534;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.b-stat-chip strong {
+    font-size: 1.4rem;
+    color: #14532d;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-top: 4px;
+}
+
+/* Disease Risk Layout */
+.dr-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.dr-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+}
+
+.dr-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.dr-card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a362a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dr-card-desc {
+    font-size: 0.9rem;
+    color: #6b7d73;
+    margin: 0 0 24px 0;
+}
+
+.dr-icon-btn {
+    background: #f4f6f5;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7d73;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dr-icon-btn:hover {
+    background: #e2e8f0;
+    color: #1a362a;
+}
+
+/* Map Containers */
+.dr-map-container {
+    flex: 1;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+.dr-svg-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.dr-map-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dr-map-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Animations */
+.vector-line {
+    animation: flowLine 20s linear infinite;
+}
+
+@keyframes flowLine {
+    to {
+        stroke-dashoffset: -200;
+    }
+}
+
+.pulse-ring {
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+        transform-origin: center;
+    }
+}
+
+.vector-arrow {
+    animation: moveArrow 3s linear infinite;
+}
+
+@keyframes moveArrow {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(100px, 0);
+    }
+}
+
+/* Chart Container */
+.dr-chart-container {
+    flex: 1;
+    min-height: 300px;
+}
+
+/* Contact Tracing Table */
+.dr-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+.dr-table th {
+    text-align: left;
+    padding: 12px 24px;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.dr-table td {
+    padding: 16px 24px;
+    font-size: 0.9rem;
+    color: #475569;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.dr-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dr-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.dr-badge.bad {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.dr-badge.good {
+    background: #dcfce3;
+    color: #10b981;
+}
+
+.dr-badge.warning {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+/* AI Differential Diagnosis */
+.dr-diag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dr-diag-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+.dr-diag-item.active {
+    border-color: #10b981;
+    background: #f0fdf4;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.05);
+}
+
+.dr-diag-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 24px;
+}
+
+.dr-diag-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.dr-diag-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.dr-diag-right {
+    min-width: 60px;
+    text-align: right;
+}
+
+.dr-diag-protocol {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+}
+
+.dr-diag-protocol h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    color: #1a362a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dr-diag-protocol p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.dr-diag-protocol a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Quarantine Engine */
+.dr-quarantine-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dr-q-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dr-q-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.dr-q-steps li strong {
+    color: #1a362a;
+}
+
+.dr-q-financials {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e1;
+    gap: 16px;
+}
+
+.dr-cost-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dr-cost-item span {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dr-cost-item strong {
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.dr-cost-item strong.good {
+    color: #10b981;
+}
+
+.dr-cost-item strong.bad {
+    color: #ef4444;
+}
+
+.dr-cost-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dr-btn-primary {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.dr-btn-primary:hover {
+    background: #059669;
+}
+
+/* Historical Timeline */
+.dr-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 12px;
+}
+
+.dr-timeline::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 10px;
+    bottom: 20px;
+    width: 2px;
+    background: #e2e8f0;
+}
+
+.dr-timeline-item {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    padding-bottom: 24px;
+}
+
+.dr-timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.dr-tl-node {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border: 3px solid #3b82f6;
+    border-radius: 50%;
+    margin-top: 4px;
+    position: relative;
+    z-index: 2;
+}
+
+.dr-tl-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dr-tl-date {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.dr-tl-title {
+    font-size: 1rem;
+    color: #1a362a;
+}
+
+.dr-tl-title span {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.dr-tl-desc {
+    margin: 4px 0 0 0;
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+}
