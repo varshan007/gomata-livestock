@@ -65,7 +65,7 @@ const sendEmailOTP = async (email, otpCode) => {
         return true;
     } catch (error) {
         logger.error("❌ Email dispatch failed:", error);
-        return false;
+        throw error;
     }
 };
 
@@ -90,7 +90,7 @@ const sendPhoneOTP = async (phone) => {
         return true;
     } catch (error) {
         logger.error("❌ Twilio Verify dispatch failed:", error);
-        return false;
+        throw error;
     }
 };
 
