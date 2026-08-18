@@ -19,6 +19,18 @@ const generateToken = (id) => {
     });
 };
 
+router.get('/debug-env', (req, res) => {
+    res.json({
+        hasTwilioSid: !!process.env.TWILIO_ACCOUNT_SID,
+        hasTwilioAuth: !!process.env.TWILIO_AUTH_TOKEN,
+        hasTwilioVerify: !!process.env.TWILIO_VERIFY_SERVICE_SID,
+        hasSmtpHost: !!process.env.SMTP_HOST,
+        hasSmtpUser: !!process.env.SMTP_USER,
+        hasSmtpPass: !!process.env.SMTP_PASS,
+        smtpUserVal: process.env.SMTP_USER
+    });
+});
+
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
@@ -240,14 +252,14 @@ router.post('/send-otp', async (req, res) => {
         }
 
         if (success) {
-            return successResponse(res, { message: `OTP sent successfully via ${type}` });
+            return successResponse(res, { message: `OTP sent successfully via ${type}`, debug_success: success });
         } else {
-            return errorResponse(res, 'OTP_FAILED', `OTP dispatch failed via ${type}`, 500);
+            return errorResponse(res, 'OTP_FAILED', `OTP dispatch failed via ${type}`, 500, { debug_success: success });
         }
 
     } catch (error) {
         logger.error("OTP ERROR:", error);
-        return errorResponse(res, 'OTP_FAILED', 'OTP dispatch failed', 500, error.message);
+        return errorResponse(res, 'OTP_FAILED', 'OTP dispatch failed', 500, { error: error.message, stack: error.stack });
     }
 });
 
